@@ -1,0 +1,129 @@
+<!-- (A) LOAD THE MATHJAX LIBRARY -->
+<!-- DOCS: https://docs.mathjax.org/en/latest/basic/mathematics.html -->
+<!-- DEMO: https://github.com/mathjax/MathJax-demos-web -->
+
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Projectile Motion</title>
+		<link rel="stylesheet" href="../../css/style-page.css">
+	</head>
+	
+<body>
+	
+	<div id="container">
+		<div id="topmenu">
+			
+			<div id="header">PROJECTILE MOTION </div>
+			
+			<p>Adjust launch height, angle and velocity of the projectile to visualise the trajectory.</p>
+		</div>
+		
+		<div  id="sidemenu"> 
+			
+			<table id="caltable" style="visibility: hidden;">
+				<caption style="font-size: 24px; text-decoration: underline;">Projectile Data</caption>
+				<tr>
+					<td>Launch Height (y<sub>o</sub> ) </td>
+					<td> = </td>
+					<td style="text-align: right;" > 0 </td>
+					<td> m	</td>
+				</tr>
+				
+				<tr>
+					<td> Launch Velocity (v<sub>0</sub> )  </td>
+					<td> = </td>
+					<td style="text-align: right;"> 7 </td>
+					<td> m/s</td>
+				</tr>
+				
+				<tr>
+					<td>Launch Angle (&#952  )  </td>
+					<td> = </td>
+					<td style="text-align: right;"> 45</td>
+					<td> &#176 </td>
+				</tr>
+
+				<tr>
+					<td>v<sub>0</sub> \(\cos \theta\)  </td>
+					<td> = </td>
+					<td style="text-align: right;"> __  </td>
+					<td> m/s </td>
+				</tr>
+
+				<tr>
+					<td>v<sub>0</sub> \(\sin \theta\) </td>
+					<td> = </td>
+					<td style="text-align: right;"> __</td>
+					<td> m/s </td>
+				</tr>
+
+				<tr>			
+				  <td>Maximum Height</td>
+				  <td> = </td>
+				  <td style="text-align: right;"> __ </td>
+				  <td> m </td>
+				</tr>
+				<tr>
+				  <td>Maximum Range</td>
+				  <td> = </td>
+					<td style="text-align: right;"> __ </td>
+					<td> m </td>
+				  
+				</tr>
+				<tr>
+					<td>Time of Flight</td>
+					<td> = </td>
+					  <td style="text-align: right;"> __ </td>
+					  <td> s </td>
+					
+				  </tr>
+			
+			  </table>
+		</div>
+		
+	</div>
+	
+	<div id="footmenu">
+	
+		<button id="shoot-el">SHOOT</button>
+		<button id="reset-el">RESET</button>
+		<button id="data-el"> DATA</button>	
+		
+		<table style="float:left; font-weight: bolder;"  id="Vtable">
+			<tr>
+				<td>v<sub>x</sub>  </td>
+				<td> = </td>
+				<td style="text-align: right;"> __ </td>
+				<td> m/s </td>
+			</tr>
+
+			<tr>
+				<td>v<sub>y</sub></td>
+				<td> = </td>
+				<td style="text-align: right;"> __</td>
+				<td> m/s </td>
+			</tr>
+
+		</table>
+
+		
+	</div>
+	<div class="eqn" id="eqn-el" >
+		
+	</div>
+	
+	<script>
+		MathJax = {
+		  tex: {
+			tags: 'all'  // should be 'ams', 'none', or 'all'
+		  }
+		};
+	</script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	
+    <script type="module" src="projectilemotion.js"></script> 
+	
+    </body>
+</html>
