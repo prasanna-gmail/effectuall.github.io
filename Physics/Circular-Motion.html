@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Uniform Circular Motion</title>
+    
+    <link rel="stylesheet" href="../css/index.css">
+
+   
+  </head>
+
+  <body>
+    
+    
+    <div id="navbar">
+      <h1>PHYSICS<sup>3D</sup> INTERACTIVE</h1>
+      <a class="active" href="../index.html">Home</a>
+      <a onclick="openContent('part3')" >Description</a>
+      <a href="javascript:void(0)">Problems</a>
+      
+    </div>
+
+    <nav>
+     
+      <div>
+        <a onclick="openContent('part1');">Visualize Circular Motion</a>
+        <a onclick="openContent('part2')">Uniform Circular Motion</a>
+        <a onclick="openContent('part3')">Equations of Centripetal Force</a>
+        <a onclick="openContent('part4');">What is a Centrifugal Force?</a>
+        <a href="../index.html" > <h1>Home</h1></a>
+      </div>
+      
+      
+      
+      <!-- <a onClick="openSection()"  href="#">Physics of Projectile in Motion</a> -->
+    </nav>
+
+    <!-- Here is our page's main content -->
+   
+    <main>
+    <div id="part1" class="content"> 
+      <!-- It contains an article -->
+      <!-- <article> -->
+      <div style="padding-top: 1px ; bottom:2px" id="3dframe" >
+        <iframe  src="./Classical/CircularMotion.html"></iframe>
+        <img onClick="openNewtab()" style="width:50px; position: relative;  top: -50px;  
+              float: right; cursor: pointer;" src="/assets/icons/newTab.png" >	
+        <p style=" position: relative;  top: -50px;  
+        float: right; cursor: pointer;" > Open in new tab</p>      
+      </div>
+     <br>
+     Eg. Hot wheeel loops
+     <br>
+    
+    <div id="part2" class="content">
+       
+        <h2>Uniform Circular Motion</h2>
+        <p>If a particle travels along a circle or circular arc of radius \(r\) at
+            constant speed \(v\), it is said to be in uniform circular motion
+            and has an acceleration of constant magnitude \(a\). The force acting on the particle 
+            is,
+            $$ \text {Force} = \text {mass} \times \text {acceleration}$$ 
+            $$ \vec{F} = ma $$ 
+            For uniform circular motion, 
+            $$ \vec{F} = {m \vec{v}^2 \over r}$$ where
+            
+            $$\vec{a} = {\vec{v}^2 \over r} \text {(centripetal acceleration)}$$
+            <dl>
+                <dt>
+                    &#160 &#xa0 &#10148 Constant velocity which changes its direction, results in centripetal acceleration     
+               </dt>
+           </dl>
+           <!-- <canvas id="myCanvas" style="width: 300; height: 150; float: right;">
+            Your browser does not support the HTML5 canvas tag.</canvas> -->
+            
+           
+            In the simplest case of circular motion at radius \(r\) with 
+            position given by the angular displacement \(\phi(t)\) from the x-axis, 
+            the orbital angular velocity is the rate of change of angle with respect to time: 
+            \[\omega ={\frac {d\phi }{dt}}\]
+            where \(d\phi\) is the angular displacement in time \(dt\).
+            <dl>
+              <dt>
+                  &#160 &#xa0 &#10148  SI units of angular velocity is radians per second or \((rad/sec)\)   
+             </dt>
+            </dl>
+
+            </p> 
+            <p>
+            If \(\phi\) is measured in radians, the arc-length  
+            from the positive x-axis around the circle to the particle is \(l=r\phi\) and the 
+            linear velocity is equal to the rate of change in arc length, 
+            $$ v = {dl \over  dt} =  {rd\phi \over  dt} = r\omega $$ Hence angular velocity,
+            $$ \omega =  {v \over  r}  $$
+            <dl>
+              <dt>
+                  &#160 &#xa0 &#10148  Angular velocity is equal to linear velocity divided by the circular radius.  
+             </dt>
+            </dl>
+            The angular acceleration \(\alpha\), on the particle is:
+            $$ \alpha ={d\omega \over dt} = {d \over dt}\left({v \over  r}\right)  $$
+            \[
+             \space = {1 \over r}{dv \over dt} - { v \over r^2}{ dr \over  dt}
+            \]
+            
+            </p>
+            <p>
+            For uniform circular motion with constant radius and speed, \(\alpha = 0 \)
+             and the acceleration due to change in direction is 
+            $$\vec{a} = {d \vec{v}  \over  dt} = {d \vec{v}  \over  d\vec{r}} {d \vec{r}  \over  dt}= 
+            { v \over r}{ d\vec{r}\over  dt} ={ \vec{v} \over r}v ={ \vec{v}^2 \over r} $$
+            <dl>
+              <dt>
+                  &#160 &#xa0 &#10148  Circular motion with constant velocity results in Radial Acceleration (only) directed towards the center     
+             </dt>
+         </dl>
+           A radial acceleration, also known as centripetal acceleration, acts on 
+           a particle in uniform circular motion and,
+           \[
+           a_{c} = {v^2 \over r}
+           \]
+           The direction of \(\vec{a}\) is towards the center of the circle or circular
+            arc, and  the direction of velocity vector \(\vec{v}\) is always tangent to the path.  
+           <dl>
+            <dt>
+                &#160 &#xa0 &#10148  SI units of centripetal acceleration is \(m/s^2\) or \(ms^{-2}\)    
+           </dt>
+          </dl>
+          The time for the particle to complete a circle, \(T\), is called the period of revolution, or simply the period, of the
+          motion. 
+          \[
+           T = {\text{distance travelled} \over \text{velocity}}
+           \]
+           \[
+           \space = {\text{Circumference} \over \text{velocity}}
+           \]
+           \[
+            T={2\pi r \over v}
+           \]
+        </p>
+    </div>
+      <br>
+      <br>
+    <div id="part3" class="content">
+          <h2>Equations of Centripetal Force </h2>
+          <dl>
+               <dt>
+                   &#160 &#xa0 &#10148  In terms of  angular velocity, \(\omega\)     
+              </dt>
+          </dl>
+          $$ \vec{F} = {m \omega ^2  r} $$
+          $$ \vec{a} = {\omega ^2  r} $$
+          $$ T = {2 \pi   \over \omega} $$
+          <dl>
+              <dt>
+                  &#160 &#xa0 &#10148 In terms of linear velocity, \(v\) 
+              </dt>
+          </dl>
+          $$ \vec{F} = {m  v^2 \over r} $$
+          $$ \vec{a} = {  v^2 \over r} $$
+          $$ T = {2 \pi r  \over v}$$
+      
+    </div>
+        <br>
+        <br>
+        <div id="part4" class="content">
+            
+            <h2>What is a Centrifugal Force?</h2>
+            <p>
+              In Newtonian mechanics, the centrifugal force is an inertial force 
+              (also called a "fictitious" or "pseudo" force) that acts on a particle
+              moving in circular motion. Centrifugal force has magnitude and dimensions 
+              same as that of centripetal force which keeps the particle in circular path but points 
+              in the opposite direction. 
+            </p>
+        
+        </div>
+    </main>
+  
+    <!-- And here is our main footer that is used across all the pages of our website -->
+
+    <footer >
+      <p id="footer"></p>
+    <p id="email"></p>
+  </footer>
+    <script>
+      //open in new tab
+      function openNewtab() {
+          window.open("./Classical/CircularMotion.html");
+      };
+
+
+      //on click open the description
+     
+      function openContent(contentName) {
+        
+        document.getElementById(contentName).scrollIntoView(true); 
+      }
+     
+      </script>
+   
+   <script type="module" src="footer.js"></script>   
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </body>
+</html>

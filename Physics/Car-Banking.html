@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Banking on a Road</title>
+    
+    <link rel="stylesheet" href="../css/index.css">
+
+   
+  </head>
+
+  <body>
+    
+    
+    <div id="navbar">
+      <h1>PHYSICS<sup>3D</sup> INTERACTIVE</h1>
+      <a class="active" href="../index.html">Home</a>
+      <a onclick="openContent('part3')">Description</a>
+      <a href="javascript:void(0)">Problems</a>
+      
+    </div>
+
+    <nav>
+     
+      <div>
+        <a onclick="openContent('part1');">Visualize Banking on a Road</a>
+        <a onclick="openContent('part2')">Banking on a circular Road</a>
+        <a onclick="openContent('part3')">Equations of Banking</a>
+        <a onclick="openContent('part4');">What is a Banking necessary?</a>
+        <a href="../index.html" > <h1>Home</h1></a>
+      </div>
+      
+      
+      
+      <!-- <a onClick="openSection()"  href="#">Physics of Projectile in Motion</a> -->
+    </nav>
+
+    <!-- Here is our page's main content -->
+   
+    <main>
+    <div id="part1" class="content"> 
+      <!-- It contains an article -->
+      <!-- <article> -->
+      <div style="padding-top: 1px ; bottom:2px" id="3dframe" >
+        <iframe  src="./Classical/CarBanking.html"></iframe>
+        <img onClick="openNewtab()" style="width:50px; position: relative;  top: -50px;  
+              float: right; cursor: pointer;" src="/assets/icons/newTab.png" >	
+        <p style=" position: relative;  top: -50px;  
+        float: right; cursor: pointer;" > Open in new tab</p>      
+      </div>
+     <br>
+     <br>
+    
+    <div id="part2" class="content">
+       
+        <h2>Banking </h2>
+        <p>When a car moving on a parallel road enters a circular curve, the change in 
+          velocity direction results in a centripetal acceleration and the maximum velocity with
+          which the car can travel on this road, without skidding, is determined by only the static friction of the road. 
+          But on a banked road the component of Normal force and the static friction determines the maximum skidding
+          velocity and is independent of the mass of the body travelling on the curved circular road
+          
+            $$$$
+            <dl>
+                <dt>
+                    &#160 &#xa0 &#10148   
+               </dt>
+           </dl>
+           
+      
+    </div>
+       
+    </main>
+  
+    <!-- And here is our main footer that is used across all the pages of our website -->
+
+    <footer >
+      <p id="footer"></p>
+    <p id="email"></p>
+  </footer>
+    <script>
+      //open in new tab
+      function openNewtab() {
+          window.open("/Classical/CarBanking.html");
+      };
+
+
+      //on click open the description
+     
+      function openContent(contentName) {
+        
+        document.getElementById(contentName).scrollIntoView(true); 
+      }
+     
+      </script>
+   
+   <script type="module" src="footer.js"></script>   
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </body>
+</html>
