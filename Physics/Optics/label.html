@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Sprite Text Labels (Three.js)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel=stylesheet href="../../css/style-page.css"/>
+</head>
+<body>
+<script type="module">
+
+        import * as THREE from '../../build/three.module.js';
+        import { OrbitControls } from '../../jsm/controls/OrbitControls.js';
+        import Stats from '../../jsm/libs/lil-gui.module.min.js';
+
+// standard global variables
+var container, scene, camera, renderer, controls, stats;
+// var keyboard = new THREEx.KeyboardState();
+var clock = new THREE.Clock();
+
+// custom global variables
+var cube;
+var projector, mouse = { x: 0, y: 0 }, INTERSECTED;
+var sprite1;
+var canvas1, context1, texture1;
+
+init();
+animate();
+
+// FUNCTIONS 		
+function init() 
+{
+    container = document.createElement( 'div' );
+	document.body.appendChild( container );
+
+	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera.position.set(0,50,50);
+	scene = new THREE.Scene();
+	scene.background = new THREE.Color( 0xf0f0f0 );
+
+	const light1 = new THREE.DirectionalLight( 0xffffff, 1 );
+	light1.position.set( 1, 1, 1 ).normalize();
+	scene.add( light1 );
+
+	
+	renderer = new THREE.WebGLRenderer();
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	container.appendChild( renderer.domElement );
+	// CONTROLS
+	controls = new OrbitControls( camera, renderer.domElement );
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.enablePan = true;
+    controls.enableZoom = true;
+	// STATS
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.bottom = '0px';
+	stats.domElement.style.zIndex = 100;
+	container.appendChild( stats.domElement );
+	// LIGHT
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(0,250,0);
+	scene.add(light);
+	// FLOOR
+	// var floorTexture = new THREE.ImageUtils.loadTexture( 'images/checkerboard.jpg' );
+	// floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
+	// floorTexture.repeat.set( 10, 10 );
+	var floorMaterial = new THREE.MeshBasicMaterial( { color: 'red', side: THREE.DoubleSide } );
+	var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+	var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+	floor.position.y = -0.5;
+	floor.rotation.x = Math.PI / 2;
+	floor.name = "Checkerboard Floor";
+	scene.add(floor);
+	// SKYBOX/FOG
+	var skyBoxGeometry = new THREE.BoxGeometry( 10000, 10000, 10000 );
+	var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+	var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+	scene.add(skyBox);
+	
+	////////////
+	// CUSTOM //
+	////////////
+	
+	var cubeGeometry = new THREE.BoxGeometry( 100, 100, 100 );
+	var cubeMaterial = new THREE.MeshNormalMaterial();
+	cube = new THREE.Mesh( cubeGeometry, cubeMaterial );
+	cube.position.set(0,50.1,0);
+	cube.name = "Cube";
+	scene.add(cube);
+	
+	var spritey = makeTextSprite( " Hello, ", 
+		{ fontsize: 24, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
+	spritey.position.set(-85,105,55);
+	scene.add( spritey );
+
+	var spritey = makeTextSprite( " World! ", 
+		{ fontsize: 32, fontface: "Georgia", borderColor: {r:0, g:0, b:255, a:1.0} } );
+	spritey.position.set(55,105,55);
+	scene.add( spritey );
+	
+}
+
+function makeTextSprite( message, parameters )
+{
+	if ( parameters === undefined ) parameters = {};
+	
+	var fontface = parameters.hasOwnProperty("fontface") ? 
+		parameters["fontface"] : "Arial";
+	
+	var fontsize = parameters.hasOwnProperty("fontsize") ? 
+		parameters["fontsize"] : 18;
+	
+	var borderThickness = parameters.hasOwnProperty("borderThickness") ? 
+		parameters["borderThickness"] : 4;
+	
+	var borderColor = parameters.hasOwnProperty("borderColor") ?
+		parameters["borderColor"] : { r:0, g:0, b:0, a:1.0 };
+	
+	var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
+		parameters["backgroundColor"] : { r:255, g:255, b:255, a:1.0 };
+
+	// var spriteAlignment = THREE.SpriteAlignment.topLeft;
+		
+	var canvas = document.createElement('canvas');
+	var context = canvas.getContext('2d');
+	context.font = "Bold " + fontsize + "px " + fontface;
+    
+	// get size data (height depends only on font size)
+	var metrics = context.measureText( message );
+	var textWidth = metrics.width;
+	
+	// background color
+	context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
+								  + backgroundColor.b + "," + backgroundColor.a + ")";
+	// border color
+	context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + ","
+								  + borderColor.b + "," + borderColor.a + ")";
+
+	context.lineWidth = borderThickness;
+	roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
+	// 1.4 is extra height factor for text below baseline: g,j,p,q.
+	
+	// text color
+	context.fillStyle = "rgba(0, 0, 0, 1.0)";
+
+	context.fillText( message, borderThickness, fontsize + borderThickness);
+	
+	// canvas contents will be used for a texture
+	var texture = new THREE.Texture(canvas) 
+	texture.needsUpdate = true;
+
+	var spriteMaterial = new THREE.SpriteMaterial( 
+		{ map: texture } );
+	var sprite = new THREE.Sprite( spriteMaterial );
+	sprite.scale.set(100,50,1.0);
+	return sprite;	
+}
+
+// function for drawing rounded rectangles
+function roundRect(ctx, x, y, w, h, r) 
+{
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+    ctx.fill();
+	ctx.stroke();   
+}
+
+function roundLabel(N, message, fontsize ) {
+    var canvas = document.createElement('canvas');
+	var context = canvas.getContext('2d');
+	let font =  24;
+    context.fillStyle = "rgb(0, 0, 0)";
+    context.beginPath();
+    context.arc(font, font, font-2, 0,  Math.PI * 2);
+    context.fill();
+
+    context.strokeStyle = "rgb(255, 255, 255)";
+    context.lineWidth = 3;
+    context.beginPath();
+    context.arc(font, font, font-2, 0, Math.PI * 2);
+    context.stroke();
+	// text color
+	context.fillStyle = "rgba(255, 255, 255, 1.0)";
+    context.font = "24px sans-serif";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(N, font, font);
+    // canvas contents will be used for a texture
+	var texture = new THREE.Texture(canvas) 
+	texture.needsUpdate = true;
+
+	var spriteMaterial = new THREE.SpriteMaterial( 
+		{ map: texture } );
+	var sprite = new THREE.Sprite( spriteMaterial );
+    var sprite1 = makeTextSprite( message, fontsize );
+    let a =  new THREE.Vector3(0,0,0);  
+    let v = new THREE.Vector3(0,2,0)  
+	
+    sprite.position.copy(a)
+    sprite1.position.copy(v)
+    sprite.scale.set(10,5,1);
+    sprite1.scale.set(10,5,1);
+	return {sprite, sprite1};	
+}
+
+function animate() 
+{
+    requestAnimationFrame( animate );
+	render();		
+	update();
+}
+
+function update()
+{
+	controls.update();
+	// stats.update();
+}
+
+function render() 
+{
+	renderer.render( scene, camera );
+}
+
+</script>
+
+</body>
+</html>

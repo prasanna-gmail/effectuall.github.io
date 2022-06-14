@@ -1,0 +1,145 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Image Formation with Diverging Lens</title>
+		<link rel="stylesheet" href="../../css/style-page.css">
+		
+	</head>
+
+<body>
+	
+	<div id="container">
+		<div id="topmenu">
+			<div style= "font-weight: bold;  text-decoration-line: underline; font-size: 125%; padding-bottom: 2px;">Image Formation with Diverging Lens</div>
+			
+		</div>
+		
+		<div style="display: none;" id ="sidemenu">
+			<a > Lens Formula: </a>
+			<div class="eq-c">
+				<a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span class="fdn">f</span>
+					</div>
+					<a>=</a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span class="fdn">v</span>
+					</div>
+	
+					<a>-</a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span class="fdn">u</span>
+					</div>
+					</div>
+				</a>
+				
+				<p>&nbsp; &nbsp; &nbsp; &nbsp; or   </p>
+				<a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span class="fdn">v</span>
+					</div>
+					<a>=</a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span class="fdn">f</span>
+					</div>
+	
+					<a>+</a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span class="fdn">u</span>
+					</div>
+					<p>&nbsp; &nbsp; &nbsp; &nbsp; &  </p>
+					<p>magnification,  </p>
+					<div class="fraction">
+						m =
+						
+					</div>
+					<div class="fraction">
+						<span class="fup">v</span>
+						<span class="bar">/</span>
+						<span class="fdn">u</span>
+					</div>
+					</div>
+					
+				</a>
+					
+		</div>
+
+		</div>
+		
+	</div>
+	
+	
+	<div style="font-size: 20px;" id="menu">   
+		
+		<div>
+			
+			<p style="float: left; text-align: left;">
+				
+				<a id="message-el"> Focal length, (f) = <b id="fmessage-el">-10 </b> cm <br>
+					Object Distance, (u) = <b id="umessage-el"> -15 </b> cm<br>
+				  Image Distance, (v) = <b style="color:red;" id="vmessage-el"> -6 </b> cm <br>
+				</a>
+			</p>
+				<a > 
+					<div style="color:red;" class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span id ="v-el"  class="fdn">-6</span>
+					</div>
+					<a>=</a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span id ="f-el" class="fdn">-10</span>
+					</div>
+	
+					<a>+</a>
+					<div class="fraction">
+						<span class="fup">1</span>
+						<span class="bar">/</span>
+						<span id ="u-el" class="fdn">-15</span>
+					</div>
+					<a>&</a>
+					<a> &nbsp;</a>
+					<a>m =</a>
+					<div class="fraction">
+						<span style="color:red;" id ="mv-el" class="fup">-6</span>
+						<span class="bar">/</span>
+						<span id ="mu-el" class="fdn">-15</span>
+					</div>
+					<a> &nbsp; =</a>
+					<a id ="m-el">0.4</a>
+					</div>
+					<button onClick="displayOn()" >FORMULA</button>
+				</a>			
+		
+		
+	</div>
+	<script>
+		 function displayOn() {
+			let sideMenu = document.getElementById('sidemenu');
+			 if (sideMenu.style.display === 'block') {
+				sideMenu.style.display = 'none'
+			 } else {
+				sideMenu.style.display = 'block';
+			 }
+      };
+
+	</script>		
+		
+	
+    <script type="module" src="concavelens.js"></script> 
+    </body>
+</html>
