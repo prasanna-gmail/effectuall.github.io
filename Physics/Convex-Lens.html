@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Working of a Telescope</title>
+    
+    <link rel="stylesheet" href="../css/index.css">
+
+   
+  </head>
+
+  <body>
+    
+    
+    <div id="navbar">
+      <h1>PHYSICS<sup>3D</sup> INTERACTIVE</h1>
+      <a class="active" href="../index.html">Home</a>
+      <a onclick="openContent('part1')">Description</a>
+      <a href="javascript:void(0)">Problems</a>
+      
+    </div>
+
+    <nav>
+     
+      <div>
+        <a onclick="openContent('part1');">Convex (Converging) Lens</a>
+        <a onclick="openContent('part2')">Lens Formula</a>
+        <a onclick="openContent('part3')">Ray Diagram</a>
+        <a onclick="openContent('part4');">Uses of Convex lens</a>
+        <a href="../index.html" > <h1>Home</h1></a>
+      </div>
+      
+      
+      
+      <!-- <a onClick="openSection()"  href="#">Physics of Projectile in Motion</a> -->
+    </nav>
+
+    <!-- Here is our page's main content -->
+   
+    <main>
+    <div id="part1" class="content"> 
+      <!-- It contains an article -->
+      <!-- <article> -->
+      <div style="padding-top: 1px ; bottom:2px" id="3dframe" >
+        <iframe  src="./Optics/ConvexLens.html"></iframe>
+        <img onClick="openNewtab()" style="width:50px; position: relative;  top: -50px;  
+              float: right; cursor: pointer;" src="/assets/icons/newTab.png" >	
+        <p style=" position: relative;  top: -50px;  
+        float: right; cursor: pointer;" > Open in new tab</p>      
+      </div>
+     <br>
+     <br>
+    
+    <div id="part2" class="content">
+       
+        <h2>Lens Formula </h2>
+        <p>
+          
+            <dl>
+                <dt>
+                    &#160 &#xa0 &#10148   
+               </dt>
+           </dl>
+           
+      
+    </div>
+    <div id="part3" class="content">
+       
+      <h2>Image Formation with Converging Lens</h2>
+      <p>
+        
+          <dl>
+              <dt>
+                  &#160 &#xa0 &#10148   
+             </dt>
+         </dl>
+         
+    
+  </div>   
+  <div id="part4" class="content">
+       
+    <h2>Uses of a Convex Lens</h2>
+    <p>
+      
+        <dl>
+            <dt>
+                &#160 &#xa0 &#10148   
+           </dt>
+       </dl>
+       
+  
+</div>   
+    </main>
+  
+    <!-- And here is our main footer that is used across all the pages of our website -->
+
+    <footer >
+      <p id="footer"></p>
+    <p id="email"></p>
+  </footer>
+    <script>
+      //open in new tab
+      function openNewtab() {
+          window.open("./Optics/ConvexLens.html");
+      };
+
+
+      //on click open the description
+     
+      function openContent(contentName) {
+        
+        document.getElementById(contentName).scrollIntoView(true); 
+      }
+     
+      </script>
+   
+   <script type="module" src="footer.js"></script>   
+      
+  </body>
+</html>
