@@ -117,7 +117,7 @@ function labelsAction() {
         for (let i = 0; i < labels.length; i++) {
             labels[i].visible = false;
             partEl.innerHTML = 'Compound Microscope';
-            describeEl.innerHTML = 'Magnification 5x, 10x, 20x, 40x'; 
+            describeEl.innerHTML = 'A compound microscope is an optical system with multiple lenses: the objective lens (typically 4x, 10x, 40x or 100x) and the eyepiece lens (typically 10x) to obtain a high magnification of 40x, 100x, 400x and 1000x. Higher magnification is achieved by using two lenses rather than just a single magnifying lens'; 
         }
     } else {
         for (let i = 0; i < labels.length; i++) {
