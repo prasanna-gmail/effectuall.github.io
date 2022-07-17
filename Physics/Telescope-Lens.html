@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Working of a Telescope</title>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link rel="stylesheet" href="../css/index.css">
+
+   
+  </head>
+
+  <body>
+    
+    
+    <div id="navbar">
+      <h1>PHYSICS<sup>3D</sup> INTERACTIVE</h1>
+      <a class="active" href="../index.html">Home</a>
+      <a onclick="openContent('part1')">Description</a>
+      <a href="javascript:void(0)">Problems</a>
+      
+    </div>
+
+    <nav>
+     
+      <div>
+        <a onclick="openContent('part1');">Visualize Telescope</a>
+        <a onclick="openContent('part2')">Astronomical Telescope</a>
+        <a onclick="openContent('part3')"> Terrestrial Telescope</a>
+        <!-- <a onclick="openContent('part4');">Types of Telescope</a> -->
+        <a href="../index.html" > <h1>Home</h1></a>
+      </div>
+      
+      
+      
+      <!-- <a onClick="openSection()"  href="#">Physics of Projectile in Motion</a> -->
+    </nav>
+
+    <!-- Here is our page's main content -->
+   
+    <main>
+    <div id="part1" class="content"> 
+      <!-- It contains an article -->
+      <!-- <article> -->
+      <div style="padding-top: 1px ; bottom:2px" id="3dframe" >
+        <iframe  src="./Optics/TelescopeLens.html"></iframe>
+        <img onClick="openNewtab()" style="width:50px; position: relative;  top: -50px;  
+              float: right; cursor: pointer;" src="/assets/icons/newTab.png" >	
+        <p style=" position: relative;  top: -50px;  
+        float: right; cursor: pointer;" > Open in new tab</p>      
+      </div>
+     <br>
+     <br>
+    
+    <div id="part2" class="content">
+      <p>
+        Telescopes are meant for viewing distant objects, producing an image that is larger than the image
+         that can be seen with the unaided eye. Telescopes gather far more light than the eye, allowing dim
+          objects to be observed with greater magnification and better resolution.
+        </p>
+        <h2>Astronomical Telescpe </h2>
+        <p> The most common two-lens telescope, like the simple microscope, 
+          uses two positive lenses (convex lenses): 
+          <ol>
+            <li>Objective lens</li>
+            <li>Eyepieces</li>
+          </ol> 
+          The objective lens, forms the image of a distant object at its 
+          focal length, and the eyepiece, which acts as a simple magnifier
+          with which to view the image formed by the objective.
+        </p>
+        <p>
+          For astronomical telescope, the object is so far away from the telescope 
+          that it is essentially at infinity compared with the focal lengths of the lenses. 
+          Also,
+          <ul style="list-style-type:none;">
+            <li>&#10148 <strong> The length of an astronomical telescope is equal to \(\boldsymbol{f_{o} + f_{e}}\), and</strong>  </li>
+            
+            <li>&#10148 <strong> Angular magnification, \(\boldsymbol{M = - f_{o}/f_{e}}\). </strong> </li>
+            <li>&#10148 <strong>Final image is enlarged and inverted, </strong></li>
+          </ul>  
+          where, \(f_{o}\) is the focal length of the objective and \(f_{e}\) is the focal length 
+          of the eyepiece. 
+
+        </p>
+         
+            <dl>
+                <dt>
+                    &#160 &#xa0 &#10148 <strong>Astronomical telescopes are also called refracting telescopes as image 
+                      was formed by the bending of light. </strong>  
+               </dt>
+           </dl>
+           
+      
+    </div>
+    <div id="part3" class="content">
+       
+      <h2> Galilean or Terrestrial Telescope</h2>
+      
+        <p>
+          The astronomical telescope can be used for terrestrial viewing, but seeing the image upside down
+          is a definite inconvenience. Viewing stars upside down is no problem. Another inconvenience for
+           terrestrial viewing is the length of the astronomical telescope, equal to the sum of the focal
+            lengths of the objective and eyepiece lenses. A shorter telescope with upright viewing is the
+             Galilean telescope.
+        </p>  
+         <p>
+          The Galilean or terrestrial telescope uses a convex (positive) objective and the concave (negative) 
+          eyepiece and such an arrangement produces an upright image and is used in spyglasses and opera glasses.
+          It gives erect images and is shorter than the astronomical telescope with the same power. It's angular 
+          magnification \(M = - f_{o}/f_{e}\).
+         </p>         
+    
+  </div>   
+  <!-- <div id="part4" class="content">
+       
+    <h2>Types of Telescope</h2>
+    <p>
+      
+        
+        <dl>
+            <dt>
+                &#160 &#xa0 &#10148   
+           </dt>
+       </dl>
+       
+  
+</div>    -->
+    </main>
+  
+    <!-- And here is our main footer that is used across all the pages of our website -->
+
+    <footer >
+      <p id="footer"></p>
+    <p id="email"></p>
+  </footer>
+    <script>
+      //open in new tab
+      function openNewtab() {
+          window.open("./Optics/TelescopeLens.html");
+      };
+
+
+      //on click open the description
+     
+      function openContent(contentName) {
+        
+        document.getElementById(contentName).scrollIntoView(true); 
+      }
+     
+      </script>
+   
+   <script type="module" src="footer.js"></script>   
+      <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+  </body>
+</html>
