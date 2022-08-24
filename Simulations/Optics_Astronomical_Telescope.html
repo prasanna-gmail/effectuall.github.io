@@ -29,7 +29,7 @@
     </div>
 
 
-    <div id="detail" style="display: block;" class="annotation">
+    <div id="detail" style="display: none;" class="annotation">
         <div id="message-el">
             <p>
                 A telescope makes use of two positive (convex) lenses: </p>
@@ -45,7 +45,7 @@
         <a style="visibility: hidden;" id=" part-el"></a>
     </div>
     <div id="menu">
-        <button  id="menuButton"  onclick="displayLabel()">Hide Description</button>
+        <button  id="menuButton"  onclick="displayLabel()">Show Description</button>
         <button id="theorybutton" onClick="theorySite()">THEORY</button>
         <br>
     </div>
@@ -475,22 +475,12 @@
         function guiControls() {
             // dat.GUI
 
-            const gui = new GUI({ width: 150 });
-            //    camera control adjust
-            // let controlFolder = gui.addFolder("Control");
-            // controlFolder.add(controls.target, 'x', -100, 100);
-            // controlFolder.add(controls.target, 'y', -100, 100);
-            // controlFolder.add(controls.target, 'z', -100, 100);
-            // let cameraFolder = gui.addFolder("Camera");
-            // cameraFolder.add(camera.position, 'x', -100, 100);
-            // cameraFolder.add(camera.position, 'y', -100, 100);
-            // cameraFolder.add(camera.position, 'z', -100, 100);
+            const gui = new GUI({ width: 250 });
+            
+            // let animationsFolder = gui.addFolder('Show/Hide');
 
-
-            let animationsFolder = gui.addFolder('Show/Hide');
-
-            animationsFolder.add(animations, 'ray').name('Ray Diagrams');
-            animationsFolder.add(animations, 'labels').name('Telescope Labels');
+            gui.add(animations, 'ray').name('Show/Hide Ray Diagrams');
+            gui.add(animations, 'labels').name('Show/Hide Labels');
             let folderLocal = gui.addFolder('Local Clipping'),
                 propsLocal = {
                     get 'Enabled'() {
@@ -498,12 +488,6 @@
                     },
                     set 'Enabled'(v) {
                         renderer.localClippingEnabled = v;
-                    },
-                    get 'Shadows'() {
-                        return telescope.material.clipShadows;
-                    },
-                    set 'Shadows'(v) {
-                        telescope.material.clipShadows = v;
                     },
                     get 'Plane'() {
                         return localPlane.constant;
@@ -555,8 +539,8 @@
                 scene.add(group1)
                 renderer.localClippingEnabled = true;
 
-                createCamera(25, -35, 5, -22, telescope.position);
-                createControls(10, 20, -2);
+                createCamera(45, -35, 5, -22, telescope.position);
+                createControls(5, 20, -2);
                 labelAction()
                 guiControls()
 
