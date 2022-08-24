@@ -163,7 +163,7 @@ caption {
   left: 0;
   z-index: 1;
   padding: 1em;
-  width: 250px;
+  width: 180px;
   color: #fff;
   background: rgba(0, 0, 0, 0.8);
   border-radius: .5em;
@@ -181,7 +181,7 @@ caption {
 
 .labelparts {
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
   padding: .1em;
   border-radius: 5px;
   color: #fff;
@@ -212,8 +212,7 @@ caption {
   }
 
   .annotation {
-    display: none;
-    width: 200px;
+    width: 150px;
     background: rgb(0, 0, 0);
     overflow-y: auto;
     z-index: 1;
@@ -238,8 +237,7 @@ caption {
     margin-bottom: -20px;
   }
   .annotation {
-    display: none;
-    width: 150px;
+    width: 120px;
     background: rgb(0, 0, 0);
     overflow-y: auto;
     z-index: 1;
