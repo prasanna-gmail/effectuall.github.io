@@ -275,9 +275,6 @@
 			controls.enablePan = true;
 			controls.enableZoom = true;
 			controls.target.set(x, y, z);
-			controls.enableDamping = true;
-			controls.dampingFactor = 0.05;
-			controls.rotateSpeed = 0.1;
 			controls.update();
 			controls.addEventListener('change', render);
 		}
