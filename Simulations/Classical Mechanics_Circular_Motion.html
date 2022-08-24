@@ -123,7 +123,7 @@ function init() {
     controls.enablePan = true;
     controls.enableZoom = true;
     
-    controls.target.set(5, 5, -3);
+    controls.target.set(5, 8, -3);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.rotateSpeed = 0.1;
@@ -225,14 +225,14 @@ function render() {
 }
 
 function guiControls() {
-    let gui = new GUI({ width: 150 });
-    gui.close();
-    let animationsFolder = gui.addFolder('Animations');
+    let gui = new GUI({ width: 250 });
+    // let animationsFolder = gui.addFolder('Animations');
     
-    animationsFolder.add(animations, 'Pause'). name('Pause/Continue');
-    animationsFolder.add(animations, 'slow', 0.0, 1.5, 0.005 ).onChange( slowMotion ). name('Modify time');
-    let indicatorFolder = gui.addFolder('Labels');
-    indicatorFolder.add(animations, 'Force') .onChange(() => {
+    gui.add(animations, 'slow', 0.0, 1.5, 0.005 ).onChange( slowMotion ). name('Modify time');
+    gui.add(animations, 'Pause'). name('Pause/Continue');
+    
+    // let indicatorFolder = gui.addFolder('Labels');
+    gui.add(animations, 'Force').name('Force Vector')  .onChange(() => {
     //    addArrows();
        car.add(force, Flabel);
        car.add(velocity, Vlabel);
@@ -240,13 +240,13 @@ function guiControls() {
        showHide(animations.Force, velocity, Vlabel)
     });
 
-    indicatorFolder.add(animations, 'Weight') .onChange(() => {
+    gui.add(animations, 'Weight').onChange(() => {
         // addWeight();
         Wempty.add( weight, Wlabel);
         showHide(animations.Weight, weight, Wlabel)
      });
     
-     indicatorFolder.add(animations, 'Normal').onChange(() => {
+    gui.add(animations, 'Normal').name('Normal Vector') .onChange(() => {
         // addWeight();
         car.add( normal, Nlabel);
         normal.setLength(.8)
