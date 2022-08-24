@@ -93,7 +93,7 @@
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xbfd1e5);
 
-            camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(38, 10, -25);
             // camera.rotation.set( 0,-3, 0);
 
@@ -276,11 +276,10 @@
         }
 
         function guiControls() {
-            gui = new GUI({ width: 150 });
-            gui.close();
-            let animationsFolder = gui.addFolder('Animations');
-            animationsFolder.add(animations, 'slow', 0.0, 1.5, 0.005).name('Modify time').onChange(slowMotion);
-            animationsFolder.add(animations, 'Components').name('Pause/Continue');
+            gui = new GUI({ width: 200 });
+            gui.add(animations, 'Components').name('Pause/Continue');
+            // let animationsFolder = gui.addFolder('Animations');
+            gui.add(animations, 'slow', 0.0, 1.5, 0.005).name('Modify time').onChange(slowMotion);
             let indicatorFolder = gui.addFolder('Vectors');
             // Add vectors
             indicatorFolder.add(animations, 'Force').onChange(() => {
@@ -301,12 +300,7 @@
                 showHide(animations.Weight, weight, Wlabel)
 
             });
-            //  Add Banking Reference
-            indicatorFolder.add(animations, 'Banking').name('Set/Unset Banking').onChange(() => {
-
-                addBanking();
-                // 
-            });
+            
             indicatorFolder.add(animations, 'Opacity', 0.0, 1, 0.005).onChange((value) => {
                 // new THREE.Vector3( 1, 0, 0 )
                 carOpacity(value);
