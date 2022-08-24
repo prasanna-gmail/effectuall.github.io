@@ -181,7 +181,7 @@
 
 		function createCamera() {
 			// Create a Camera
-			const fov = 50; // AKA Field of View
+			const fov = 70; // AKA Field of View
 			const aspect = width / height;
 			const near = 0.1; // the near clipping plane
 			const far = 1000; // the far clipping plane
@@ -465,7 +465,7 @@
 			objLabel = addLabels('Object');
 			imgLabel = addLabels('Virtual Image');
 			objLabel.position.y = params.h + params.h / 2;
-			imgLabel.position.y = params.h + heightV;
+			imgLabel.position.y = params.h - 4*heightV;
 			object.add(objLabel);
 			image.add(imgLabel);
 
@@ -492,7 +492,7 @@
 			f2Point.add(f2Label);
 
 			opticalLabel = addLabels('Optical Axis');
-			opticalLabel.position.z = 60;
+			opticalLabel.position.z = 18;
 			opticalLabel.position.y = -2;
 			opticalAxis.add(opticalLabel);
 
@@ -573,10 +573,9 @@
 			// dat.GUI
 
 			const gui = new GUI({ width: 250 });
-			gui.close()
 
-			let lensFolder = gui.addFolder("Lens Focal Length");
-			lensFolder.add(params, 'f', -50, -2, 1).name('f (in cm)').onChange((value) => {
+			// let lensFolder = gui.addFolder("Lens Focal Length");
+			gui.add(params, 'f', -50, -2, 1).name('f (in cm)').onChange((value) => {
 
 				params.f = value;
 				let a = ((params.u * params.f) / (params.u + params.f)).toFixed(2);
@@ -586,15 +585,15 @@
 				changeElements(a, b, value, params.u)
 			});
 			// , Object height(O.H) & Position(u)
-			let formulaFolder = gui.addFolder("Object height & Position ");
-			formulaFolder.add(params, 'h', 1, 7, .1).name('ho (in cm)').onChange((value) => {
+			// let formulaFolder = gui.addFolder("Object height & Position ");
+			gui.add(params, 'h', 1, 7, .1).name('ho (in cm)').onChange((value) => {
 
 				params.h = value;
 				changeElements(params.v, params.m, params.f, params.u)
 				objLabel.position.y = value + value / 2;
 				imgLabel.position.y = value + heightV;
 			});
-			formulaFolder.add(object.position, 'z', -100, -0.5, .5).name('u (in cm)').onChange((value) => {
+			gui.add(object.position, 'z', -100, -0.5, .5).name('u (in cm)').onChange((value) => {
 				params.u = value;
 				let a = ((value * params.f) / (value + params.f)).toFixed(2);
 				let b = (a / value).toFixed(2);
