@@ -26,37 +26,33 @@
 		<div >
 			Force on a current carrying conductor in a magnetic field
 		</div>
-		<div>
-			<button style="background-color: rgb(3, 67, 97) ;" id="wire-el">Straight Wire </button>
-			<button id="coil-el">Armature Coil </button>
-		</div>
-
-		<div style="visibility: hidden;  width: 270px; float: right; text-align: right ; background-color: whitesmoke; padding-right: 10px;"
-			id="rule-el">
-			<div style=" cursor: pointer;" id="closerule"><span>&#10006;</span></div>
-			<h2>Fleming's Left Hand Rule.</h2>
-			<h3>Thu<a style="color: red;">m</a>b :- <a style="color: red;">M</a>echanical Force;</h3>
-			<h3><a style="color: blue;">F</a>ore Finger:- Magnetic <a style="color: blue;">F</a>ield;</h3>
-			<h3>Se<a style="color:rgb(0, 255, 0);">c</a>ond Finger:- Electric <a
-					style="color: rgb(0, 255, 0);">C</a>urrent;</h3>
-		</div>
-
 	</div>
-
-
-
+	<div id="sidemenu">
+		<div  style="visibility: hidden;" id="rule-el">
+			<a style=" cursor: pointer;" id="closerule"><span>&#10006;</span></a>
+			<a><strong>Fleming's Left Hand Rule</strong></a><br>
+			<a>Thu<a style="color: red;">m</a>b :- <a style="color: red;">M</a>echanical Force;</a><br>
+			<a><a style="color: blue;">F</a>ore Finger:- Magnetic <a style="color: blue;">F</a>ield;</a><br>
+			<a>Se<a style="color:rgb(0, 255, 0);">c</a>ond Finger:- Electric <a
+					style="color: rgb(0, 255, 0);">C</a>urrent;</a>
+		</div>
+	</div>
 	<div id="menu">
-		<a style=" margin-bottom: -15px; color: darkred; font-weight: bolder;" id="conductor-el"></a>
+		
+		<button style="background-color: rgb(3, 67, 97) ;" id="wire-el">Straight Wire </button>
+		<button id="coil-el">Armature Coil </button>
 		<br>
-		<a id="message-el">
-			Investigate the force on current carrying Almunium Rod held within the magnetic field
-		</a><br>
 		<button id="hand-el">HAND GESTURE</button>
 		<button id="flow-el">SWITCH ON/OFF</button>
 		<button id="flip-el">CURRENT POLARITY</button>
 		<button id="direction-el">MAGNETIC POLARITY</button>
 		<button style="visibility: hidden; float: right;" id="slow-el">SLOW</button>
-
+		<br>
+		<a style=" color: darkred; font-weight: bolder;" id="conductor-el">--------</a>
+		<br>
+		<a id="message-el">
+			Investigate the force on current carrying Almunium Rod held within the magnetic field
+		</a>
 
 
 	</div>
@@ -111,7 +107,7 @@
 		scene.background = new THREE.Color(0xbfd1e5);
 
 		//camera
-		createCamera(35, 5, 3, 5);
+		createCamera(50, 5, 3, 5);
 		stats = new Stats();
 		clock = new THREE.Clock();
 		document.body.appendChild(stats.dom);
@@ -120,7 +116,7 @@
 		createRenderer();
 
 		//cameracontrols
-		createControls(1, .8, 0);
+		createControls(0.8, .8, 0);
 
 		//create light 
 		createLights();
@@ -328,7 +324,7 @@
 				actions['clockwise'].setDuration(25).play();
 				actions['arrow1flip'].setDuration(25).play();
 				actions['arrowflip'].setDuration(25).play();
-				conductorEl.textContent = "CLICK ON FORCE DIRECTION";
+				conductorEl.textContent = "CLICK ON SHOW DIRECTION";
 				message = " SLOW MOTION: Current flows from A to B into the armature coil, Force exerted on the coil makes it rotate clockwise";
 				messageEl.textContent = message;
 				animate();
@@ -345,7 +341,7 @@
 				actions['counterclockwise'].setDuration(25).play();
 				actions['arrow1flipR'].setDuration(25).play();
 				actions['arrowflipR'].setDuration(25).play();
-				conductorEl.textContent = "CLICK ON FORCE DIRECTION";
+				conductorEl.textContent = "CLICK ON SHOW DIRECTION";
 				message = " SLOW MOTION: Current flows from B to A, , Force exerted on the coil make it rotate counterclockwise";
 				messageEl.textContent = message;
 				animate();
@@ -367,7 +363,6 @@
 			if (element === 0 && !hGesture) {
 
 				leftHand.position.set(-1, 1, 0.7);
-
 				scene.add(leftHand);
 				ruleEl.style.visibility = "visible";
 				hGesture = true;
@@ -382,7 +377,7 @@
 				hGesture = true;
 				buttonHand.innerHTML = "HIDE GESTURE";
 
-			} else {
+			} else  {
 				scene.remove(leftHand);
 				ruleEl.style.visibility = "hidden";
 				hGesture = false;
@@ -511,6 +506,8 @@
 				messageEl.textContent = message;
 				direction.visible = false;
 				current.visible = false;
+				hGesture=false;
+				handGesture()
 				animate();
 			}
 
@@ -528,7 +525,7 @@
 				actions['clockwise'].play();
 				actions['arrow1flip'].play();
 				actions['arrowflip'].play();
-				conductorEl.textContent = "CLICK on SLOW for SLOW-MOTION & FORCE DIRECTION for CURRENT, FIELD and FORCE vectors ";
+				conductorEl.textContent = "CLICK on SLOW for SLOW-MOTION & SHOW DIRECTION for CURRENT, FIELD and FORCE vectors ";
 				message = " Current flows from A to B into the armature coil; Force exerted on the two arms of the armature coil are opposite making it rotate clockwise";
 				messageEl.textContent = message;
 				animate();
@@ -543,7 +540,7 @@
 				actions['counterclockwise'].play();
 				actions['arrow1flipR'].play();
 				actions['arrowflipR'].play();
-				conductorEl.textContent = "CLICK ON FORCE DIRECTION";
+				conductorEl.textContent = "CLICK ON SHOW DIRECTION";
 				message = " Current flows from B to A, , Force exerted on the coil make it rotate counterclockwise";
 				messageEl.textContent = message;
 				animate();
@@ -559,6 +556,7 @@
 				arrow1.visible = false;
 				arrow2.visible = false;
 				buttonSlowEl.style.visibility = "hidden";
+				buttonDirection.textContent = "SHOW DIRECTION";
 				conductorEl.textContent = "------------------------------------------------ ";
 				message = "No Current Flows, Switch OFF, rod position restored";
 				messageEl.textContent = message;
@@ -584,29 +582,56 @@
 			animate();
 		}
 
+		// function forceDirection() {
+		// 	if (!flip && flow && !fDirection) {
+		// 		actions['direction1'].reset().stop();
+		// 		actions['direction2'].reset().stop();
+		// 		direction1.visible = true;
+		// 		direction2.visible = true;
+		// 		conductorEl.textContent = "FORCE ON THE TWO ARMS:- Blue pointer indicates the magnetic field, Green pointer indicates the current, red pointer indicates the force direction";
+		// 		buttonDirection.textContent = "HIDE DIRECTION";
+		// 		fDirection = true;
+
+		// 	} else if (flip && flow && !fDirection) {
+		// 		actions['direction1'].setDuration(.01).play();
+		// 		actions['direction2'].setDuration(.01).play();
+		// 		direction1.visible = true;
+		// 		direction2.visible = true;
+		// 		conductorEl.textContent = "FORCE ON THE TWO ARMS:- Blue pointer indicates the magnetic field, Green pointer indicates the current, red pointer indicates the force direction";
+		// 		buttonDirection.textContent = "HIDE DIRECTION";
+		// 		fDirection = true;
+		// 	} else if (fDirection) {
+		// 		fDirection = false;
+		// 		direction1.visible = false;
+		// 		direction2.visible = false;
+		// 		buttonDirection.textContent = "SHOW DIRECTION";
+
+		// 	}
+		// }
+
+		
 		function forceDirection() {
-			if (!flip && flow && !fDirection) {
+			if (!flip && fDirection) {
 				actions['direction1'].reset().stop();
 				actions['direction2'].reset().stop();
 				direction1.visible = true;
 				direction2.visible = true;
 				conductorEl.textContent = "FORCE ON THE TWO ARMS:- Blue pointer indicates the magnetic field, Green pointer indicates the current, red pointer indicates the force direction";
 				buttonDirection.textContent = "HIDE DIRECTION";
-				fDirection = true;
+				
 
-			} else if (flip && flow && !fDirection) {
+			} else if (flip && fDirection) {
 				actions['direction1'].setDuration(.01).play();
 				actions['direction2'].setDuration(.01).play();
 				direction1.visible = true;
 				direction2.visible = true;
 				conductorEl.textContent = "FORCE ON THE TWO ARMS:- Blue pointer indicates the magnetic field, Green pointer indicates the current, red pointer indicates the force direction";
 				buttonDirection.textContent = "HIDE DIRECTION";
-				fDirection = true;
-			} else if (fDirection) {
-				fDirection = false;
+				
+			} else if (!fDirection) {
 				direction1.visible = false;
 				direction2.visible = false;
-				buttonDirection.textContent = "FORCE DIRECTION";
+				buttonDirection.textContent = "SHOW DIRECTION";
 
 			}
 		}
@@ -642,12 +667,12 @@
 		function setCamera() {
 
 			if (element === 0) {
-				createCamera(35, 5, 3, 5);
-				createControls(1, .8, 0);
+				createCamera(50, 5, 3, 5);
+				createControls(0.8, .8, 0);
 				render();
 
 			} else if (element === 1) {
-				createCamera(20, 5, 5, 5);
+				createCamera(35, 5, 5, 5);
 				createControls(0.4, 0.4, 0);
 				render();
 			}
@@ -692,7 +717,7 @@
 				messageEl.textContent = message;
 				ruleEl.style.visibility = "hidden";
 				buttonHand.innerHTML = "HAND GESTURE";
-				buttonDirection.innerHTML = "FORCE DIRECTION";
+				buttonDirection.innerHTML = "SHOW DIRECTION";
 				buttonSlowEl.style.visibility = "hidden";
 				element = 1;
 				flow = false;
@@ -815,6 +840,7 @@
 					scene.remove(leftHand);
 					magnetRotation();
 				} else if (element === 1) {
+					fDirection = !fDirection;
 					forceDirection();
 				} else {
 					message = "SWITCH OFF";
