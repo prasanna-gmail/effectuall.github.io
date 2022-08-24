@@ -1,167 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Physics 3D interactive simulations</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="./files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
+		<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: light)" />
+		<link rel="stylesheet" type="text/css" href="./css/index.css">
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+	
+		  gtag('config', 'G-7VWWT4ZKR6');
+		</script>
+		<meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
+		
+	</head>
+	<body>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+		<div  id="panel">
 
-            gtag('config', 'G-7VWWT4ZKR6');
-        </script>
-        <title>PHYSICS INTERACTIVE 3D SIMULATION</title>
+			<div  id="header">
+				<h1><a href="../index.html"> PHYSICS <sup>3D</sup> INTERACTIVE</a></h1>
 
-        <!-- Load external CSS styles -->
-        <link rel="stylesheet" href="./css/style.css">
-        <meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY" />
+				<div id="sections">
+					<a href="./Theory/index.html">Calculations</a>
+					<span class="selected">Simulations</span>
+				</div>
 
-    </head>
-    <body> 
-     
-    <div id="navbar">
-      <h1>PHYSICS<sup>3D</sup> INTERACTIVE</h1>
-      <a class="active" href="../index.html">PHYSICS</a>
-      
-      <a>MATERIAL SCIENCE</a>
-      <a>ENGINEERING</a>
-     
-      
-    </div>
+				<div id="expandButton"></div>
+			</div>
 
-    
-      <br>
-      <br>
-      <br>
-      <br>
-      <div class="row"> 
-        <div class="column"> 
-      <p>OPTICS</p>
-      </div>
-      <div class="row"> 
-        <div onclick="location.href='./Physics/Microscope-Lens.html' "  class="column">
-          <img src="./assets/pageimg/microscope.jpg" class="image" style="width:100%">
-          <div class="middle">
-            <div class="text">Compound Microscope</div>
-          </div>  
-        </div> 
-          <div onclick="location.href='./Physics/Telescope-Lens.html' " class="column">
-            <img src="./assets/pageimg/telescope.jpg"class="image" style="width:100%">
-            <div class="middle">
-              <div class="text">Refracting Telescope </div>
-            </div>
-          </div> 
-         
-          <div onclick="location.href='./Physics/Convex-Lens.html' "  class="column">
-            <img src="./assets/pageimg/convergingLens.jpg" class="image" style="width:100%">
-            <div class="middle">
-              <div class="text">Converging Lens</div>
-            </div>  
-          </div>  
-          <div onclick="location.href='./Physics/Concave-Lens.html' "  class="column">
-            <img src="./assets/pageimg/divergingLens.jpg" class="image" style="width:100%">
-            <div class="middle">
-              <div class="text"> Diverging Lens</div>
-            </div>  
-          </div> 
-      </div> 
-      
-    <br>
-    <br>
-      <div class="row"> 
-        <div class="column"> 
-      <p>CLASSICAL MECHANICS</p>
-      </div>
-      <div class="row"> 
-       
-          <div onclick="location.href='./Physics/Circular-Motion.html' " class="column">
-            <img src="./assets/pageimg/circularMotion.jpg"class="image" style="width:100%">
-            <div class="middle">
-              <div class="text">Circular Motion </div>
-            </div>
-          </div> 
-          <div onclick="location.href='./Physics/Projectile-Motion.html' "  class="column">
-            <img src="./assets/pageimg/projectileMotion.jpg" class="image" style="width:100%">
-            <div class="middle">
-              <div class="text">Projectile Motion</div>
-            </div>  
-          </div>  
-          <div onclick="location.href='./Physics/Car-Banking.html' "  class="column">
-            <img src="./assets/pageimg/banking.jpg" class="image" style="width:100%">
-            <div class="middle">
-              <div class="text">Banking on the Road</div>
-            </div>  
-          </div>  
-          <div onclick="location.href='./Physics/Spring-Action.html' "  class="column">
-            <img src="./assets/pageimg/springMotion.jpg" class="image" style="width:100%">
-            <div class="middle">
-              <div class="text">Spring Force</div>
-            </div>  
-          </div> 
-      </div> 
-      
-    <br>
-    <br>
-    <div class="row"> 
-      <div class="column"> 
-    <p>MAGNETISM</p>
-    </div>
-    <div class="row"> 
-   
-      <div  onclick="location.href='./Physics/Electro-Magnetism.html' " class="column">
-        <img src="./assets/pageimg/electroMagnetism.jpg" class="image" style="width:100%">
-        <div class="middle">
-          <div class="text">History of Electomagnetism </div>          
-        </div>
-      </div>  
-      <div  onclick="location.href='./Physics/Thumbs-Rule.html'" class="column">
-        <img src="./assets/pageimg/thumbsRule.jpg"  class="image" style="width:100%">
-        <div class="middle">
-          <div class="text">Fleming's Right Hand Thumb's Rules</div>          
-        </div>
-      </div>  
-      <div onclick="location.href='./Physics/Magnetic-Current-Effect.html'" class="column">
-        <img src="./assets/pageimg/mageffectCurrent.jpg" class="image" style="width:100%">
-        <div class="middle">
-          <div class="text">Magnetic effect due to current </div>
-      </div>
-    </div> 
-      <div  onclick="location.href='./Physics/Force-Current-Effect.html'" class="column">
-        <img src="./assets/pageimg/forceCurrent.jpg" class="image" style="width:100%">
-        <div class="middle">
-          <div class="text">Force on a current carrying conductor </div>
-      </div>
-    </div> 
-      <div onclick="location.href='./Physics/Induced-Current-Effect.html'" class="column">
-        <img src="./assets/pageimg/EMInduction.jpg" sclass="image" style="width:100%">
-        <div class="middle">
-          <div class="text">Electromagnetic Induction</div>
-      </div>
-    </div>
-  </div> 
-  
-   <div>
-    <br>
-    <br>
-    <footer >
-      <p id="footer"></p>
-    <p id="email"></p>
-  </footer>
-   </div>   
-     
-       
-            <!-- <script type="module" src="selecthtml.js"></script>  -->
-          <script>
-            function openTitle(contentName) {
-        
-                document.getElementsByClassName(column).style.display = 'none;'
-            }
-          </script>
-           <script type="module" src="./Physics/footer.js"></script>  
-    </body> 
-   
+			<div id="panelScrim"></div>
 
+			<div id="contentWrapper">
 
+				<div id="inputWrapper">
+					<input placeholder="" type="text" id="filterInput" autocorrect="off" autocapitalize="off" spellcheck="false" />
+					<div id="exitSearchButton"></div>
+				</div>
+
+				<div id="content">
+					<img id="previewsToggler" src="./files/thumbnails.svg" width="20" height="20" />
+				</div>
+			</div>
+
+		</div>
+		
+			<iframe id="viewer" name="viewer" allow="fullscreen; xr-spatial-tracking;" src="introList.html"></iframe>
+		
+		<script src="script.js"></script> 
 </html>
