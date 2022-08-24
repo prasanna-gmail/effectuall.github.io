@@ -23,13 +23,7 @@
 
 <body>
 
-	<div id="topmenu">MAGNETIC FIELDS DUE TO CURRENT 
-		<br>
-			<button id="wire-el">Straight Wire </button>
-			<button style="background-color: rgb(3, 67, 97) ;" id="coil-el">Coil </button>
-			<button id="solenoid-el">Solenoid </button>
-			<button id="toroid-el">Toroid </button>
-	</div>
+	<div id="topmenu">MAGNETIC FIELDS DUE TO CURRENT </div>
 	<div id="sidemenu">
 		<div style="visibility: hidden;  width: 270px;" id="rule-el">
 
@@ -41,7 +35,10 @@
 	</div>
 
 	<div id="menu">
-		
+			<button id="wire-el">Straight Wire </button>
+			<button style="background-color: rgb(3, 67, 97) ;" id="coil-el">Coil </button>
+			<button id="solenoid-el">Solenoid </button>
+			<button id="toroid-el">Toroid </button>
 		<button id="reset-el">RESET</button>
 		<button id="flow-el">SWITCH</button>
 		<button id="flip-el">POLARITY</button>
@@ -98,7 +95,7 @@
 		scene.background = new THREE.Color(0xbfd1e5);
 
 		//camera
-		createCamera(35, 5, 3, 5);
+		createCamera(50, 5, 4, 5);
 		stats = new Stats();
 		clock = new THREE.Clock();
 		document.body.appendChild(stats.dom);
@@ -107,7 +104,7 @@
 		createRenderer();
 
 		//cameracontrols
-		createControls(1, .8, 0);
+		createControls(1.5, .8, 0);
 
 		//create light 
 		createLights();
@@ -453,13 +450,11 @@
 			if (!hidden) {
 				equationEl.style.visibility = 'visible';
 				formulaDisplay();
-				buttonFormula.style.backgroundColor = "rgb(3, 67, 97)";
+				
 			} else {
 				equationEl.style.visibility = 'hidden';
-				buttonFormula.style.backgroundColor = "rgb(3, 108, 156)";
+				
 			}
-			// hidden = !hidden;
-
 		}
 
 		function formulaDisplay() {
@@ -533,8 +528,8 @@
 				flip = 0;
 				flow = 0;
 				element = 1;
-				createCamera(40, 5, 3, 5)
-				createControls(1, .8, 0)
+				createCamera(50, 5, 4, 5)
+				createControls(1.5, .8, 0)
 			});
 
 			// polarity flip button
@@ -568,7 +563,7 @@
 				actions['needleL'].stop()
 				// cancelAnimationFrame(requestID);
 				cancelAnimationFrame(fieldID);
-				createCamera(20, 5, 5, 5)
+				createCamera(40, 5, 5, 5)
 				createControls(1, 1, 0)
 				currentFlow();
 			});
@@ -576,8 +571,6 @@
 			buttonFormula.addEventListener('click', function () {
 				hidden = !hidden;
 				buttonAction();
-				createCamera(40, 5, 3, 5)
-				createControls(1, .8, 0)
 			});
 
 			// Add a st. wire
@@ -598,8 +591,8 @@
 				flip = 0;
 				// cancelAnimationFrame(requestID);
 				cancelAnimationFrame(fieldID);
-				createCamera(40, 5, 3, 5)
-				createControls(1, .8, 0)
+				createCamera(50, 5, 4, 5)
+				createControls(1.5, .8, 0)
 				buttonAction();
 				render();
 			});
@@ -622,8 +615,8 @@
 				flip = 0;
 				// cancelAnimationFrame(requestID);
 				cancelAnimationFrame(fieldID);
-				createCamera(40, 5, 3, 5)
-				createControls(1, .8, 0)
+				createCamera(50, 5, 4, 5)
+				createControls(1.5, .8, 0)
 				buttonAction();
 				render();
 			});
@@ -644,8 +637,8 @@
 				flip = 0;
 				// cancelAnimationFrame(requestID);
 				cancelAnimationFrame(fieldID);
-				createCamera(40, 5, 3, 5)
-				createControls(1, .8, 0)
+				createCamera(50, 5, 4, 5)
+				createControls(1.5, .8, 0)
 				buttonAction();
 				render();
 			});
@@ -666,8 +659,8 @@
 				flip = 0;
 				// cancelAnimationFrame(requestID);
 				cancelAnimationFrame(fieldID);
-				createCamera(40, 5, 3, 5)
-				createControls(1, .8, 0)
+				createCamera(50, 5, 4, 5)
+				createControls(1.5, .8, 0)
 				buttonAction();
 				render();
 			});
