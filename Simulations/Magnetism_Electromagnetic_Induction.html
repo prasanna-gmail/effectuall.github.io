@@ -166,9 +166,6 @@
 			controls.enablePan = true;
 			controls.enableZoom = true;
 			controls.target.set(x, y, z);
-			controls.enableDamping = true;
-			controls.dampingFactor = 0.05;
-			controls.rotateSpeed = 0.1;
 			controls.update();
 			controls.addEventListener('change', render);
 
@@ -426,7 +423,6 @@
 						.easing(TWEEN.Easing.Cubic.Out)
 						.start()
 				}, 5000);
-				// animate();
 			} else if (flip) {
 
 				new TWEEN.Tween(galvNeedle.rotation)
@@ -451,63 +447,9 @@
 						.to({ x: 0, y: 0, z: 1 }, 3000)
 						.easing(TWEEN.Easing.Cubic.Out)
 						.start()
-				}, 5000);
-				// animate();
+				}, 5000);				
 
 			}
-			// if (!flip && !hold) {
-			//     new TWEEN.Tween(galvNeedle.rotation)
-			//         .to({ y: galvL}, 3000)
-			//         .easing(TWEEN.Easing.Cubic.Out)
-			//         .start()
-			//     fieldLines.visible = true;
-			//     fieldLines.rotation.set(0,1.57,1.57);
-
-			//     new TWEEN.Tween(fieldLines.scale)
-			//         .to({ x:1.2,y:1.5,z: 1}, 3000)
-			//         .easing(TWEEN.Easing.Cubic.Out)
-			//         .start()
-			//     setTimeout(function () {
-			//         changeFlux = false;
-			//         galvRotStop(); 
-			//         new TWEEN.Tween(galvNeedle.rotation)
-			//             .to({ y: 0}, 3000)
-			//             .easing(TWEEN.Easing.Cubic.Out)
-			//             .start()
-			//         new TWEEN.Tween(fieldLines.scale)
-			//             .to({ x:0,y:0,z: 1}, 3000)
-			//             .easing(TWEEN.Easing.Cubic.Out)
-			//             .start()
-			//     }, 5000);
-			//     // animate();
-			// } else if (flip && !hold) {
-
-			// new TWEEN.Tween(galvNeedle.rotation)
-			//     .to({ y: -galvL}, 3000)
-			//     .easing(TWEEN.Easing.Cubic.Out)
-			//     .start()
-			// fieldLines.visible = true;
-			// fieldLines.rotation.set(0,1.57,-1.57);
-
-			// new TWEEN.Tween(fieldLines.scale)
-			//     .to({ x:1.2,y:1.5,z: 1}, 3000)
-			//     .easing(TWEEN.Easing.Cubic.Out)
-			//     .start()
-			// setTimeout(function () {
-			//     changeFlux = false;
-			//     galvRotStop(); 
-			//     new TWEEN.Tween(galvNeedle.rotation)
-			//         .to({ y: 0}, 3000)
-			//         .easing(TWEEN.Easing.Cubic.Out)
-			//         .start()
-			//     new TWEEN.Tween(fieldLines.scale)
-			//         .to({ x:0,y:0,z: 1}, 3000)
-			//         .easing(TWEEN.Easing.Cubic.Out)
-			//         .start()
-			// }, 5000);        
-			// animate();
-
-			// }
 			animate();
 		}
 
