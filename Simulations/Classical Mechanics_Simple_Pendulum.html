@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SIMPLE PENDULUM</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)" />
+    <link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="../css/style-page.css">
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7VWWT4ZKR6');
+    </script>
+    <meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
+
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="topmenu">PENDULUM MOTION</div>
+        <div class="annotation">
+            <p>For a Simple Pendulum of <br>length, L = <a id="len"> 10</a> cm, <br>Time Period, T = <a
+                    id="val">0.635</a> secs </p>
+
+            <a style="color:yellow;">Time period, 'T', increases with increase in length 'L' only</a>
+
+
+        </div>
+
+
+
+
+        <div id="menu">
+            <p id="message-el"></p>
+                <button id="single">Simple Pendulum</button> 
+                <button id="stop">STOP</button> 
+                <button id="double">2 Pendulums</button>
+                <button id="theorybutton" onClick="theorySite()">THEORY</button>
+                <br>
+            </div>
+            <script>
+                function theorySite() {
+        
+                    window.open("../Theory/Classical Mechanics_Simple_Pendulum.html", "_self")
+                }
+            </script>
+
+
+        <script type="module">
+            import * as THREE from '../build/three.module.js';
+            import { OrbitControls } from '../jsm/controls/OrbitControls.js';
+            import { CSS2DRenderer, CSS2DObject } from '../jsm/renderers/CSS2DRenderer.js';
+            import Stats from '../jsm/libs/stats.module.js';
+            import { GUI } from '../jsm/libs/lil-gui.module.min.js';
+
+            let scene, camera, mainLight, renderer, labelRenderer, stats, controls, clock;
+            let width = window.innerWidth, height = window.innerHeight;
+            let mass, point, string, massPoint, wall, grid, plane, massMark, myChart, point1, point2;
+            let angleGeometry, angleMeasure, marker1, marker2, line;
+            let t = 0, x = 0, i = 0, period = 0;
+            let pointData = [], point1Data = [], point2Data = [];
+            let presentPoint = new THREE.Vector3(0, 0, 0);
+            let nextPoint = new THREE.Vector3(0, -10, 0);
+            let data = [], dataX = [], dataY = [], dataV = [];
+            let points = [];
+            let motion = true, curve = false, stop = false;
+            let GROUP = new THREE.Group();
+            let group = new THREE.Group();
+            let vector = new THREE.Group();
+            let MASS = new THREE.Group();
+            let messageEl = document.getElementById('message-el');
+            let len = document.getElementById('len');
+            let val = document.getElementById('val');
+            let buttonStop = document.getElementById('stop');
+            let buttonSingle = document.getElementById('single');
+            let buttonDouble = document.getElementById('double');
+            let params = {
+                amp: 0.1,
+                len: 10,
+                g: 9.8,
+                radius: 5,
+                pause: function () {
+                    pendulumAction();
+                },
+                curve: function () {
+                    curve = !curve;
+                    showCurve(myChart, data);
+                    // data = {};
+                },
+                clear: function () {
+                    removeData(group);
+                    resetPara();
+                },
+                diagram: function () {
+                    addArrows();
+
+                }
+            }
+            let velocity, PEarrow, tension, weight;
+            function pendulumAction() {
+                motion = !motion;
+                resetPara();
+                pendulumMovement()
+            }
+
+            function createCamera() {
+                // Create a Camera
+                const fov = 50; // AKA Field of View
+                const aspect = width / height;
+                const near = 0.1; // the near clipping plane
+                const far = 1000; // the far clipping plane
+
+                camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+                camera.position.set(10, 18, 18);
+
+            }
+
+            function createControls() {
+                controls = new OrbitControls(camera, renderer.domElement);
+                controls.enablePan = true;
+                controls.enableZoom = true;
+
+                controls.target.set(-8, -8.6, -16);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.rotateSpeed = 0.1;
+                controls.minDistance = .1;
+                controls.maxDistance = 5000;
+
+            }
+
+            function createLights() {
+                // Create a directional light
+                const ambientLight = new THREE.HemisphereLight(0xddeeff, 0x202020, 4);
+                mainLight = new THREE.DirectionalLight(0xffffff, 3.0);
+                scene.add(ambientLight);
+
+                // move the light back and up a bit
+                mainLight.position.set(10, 10, 10);
+
+                // remember to add the light to the scene
+                scene.add(ambientLight, mainLight);
+            }
+
+            function createRenderer() {
+                // create the renderer
+                renderer = new THREE.WebGLRenderer({
+                    antialias: true
+                });
+                renderer.alpha = true;
+                renderer.setSize(width, height);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                document.body.appendChild(renderer.domElement);
+
+                labelRenderer = new CSS2DRenderer();
+                labelRenderer.setSize(window.innerWidth, window.innerHeight);
+                labelRenderer.domElement.style.position = 'absolute';
+                labelRenderer.domElement.style.top = '0px';
+                labelRenderer.domElement.style.pointerEvents = 'none';
+                document.body.appendChild(labelRenderer.domElement);
+            }
+
+            function init() {
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color('skyblue');
+                stats = new Stats();
+                clock = new THREE.Clock();
+                createCamera();
+                createLights();
+                createRenderer();
+                createControls();
+                //Grid
+                grid = new THREE.GridHelper(150, 150);
+                grid.position.y = -10;
+                let grid2 = new THREE.GridHelper(150, 150);
+                grid2.position.z = -10;
+                grid2.rotation.x = -Math.PI / 2;
+                scene.add(grid);
+
+                let boxGeometry = new THREE.BoxGeometry(25, 0.2, 1);
+                let boxMaterial = new THREE.MeshStandardMaterial({
+                    color: "rgb(60%, 15%, 5%)"
+                });
+                wall = new THREE.Mesh(boxGeometry, boxMaterial);
+                wall.position.y = 14.9
+
+                let pointGeometry = new THREE.BufferGeometry().setAttribute('position',
+                    new THREE.BufferAttribute(new Float32Array([0, 0, 0]), 3));
+                let pointMaterial = new THREE.PointsMaterial({ color: 0x888888, size: .2 });
+                point = new THREE.Points(pointGeometry, pointMaterial);
+                point.position.y = 15 - 0.2;
+
+                scene.add(point, wall);
+                let point2Geometry = new THREE.BufferGeometry().setAttribute('position',
+                    new THREE.BufferAttribute(new Float32Array([0, 0, 0]), 3));
+                massPoint = new THREE.Points(point2Geometry, pointMaterial);
+
+                let rodGeometry = new THREE.CylinderGeometry(.05, .05, 10, 4).translate(0, -5, 0);
+                let rodMaterial = new THREE.MeshStandardMaterial({
+                    color: 'blue'
+                });
+                string = new THREE.Mesh(rodGeometry, rodMaterial);
+                point.add(string);
+                string.scale.set(1, 1, 1);
+
+                angleGeometry = new THREE.PlaneGeometry(4, 2).translate(0, 1, 0);
+                let texture = new THREE.TextureLoader().load('./assets/img/protractor.png');
+                angleMeasure = new THREE.Mesh(angleGeometry, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: texture, transparent: true }));
+                angleMeasure.rotation.z = 3.14;
+                angleMeasure.position.y = 15.0;
+                angleMeasure.scale.set(2, 2, 2);
+                scene.add(angleMeasure);
+
+                marker1 = new THREE.Mesh(new THREE.PlaneGeometry(.1, 0.8).translate(0, 3.2, 0.01), new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide }));
+                marker2 = marker1.clone();
+
+
+                let sphereGeometry = new THREE.SphereGeometry(params.radius / 15, 8, 16);
+                let sphereMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xFF008C
+                });
+                mass = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                mass.position.y = -params.len;
+                massPoint.position.z = 0.1;
+                point.add(mass)
+                mass.add(massPoint)
+                massPoint.add(vector);
+
+
+                wall.add(marker1, marker2);
+                marker1.rotation.z = 3.14 + params.amp;
+                marker2.rotation.z = 3.14 - params.amp;
+
+                len.innerHTML = (params.len).toFixed(2);
+                val.innerHTML = (pendulumEquation().T).toFixed(2);
+
+                valueCal(params.len, params.amp);
+                addArrows();
+
+                buttonSingle.addEventListener('click', function () {
+
+                    if (stop) {
+                        motion = true;
+                        stop = false;
+                        showArrows();
+                        pendulumMovement()
+                        messageEl.innerHTML = 'SHM study';
+                    } else {
+                        console.log('set motion to stop')
+                    }
+                });
+
+                buttonStop.addEventListener('click', function () {
+                    // pendulumAction();
+                    console.log(weight)
+                    scene.remove(GROUP);
+                    GROUP = new THREE.Group();
+                    scene.add(point);
+                    weight.position.x = 0.1;
+                    velocity.scale.set(1, dataV[0], 1)
+                    // weight.position.y = (15-pointData[1]);  
+                    motion = false;
+                    stop = true;
+                    console.log(weight)
+                    removeData(group);
+                    resetPara()
+                    messageEl.innerHTML = 'STOP';
+                });
+
+                buttonDouble.addEventListener('click', function () {
+                    if (stop) {
+                        motion = true;
+                        stop = false;
+                        hideArrows();
+                        comparePendulums()
+                        messageEl.innerHTML = 'Compare';
+                    } else {
+                        console.log('set motion to stop')
+                    }
+
+                });
+
+                window.addEventListener('resize', onWindowResize);
+                pendulumMovement();
+            }
+
+
+            window.onload = function () {
+                init();
+                animate();
+                guiControls();
+                // pendulumMotion(0);
+                // pendulumMovement();
+                // comparePendulums();
+            }
+
+            function hideArrows() {
+                velocity.visible = false;
+                weight.visible = false;
+                tension.visible = false;
+            }
+
+            function showArrows() {
+                velocity.visible = true;
+                weight.visible = true;
+                tension.visible = true;
+            }
+
+            function valueCal(len, amp) {
+                data = []; dataX = []; dataY = []; dataV = []; points = [];
+                period = pendulumEquation().w
+
+                for (var i = 0; i < (5); i += 0.002) {
+                    let wt = i * period;
+                    let a = amp * (Math.cos(wt));
+                    let b = (len * Math.sin(a)).toFixed(2);
+                    let c = (len * Math.cos(a)).toFixed(2);
+                    let v = -amp * period * Math.sin(wt);
+                    points.push(new THREE.Vector3(b, -10, -i * 5));
+                    data.push(a);
+                    dataX.push(c);
+                    dataY.push(b);
+                    dataV.push(v);
+                }
+            }
+
+            function addArrows() {
+
+                weight = addArrow(2, 0xffff00, -Math.PI);
+                scene.add(weight);
+                velocity = addArrow(1, 0x00ffff, -Math.PI / 2);
+                tension = addArrow(2, 0xffffff, 0);
+                velocity.scale.set(1, dataV[0], 1)
+                vector.add(velocity, tension)
+
+                weight.position.z = .1;
+                weight.position.y = 15 - params.len;
+            }
+
+            function addArrow(len, hex, rot) {
+                let arrowLength = new THREE.Mesh(new THREE.PlaneGeometry(0.1, len).translate(0, len / 2, 0), new THREE.MeshPhongMaterial({ color: hex, side: THREE.DoubleSide }));
+                let coneGeometry = new THREE.ConeGeometry(0.1, 0.4, 6).translate(0, len, 0);
+                let arrow = new THREE.Mesh(coneGeometry, new THREE.MeshStandardMaterial({ color: hex }));
+                arrow.add(arrowLength)
+                arrow.rotateZ(rot);
+                return arrow
+            }
+
+            function resetPara() {
+
+                i = 0;
+                nextPoint = new THREE.Vector3(0, -10, 0);
+            }
+
+            function guiControls() {
+                // dat.GUI
+
+                const gui = new GUI({ width: 200 });
+                // let cameraFolder = gui.addFolder("Camera");
+                // cameraFolder.add(camera.position, 'x', -10, 20);
+                // cameraFolder.add(camera.position, 'y', 0, 50);
+                // cameraFolder.add(camera.position, 'z', -10, 40);
+                const folderGeometry = gui.addFolder('Pendulum Parameters');
+                // const amp = gui.addFolder('Amplitude,A') 
+                folderGeometry.add(params, 'amp', 0, 1.4, 0.1).name('Amplitude,A').onChange((value) => {
+                    params.amp = value;
+                    point.rotation.z = value
+                    marker1.rotation.z = 3.14 + value;
+                    marker2.rotation.z = 3.14 - value;
+                    nextPoint = new THREE.Vector3(0, -10, 0)
+                    valueCal(params.len, params.amp);
+                    resetPara();
+                    weight.position.x = dataY[0];
+                    weight.position.y = (15 - dataX[0]);
+                    velocity.scale.set(0, dataV[0], 0)
+                    messageEl.innerHTML = 'Amplitude of the oscillation only changes ';
+
+                });
+
+                folderGeometry.add(params, 'len', 10, 20, 1).name('Length, l(cm)').onChange((value) => {
+
+                    motion = false
+                    params.len = value;
+
+                    changeLength(value);
+                    valueCal(params.len, params.amp);
+                    weight.position.y = 15 - params.len;
+                    val.innerText = (pendulumEquation().T).toFixed(2);
+                    len.innerText = (params.len).toFixed(2);
+                });
+
+                folderGeometry.add(params, 'radius', 5, 25, 0.1).name('Mass, m(gm)').onChange((value) => {
+                    mass.geometry.dispose();
+                    let newsphereGeometry = new THREE.SphereGeometry(params.radius / 15, 8, 16);
+                    mass.geometry = newsphereGeometry;
+                    weight.scale.x = params.radius / 5;
+                    weight.scale.y = params.radius / 15
+                });
+
+                folderGeometry.add(params, 'pause').name('Stop/Start');
+
+                folderGeometry.add(params, 'curve').name('Show/Hide');
+                folderGeometry.add(params, 'clear').name('Clear Data Points');
+                folderGeometry.add(params, 'diagram').name('Free-Body Diagram');
+            }
+
+            function render() {
+                renderer.render(scene, camera);
+                labelRenderer.render(scene, camera);
+            }
+
+            function onWindowResize() {
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                // labelRenderer.setSize(window.innerWidth, window.innerHeight);
+                render();
+
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                render();
+            }
+
+            function addLabels(name, col) {
+
+                let text = document.createElement('div');
+                text.className = 'label';
+                text.textContent = name;
+                text.style.color = col;
+
+                let label = new CSS2DObject(text);
+                label.position.z = -2;
+                label.position.y = 1;
+
+                return { label, text }
+            }
+
+            function changeLength(value) {
+                let a = (value / 10)
+                string.scale.set(1, a, 1);
+                mass.position.y = -a * 10;
+
+            }
+
+            function pendulumMovement() {
+                if (motion && i < data.length) {
+                    // console.log(i, data[i]);
+                    point.rotation.z = data[i];
+                    weight.position.x = dataY[i];
+                    weight.position.y = (15 - dataX[i]);
+                    velocity.scale.set(1, dataV[i], 1)
+                    presentPoint = points[i];
+
+                    line = initLine({
+                        points: [presentPoint, nextPoint],
+                        lineMaterial: new THREE.LineBasicMaterial({ color: 'black' }),
+                        yRotation: 0,
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    });
+                    group.add(line);
+                    scene.add(group);
+                    i += 1;
+                    nextPoint = presentPoint;
+                    requestAnimationFrame(pendulumMovement);
+
+                } else if (i = data.length && motion) {
+                    resetPara()
+                    // console.log(data);
+                    requestAnimationFrame(pendulumMovement);
+                } else {
+                    t = 0;
+                    x = 0;
+                    point.rotation.set(0, 0, 0);
+                    weight.position.x = 0;
+                    weight.position.y = 15 - params.len;
+                    // point2.visible = false;
+                    cancelAnimationFrame(pendulumMovement);
+                }
+            }
+
+            function pendulumEquation() {
+                let w = Math.sqrt(params.g / (params.len * 0.01))
+                let T = 2 * Math.PI / w;
+
+                return { T, w }
+            }
+
+            function initLine(data) {
+                let lineGeometry = new THREE.BufferGeometry().setFromPoints(data.points);
+                line = new THREE.Line(lineGeometry, data.lineMaterial);
+
+                line.rotation.y = data.yRotation;
+                line.position.x = data.x;
+                line.position.y = data.y;
+                line.position.z = data.z;
+                return line;
+            }
+
+            function removeData() {
+                // console.log('delete curve', group)
+                scene.remove(group)
+                group = new THREE.Group();
+                scene.add(group);
+                messageEl.innerHTML = '';
+            }
+
+            function comparePendulums() {
+                // motion = false;
+                i = 0;
+
+                pointData = calValues(10, 0.2)
+                marker1.rotation.z = 3.14 + 0.2;
+                marker2.rotation.z = 3.14 - 0.2;
+                // console.log(pointData)
+                point1 = point.clone();
+                point1.children[0].scale.y = 1.3;
+                point1.children[1].position.y -= 3;
+                point1.children[0].material = new THREE.MeshStandardMaterial({
+                    color: 'rgb(255,0,255)'
+                });
+                point1.children[1].material = new THREE.MeshStandardMaterial({
+                    color: 'rgb(0,255,255)'
+                });
+                scene.add(point1);
+                point1.position.x = -5;
+                point1Data = calValues(13, 0.2)
+                // console.log(point1Data)
+
+                point2 = point.clone();
+                point2.children[0].scale.y = 1.5;
+                point2.children[1].position.y -= 5;
+                point2.children[0].material = new THREE.MeshStandardMaterial({
+                    color: 'rgb(255,0,0)'
+                });
+                point2.children[1].material = new THREE.MeshStandardMaterial({
+                    color: 'rgb(0,255,0)'
+                });
+                scene.add(point2);
+                point2.position.x = 5;
+                point2Data = calValues(15, 0.2)
+                pendulumMotion()
+                scene.add(GROUP)
+                GROUP.add(point, point1, point2)
+            }
+
+            function calValues(len, amp) {
+                let DATA = [];
+                period = Math.sqrt(params.g / (len * 0.01))
+
+                for (var i = 0; i < 10; i += 0.002) {
+                    let wt = i * period;
+                    let a = amp * (Math.cos(wt));
+                    let b = (len * Math.sin(a)).toFixed(2);
+                    let c = (len * Math.cos(a)).toFixed(2);
+
+                    DATA.push(a);
+                    DATA.push(c);
+                    DATA.push(b);
+
+                }
+                // console.log(DATA)
+                return DATA
+            }
+
+            function pendulumMotion() {
+
+                let A = point1Data.length;
+                //   console.log(point1Data.length,A);
+                if (motion && i < A) {
+
+                    point.rotation.z = pointData[i];
+                    point1.rotation.z = point1Data[i];
+                    point2.rotation.z = point2Data[i];
+                    weight.position.x = pointData[i + 2];
+                    weight.position.y = (15 - pointData[i + 1]);
+
+                    i += 3;
+                    requestAnimationFrame(pendulumMotion);
+
+                } else if (i = A && motion) {
+                    i = 0
+                    // console.log('data');
+                    requestAnimationFrame(pendulumMotion);
+                } else {
+                    t = 0;
+                    x = 0;
+                    point.rotation.set(0, 0, 0);
+                    point1.rotation.set(0, 0, 0);
+                    point2.rotation.set(0, 0, 0);
+                    cancelAnimationFrame(pendulumMotion);
+                }
+            }
+        </script>
+
+
+</body>
+
+</html>

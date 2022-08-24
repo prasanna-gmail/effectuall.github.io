@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Physics 3D interactive simulations</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="./files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
+		<link rel="shortcut icon" href="./files/favicon.ico" media="(prefers-color-scheme: light)" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css">
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+	
+		  gtag('config', 'G-7VWWT4ZKR6');
+		</script>
+		<meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
+		
+	</head>
+	<body>
+
+		<div onclick="myFunction(event)" id="panel">
+
+			<div  id="header">
+				<h1><a href="../index.html"> PHYSICS <sup>3D</sup> INTERACTIVE</a></h1>
+
+				<div id="sections">
+					<span  class="selected">Calculation</span>
+					<a href="../index.html" >Simulations</a>
+				</div>
+
+				<div id="expandButton"></div>
+			</div>
+
+			<div id="panelScrim"></div>
+
+			<div id="contentWrapper">
+
+				<div id="inputWrapper">
+					<input placeholder="" type="text" id="filterInput" autocorrect="off" autocapitalize="off" spellcheck="false" />
+					<div id="exitSearchButton"></div>
+				</div>
+
+				<div  id="content">
+					<img id="previewsToggler" src="../files/thumbnails.svg" width="20" height="20" />
+				</div>
+			</div>
+
+		</div>
+		
+			<iframe  id="viewer" name="viewer" allow="fullscreen; xr-spatial-tracking;" src="intro.html"></iframe>
+		
+		
+		
+		<script src="script.js"></script> 
+		<script>
+			// const content = document.getElementById('content');
+			// content.classList.toggle('minimal');
+			function myFunction(e) {
+				console.log(e)
+			}
+		</script>
+	</body>
+</html>

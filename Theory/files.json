@@ -1,0 +1,22 @@
+{
+	"Optics": [
+		"Optics_Compound_Microscope",
+		"Optics_Astronomical_Telescope",
+		"Optics_Converging_Lens",
+		"Optics_Diverging_Lens"
+	],
+	"Classical Mechanics": [
+		"Classical Mechanics_Circular_Motion",
+		"Classical Mechanics_Projectile_Motion",
+		"Classical Mechanics_Banking_on_a_Road",
+		"Classical Mechanics_Spring_Force",
+		"Classical Mechanics_Simple_Pendulum"
+	],
+	"Magnetism": [
+		"Magnetism_History_of_Electromagnetism",
+		"Magnetism_Fleming's_Thumb_Rule",
+		"Magnetism_Magnetic_Effect_due_to_Current",
+		"Magnetism_Force_on_a_Current_Carrying_Conductor",
+		"Magnetism_Electromagnetic_Induction"
+	]
+}

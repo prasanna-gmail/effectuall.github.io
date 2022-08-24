@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Projectile Motion</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
+		<link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
+		<link rel="stylesheet" type="text/css"  href="../css/style-page.css">
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+	
+		  gtag('config', 'G-7VWWT4ZKR6');
+		</script>
+		<meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
+		
+	</head>
+	
+<body>
+	
+	<div id="container">
+		<div id="topmenu">PROJECTILE MOTION </div>		
+		<div  id="sidemenu">			
+			<table id="caltable" style="visibility: hidden;">
+				<caption style="font-size: 24px; text-decoration: underline;">Projectile Data</caption>
+				<tr>
+					<td>Launch Height (y<sub>o</sub> ) </td>
+					<td> = </td>
+					<td style="text-align: right;" > 0 </td>
+					<td> m	</td>
+				</tr>
+				
+				<tr>
+					<td> Launch Velocity (v<sub>0</sub> )  </td>
+					<td> = </td>
+					<td style="text-align: right;"> 7 </td>
+					<td> m/s</td>
+				</tr>
+				
+				<tr>
+					<td>Launch Angle (&#952;  )  </td>
+					<td> = </td>
+					<td style="text-align: right;"> 45</td>
+					<td> &#176 </td>
+				</tr>
+
+				<tr>
+					<td>v<sub>0</sub> cos&#952;  </td>
+					<td> = </td>
+					<td style="text-align: right;"> __  </td>
+					<td> m/s </td>
+				</tr>
+
+				<tr>
+					<td>v<sub>0</sub> sin&#952; </td>
+					<td> = </td>
+					<td style="text-align: right;"> __</td>
+					<td> m/s </td>
+				</tr>
+
+				<tr>			
+				  <td>Maximum Height</td>
+				  <td> = </td>
+				  <td style="text-align: right;"> __ </td>
+				  <td> m </td>
+				</tr>
+				<tr>
+				  <td>Maximum Range</td>
+				  <td> = </td>
+					<td style="text-align: right;"> __ </td>
+					<td> m </td>
+				  
+				</tr>
+				<tr>
+					<td>Time of Flight</td>
+					<td> = </td>
+					  <td style="text-align: right;"> __ </td>
+					  <td> s </td>
+					
+				  </tr>
+			
+			  </table>
+		</div>
+		
+	</div>
+	
+	<div id="menu">	
+    <div>
+      <table style="font-weight: bolder;"  id="Vtable">
+        <tr>
+          <td>v<sub>x</sub>  </td>
+          <td> = </td>
+          <td style="text-align: right;"> __ </td>
+          <td> m/s </td>
+        </tr>
+        <tr>
+          <td>v<sub>y</sub></td>
+          <td> = </td>
+          <td style="text-align: right;"> __</td>
+          <td> m/s </td>
+        </tr>
+      </table>
+    </div>
+    <a id="message-el">
+      Adjust launch height, angle and velocity of the projectile in the control to visualise the trajectory.
+    </a>
+   <br>
+		<button id="shoot-el">SHOOT</button>
+		<button id="reset-el">RESET</button>
+		<button id="data-el"> DATA</button>	
+    <button id="theorybutton" onClick="theorySite()">THEORY</button>
+    <br>
+  </div>
+  <script>
+    function theorySite() {
+
+        window.open("../Theory/Classical Mechanics_Projectile_Motion.html", "_self")
+    }
+  </script>
+
+    <script type="module">
+      import * as THREE from '../build/three.module.js';
+      import { GLTFLoader } from '../jsm/loaders/GLTFLoader.js';
+      import { OrbitControls } from '../jsm/controls/OrbitControls.js';
+      import { CSS2DRenderer, CSS2DObject } from '../jsm/renderers/CSS2DRenderer.js';
+      import Stats from '../jsm/libs/stats.module.js';
+      import { GUI } from '../jsm/libs/lil-gui.module.min.js';
+      import { vxSpeed, vySpeed, timeFlight, maxHeight, maxRange } from "./cal.js"
+
+      let camera, controls, stats, scene, root, clock, renderer, labelRenderer, delta, plane, arrows, model;
+      let point, scalePoint, box, scaleHorizontal, scaleVertical, launchPoint, line, speed, arrowHelper, velX, velY;
+      let launchHeight, projector, fallPoint, angleMeasure, angleGeometry, anglelabel, angleValue, angletext, elevationPoint;
+      let VxLabel, VyLabel, initialSpeed1, initialSpeed2, speedLabel, ball;
+      let deltaT = 0.1;
+      let maxheight = 0, maxrange = 0, timeflight = 0, vyspeed = 0, vxspeed = 0, maxhspeed = 0, maxrspeed = 0;
+      let ballLocation = [], velComp = [], trials = [];
+      let data = {}, possibleData = {};
+      let dirY = new THREE.Vector3(0, 1, 0);
+      let expand = false;
+      const g = 9.8;
+      let a = 45 * (Math.PI / 180);
+      const params = {
+        Grid: false,
+        Velocity: true,
+        Components: false,
+        launchHeight: 0.00,
+        fallPoint: 12.5,
+        mass: .2,
+        speed: 7.00,
+        degree: 45
+
+      };
+      let mass = new THREE.Group();
+      let group = new THREE.Group();
+      let messageEl = document.getElementById('message-el');
+      let buttonShoot = document.getElementById('shoot-el');
+      let buttonReset = document.getElementById('reset-el');
+      let buttonData = document.getElementById('data-el');
+      let caltable = document.getElementById('caltable');
+      let Vtable = document.getElementById('Vtable');
+
+      function init() {
+
+        let container;
+        container = document.getElementById('container');
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xbfd1e5);
+
+        camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // camera.position.set( -19, 18, -40 ) ;
+        // camera.rotation.set( 1.3, 0.64, 0 );
+        camera.position.set(-4, 3, 20);
+        camera.rotation.set(-0.52, 0, 0);
+        // console.log(THREE.MathUtils.degToRad(-37))
+        scene.add(camera);
+
+        const light1 = new THREE.DirectionalLight(0xffffff, 0.8);
+        light1.position.set(1, 1, 1);
+        scene.add(light1);
+
+        const light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+        light2.position.set(- 1, - 1, 1);
+        scene.add(light2);
+
+        root = new THREE.Group();
+        // root.position.x =0;
+        scene.add(root);
+
+        arrows = new THREE.Group();
+        scene.add(arrows);
+
+        stats = new Stats();
+        clock = new THREE.Clock();
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        labelRenderer = new CSS2DRenderer();
+        labelRenderer.setSize(window.innerWidth, window.innerHeight);
+        labelRenderer.domElement.style.position = 'absolute';
+        labelRenderer.domElement.style.top = '0px';
+        labelRenderer.domElement.style.pointerEvents = 'none';
+        container.appendChild(labelRenderer.domElement);
+
+        //
+
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enablePan = true;
+        controls.enableZoom = true;
+
+        controls.target.set(0, 2.5, 0.4);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.rotateSpeed = 0.1;
+        controls.minDistance = .1;
+        controls.maxDistance = 5000;
+
+        scaleHorizontal = new THREE.GridHelper(60, 60);
+        scaleVertical = new THREE.GridHelper(60, 60);
+        scaleVertical.rotation.x = 1.57;
+        scene.add(scaleHorizontal, scaleVertical);
+
+        scaleVertical.visible = false;
+        buttonShoot.addEventListener('click', function () {
+
+          vxspeed = vxSpeed(params.speed, params.degree);
+          vyspeed = vySpeed(params.speed, params.degree);
+          timeflight = timeFlight(params.speed, params.degree, params.launchHeight);
+          maxheight = maxHeight(params.speed, params.degree, params.launchHeight);
+          maxrange = maxRange(params.speed, params.degree, params.launchHeight);
+          velComp.push(vyspeed);
+          data['Speed along x-axis'] = [vxspeed];
+          data['Speed along x-axis'].push('m/s');
+          data['Time of Flight'] = [timeflight];
+          data['Time of Flight'].push('s');
+          data['Maximum Height'] = [maxheight];
+          data['Maximum Height'].push('m');
+          data['Maximum Range'] = [maxrange];
+          data['Maximum Range'].push('m');
+          data['Launch Height'] = [params.launchHeight];
+          data['Launch Height'].push('m');
+          data['Launch Speed'] = [params.speed];
+          data['Launch Speed'].push('m/s');
+          data['Launch Angle'] = [params.degree];
+          data['Launch Angle'].push('o');
+          possibleData['Set Parameters'] = data;
+          possibleData['position change, (x,y) coordinates'] = [ballLocation];
+          possibleData['Speed along y-axis with position change'] = [velComp];
+          trials.push(possibleData);
+
+          addProjectile()
+          // projectileMotion();
+          console.log(velComp)
+        });
+
+        buttonReset.addEventListener('click', function () {
+          reset();
+          buttonData.innerHTML = 'DATA';
+        });
+
+        buttonData.addEventListener('click', function () {
+          messageEl.style.visibility = 'hidden';
+          caltable.style.visibility = 'visible';
+          dataCollection();
+          dataList()
+          buttonData.innerHTML = 'CALCULATE';
+        });
+
+        velX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), vxSpeed, 0xff0000);
+        velY = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), vySpeed, 0x00ff00);
+
+        window.addEventListener('resize', onWindowResize);
+
+      }
+
+      function createModel() {
+        const loader = new GLTFLoader();
+        loader
+          .setPath('./model/')
+          .load('projectile.glb', function (gltf) {
+            model = gltf.scene;
+            launchHeight = model.getObjectByName('launchHeight');
+            projector = model.getObjectByName('projector');
+            fallPoint = model.getObjectByName('fallPoint');
+            projector.material = new THREE.MeshPhongMaterial();
+            projector.material.opacity = 0.6;
+            projector.material.transparent = true;
+            // console.log(projector.material)
+            launchHeight.scale.y = 0;
+            projector.position.y = 0;
+            fallPoint.position.x = 5;
+            projector.rotation.z = -.7854;
+            fallPoint.scale.set(.2, .2, .2);
+            fallPoint.position.set(5, 0, 0);
+            scene.add(model);
+
+          });
+
+
+      }
+
+      function initScene() {
+        // create ground
+        plane = new THREE.Mesh(new THREE.PlaneGeometry(300, 100, 1, 1), new THREE.MeshBasicMaterial({
+          color: 0x4F7942, side: THREE.DoubleSide
+        }));
+        plane.rotation.x = -0.5 * Math.PI;
+        plane.position.y = -0.03;
+        scene.add(plane);
+
+        //elevation point
+        elevationPoint = initPoint({
+          vertices: new Float32Array([0, 0, 0]),
+
+          zRotation: 0,
+          x: 0,
+          y: params.launchHeight / 2,
+          z: 0
+        });
+        scene.add(elevationPoint);
+
+        //create launch point   
+        launchPoint = initPoint({
+          vertices: new Float32Array([0, 0, 0]),
+
+          zRotation: 0,
+          x: 0,
+          y: 0,
+          z: 0
+        });
+        elevationPoint.add(launchPoint)
+
+        //create angle measure
+        angleGeometry = new THREE.RingBufferGeometry(0.98, 1, 16, 1, 0, 0.7854)
+        angleMeasure = new THREE.Mesh(angleGeometry, new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide }));
+
+        launchPoint.add(angleMeasure);
+
+        angletext = document.createElement('div');
+        angletext.className = 'label';
+        angletext.textContent = 45;
+
+        angleValue = new CSS2DObject(angletext);
+        angleValue.position.set(1, .3, 0);
+        angleMeasure.add(angleValue);
+
+        launchPoint.add(group);
+        group.add(arrows);
+
+        render();
+
+      }
+
+      function guiControls() {
+        let gui = new GUI();
+        gui.close();
+        gui.add(params, 'Grid')
+          .onChange(() => {
+            gridDisplay();
+          });
+        gui.add(params, 'Velocity')
+          .onChange(() => {
+            speedDisplay(params.speed, params.degree);
+          });;
+        gui.add(params, 'Components')
+          .onChange(() => {
+            labelDisplay(params.speed, params.degree);
+          });;
+        let launchFolder = gui.addFolder("LAUNCH");
+        launchFolder.add(params, 'launchHeight').min(0).max(25).step(1).name('Height (in  m)').listen()
+          .onChange((value) => {
+            launchPoint.position.y = value;
+            launchHeight.scale.y = value / 10;
+            projector.position.y = value;
+            setCamera(value);
+            maxheight = 0;
+            maxrange = 0;
+            timeflight = 0;
+            ballLocation = [];
+            velComp = [];
+            data = {};
+            possibleData = {};
+            dataCollection();
+
+          });
+        // gui.add(params, 'mass').min(2).max(10).step(1).name('Mass (in kg)').listen()
+        // .onChange((value) => {
+        //     let a = value/10;
+        //     addMass(a);
+
+        // });
+
+        launchFolder.add(params, 'speed').min(0).max(25.00).step(.50).name('Velocity (in m/s)').listen()
+          .onChange((value) => {
+            console.log(value)
+            initialSpeed1 = new THREE.Vector3(0, 0, 0);
+            initialSpeed2 = new THREE.Vector3(0, 0, 0);
+            // speed = new THREE.Vector3( value*Math.cos(params.degree)*deltaT , value*Math.sin(params.degree)*deltaT, 0 );
+            if (params.Velocity) {
+              arrowHelper.setLength(value);
+              speedLabel.position.copy(arrowHelper.cone.position.add(new THREE.Vector3(0, .3, 0)))
+            }
+
+            if (params.Components) {
+              velX.setLength(value);
+              velY.setLength(value);
+              VxLabel.position.copy(velX.cone.position.add(new THREE.Vector3(0, .3, 0)))
+              VyLabel.position.copy(velY.cone.position.add(new THREE.Vector3(0, .3, 0)))
+            }
+            ballLocation = [];
+            velComp = [];
+            data = {};
+            possibleData = {};
+            maxheight = 0;
+            maxrange = 0;
+            timeflight = 0;
+            velocityVisual(vxSpeed(params.speed, params.degree), vySpeed(params.speed, params.degree));
+            dataCollection();
+          });
+
+        launchFolder.add(params, 'degree').min(0).max(90).step(5).name('Angle ( &#952 in &#176)').listen()
+          .onChange((value) => {
+
+            a = value * (Math.PI / 180);
+            let velDir = new THREE.Vector3(Math.cos(a), Math.sin(a), 0);
+            projectorRotate(a);
+            angleLabel(a, value)
+            if (params.Velocity) {
+              arrowHelper.setDirection(velDir);
+            }
+
+            if (params.Components) {
+              velX.setLength(vxSpeed(params.speed, params.degree));
+              velY.setLength(vySpeed(params.speed, params.degree));
+              VxLabel.position.copy(velX.cone.position.add(new THREE.Vector3(0, .3, 0)))
+              VyLabel.position.copy(velY.cone.position.add(new THREE.Vector3(0, .3, 0)))
+            }
+            // velocityComponets( (params.speed)*Math.cos(a), (params.speed)*Math.sin(a) );
+
+            // // ballArrow.rotation.z = THREE.MathUtils.degToRad(a);
+            ballLocation = [];
+            velComp = [];
+            data = {};
+            possibleData = {};
+            maxheight = 0;
+            maxrange = 0;
+            timeflight = 0;
+            velocityVisual(vxSpeed(params.speed, params.degree), vySpeed(params.speed, params.degree));
+            dataCollection();
+          });
+
+      }
+
+      function gridDisplay() {
+        if (params.Grid) {
+
+          scaleVertical.visible = true;
+        } else {
+
+          scaleVertical.visible = false;
+        }
+
+      }
+
+      window.onload = function () {
+        init();
+        animate();
+        createModel();
+        guiControls();
+        initScene();
+        speedDisplay(params.speed, params.degree);
+        scene.add(new THREE.AmbientLight(0xffffff));
+        vxspeed = vxSpeed(params.speed, params.degree);
+        vyspeed = vySpeed(params.speed, params.degree);
+        velocityVisual(vxspeed, vyspeed);
+      }
+
+      function animate() {
+        controls.update();
+        delta = clock.getDelta();
+        render();
+
+        requestAnimationFrame(animate);
+      }
+
+      function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        labelRenderer.setSize(window.innerWidth, window.innerHeight);
+        render();
+
+      }
+
+      function render() {
+        renderer.render(scene, camera);
+        labelRenderer.render(scene, camera);
+      }
+
+      function setCamera(a) {
+
+        if (a <= 6) {
+          console.log('height 2m')
+          deltaT = 0.08;
+          controls.target.set(0, 2.5, 0.4);
+          camera.position.set(-4, 3, 20);
+          fallPoint.scale.set(.2, .2, .2);
+          fallPoint.position.set(5, 0, 0);
+
+
+        } else if (a > 6 && a <= 12) {
+          console.log('height <10m')
+          deltaT = 0.08;
+          controls.target.set(10, 3, -5);
+          camera.position.set(-5, 6, 42);
+          fallPoint.scale.set(.5, .5, .5);
+          fallPoint.position.set(15, 0, 0);
+
+        } else {
+          console.log('height 25m')
+          deltaT = 0.1;
+          controls.target.set(10, 12, 25);
+          camera.position.set(-12, 11, 85);
+          fallPoint.scale.set(.8, .8, .8);
+          fallPoint.position.set(25, 0, 0);
+
+
+        }
+      }
+
+      function projectorRotate(data) {
+        projector.rotation.z = -THREE.MathUtils.degToRad(90) + data;
+      }
+
+      function addArrows(valueSpeed, valuea, valueb) {
+        // let a = THREE.MathUtils.degToRad(valueDegree);
+
+        let dir = new THREE.Vector3(valuea, valueb, 0);
+
+        //normalize the direction vector (convert to vector of length 1)
+        dir.normalize();
+
+        const origin = new THREE.Vector3(0, 0, 0);
+        const length = valueSpeed;
+        const hex = 0xFFD700;
+
+        arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex);
+        group.add(arrowHelper);
+        const map = new THREE.TextureLoader().load('./assets/img/vlabel.png');
+        const material = new THREE.SpriteMaterial({ map: map, color: 0xffffff });
+
+        speedLabel = new THREE.Sprite(material);
+        speedLabel.scale.set(2, 1, 1);
+        speedLabel.position.copy(arrowHelper.cone.position.add(new THREE.Vector3(0, .3, 0)));
+        // velLabel.position.set(params.speed/5,params.speed/5,0)
+        // launchPoint.add( arrowHelper );
+        arrowHelper.add(speedLabel);
+
+      }
+
+      function speedDisplay(valuea, valueb) {
+
+        if (params.Velocity) {
+          let a = Math.cos(THREE.MathUtils.degToRad(valueb));
+          let b = Math.sin(THREE.MathUtils.degToRad(valueb));
+          let v = valuea;
+          addArrows(v, a, b);
+          arrowHelper.visible = true;
+        } else {
+
+          arrowHelper.visible = false;
+        }
+      }
+
+      function labelDisplay(valuea, valueb) {
+        //valuea is the ball speed and valueb is the launch angle
+        if (params.Components) {
+          let a = Math.cos(THREE.MathUtils.degToRad(valueb));
+          let b = Math.sin(THREE.MathUtils.degToRad(valueb));
+          let v = valuea;
+
+          velocityComponets(v * a, v * b);
+
+          velX.visible = true;
+          velY.visible = true;
+
+        } else {
+          velX.visible = false;
+          velY.visible = false;
+        }
+
+
+      }
+
+      function velocityComponets(valuex, valuey) {
+        //valuex is the the component along the x-axis (speed x cosine of the angle)
+        //valuey is the the component along the y-axis (speed x sine of the angle)
+        velX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), valuex, 0xff0000);
+        velY = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), valuey, 0x00ff00);
+
+        arrows.add(velX, velY);
+
+        const map1 = new THREE.TextureLoader().load('./assets/img/vxlabel.png');
+        const material1 = new THREE.SpriteMaterial({ map: map1, color: 0xffffff });
+
+        const map2 = new THREE.TextureLoader().load('./assets/img/vylabel.png');
+        const material2 = new THREE.SpriteMaterial({ map: map2, color: 0xffffff });
+
+        VxLabel = new THREE.Sprite(material1);
+        VxLabel.scale.set(1.5, 1, 1);
+        VxLabel.position.set(0, 5, 0);
+
+        velX.add(VxLabel);
+        VyLabel = new THREE.Sprite(material2);
+        VyLabel.scale.set(1, 1.5, 1);
+        VyLabel.position.copy(velY.cone.position.add(new THREE.Vector3(0, .3, 0)));
+        velY.add(VyLabel);
+        VyLabel.position.y = 5;
+        // velX.visible=false;
+        // velY.visible=false;
+
+      }
+
+      function angleLabel(a, value) {
+        angleMeasure.geometry.dispose();
+        let newangleGeometry = new THREE.RingBufferGeometry(0.98, 1, 16, 1, 0, a)
+        // angleGeometry.thetaStart = 10;
+        // angleGeometry.thetaLength = 0.57;
+        angleMeasure.geometry = newangleGeometry;
+        angletext.textContent = value;
+      }
+
+
+      function projectileMotion() {
+        let points = {};
+        points[ball.position.x] = ball.position.y;
+        // console.log(points);
+        mass.add(ball);
+
+        initialSpeed2.x = initialSpeed1.x;
+        initialSpeed2.y = initialSpeed1.y;
+        // console.log(initialSpeed1,a);
+        ball.position.x += deltaT;
+        ball.position.y = params.launchHeight + Math.tan(a) * ball.position.x - (g / 2 * Math.pow(ball.position.x, 2)) / Math.pow(params.speed * Math.cos(a), 2);
+        ballLocation.push(points);
+        let cal = vyspeed - g * (ball.position.x / vxspeed);
+        velComp.push(cal);
+
+
+
+        if (ball.position.y <= 0) {
+
+          ball.position.y = - ball.position.y;
+          point = new THREE.Mesh(new THREE.CircleGeometry(.06, 8), new THREE.MeshBasicMaterial({ color: 0xffff00 }))
+          point.position.set(initialSpeed2.x, initialSpeed2.y, initialSpeed2.z);
+          root.add(line, point);
+
+          cancelAnimationFrame(projectileMotion);
+
+
+        } else {
+          scene.add(root);
+          initialSpeed1.x = ball.position.x;
+          initialSpeed1.y = ball.position.y;
+
+
+          line = initLine({
+            points: [initialSpeed1, initialSpeed2],
+            lineMaterial: new THREE.LineBasicMaterial({ color: 0xff0000 }),
+            yRotation: 0,
+            x: 0,
+            y: 0,
+            z: 0
+          });
+          point = new THREE.Mesh(new THREE.CircleGeometry(.06, 8), new THREE.MeshBasicMaterial({ color: 0xffff00 }))
+          point.position.set(initialSpeed2.x, initialSpeed2.y, initialSpeed2.z);
+          root.add(line, point);
+          velocityVisual(vxspeed, cal)
+          requestAnimationFrame(projectileMotion);
+
+        }
+
+      }
+
+
+      function addProjectile() {
+        ball = new THREE.Mesh(
+          new THREE.SphereGeometry(params.mass, 8, 8),
+          new THREE.MeshBasicMaterial({ color: 0x0000ff })
+        )
+        initialSpeed1 = new THREE.Vector3(0, 0, 0);
+        initialSpeed2 = new THREE.Vector3(0, 0, 0);
+
+        // console.log(ball.position);
+        ball.position.copy(launchPoint.position);
+        ball.position.add(elevationPoint.position);
+
+        scene.add(mass);
+
+        initialSpeed1.add(ball.position);
+        projectileMotion()
+        // console.log(params.degree, THREE.MathUtils.degToRad(params.degree), params.launchHeight, params.speed );
+
+      }
+
+      function initLine(data) {
+        let lineGeometry = new THREE.BufferGeometry().setFromPoints(data.points);
+        line = new THREE.Line(lineGeometry, data.lineMaterial);
+
+        line.rotation.y = data.yRotation;
+        line.position.x = data.x;
+        line.position.y = data.y;
+        line.position.z = data.z;
+        return line;
+      }
+
+      function initPoint(data) {
+        let pointGeometry = new THREE.BufferGeometry();
+        pointGeometry.setAttribute('position', new THREE.BufferAttribute(data.vertices, 3));
+        let pointMaterial = new THREE.PointsMaterial({ color: 0x888888, size: .01 });
+        point = new THREE.Points(pointGeometry, pointMaterial);
+
+        point.rotation.z = THREE.MathUtils.degToRad(data.zRotation);
+        point.position.x = data.x;
+        point.position.y = data.y;
+        point.position.z = data.z;
+        return point;
+      }
+
+      function reset() {
+        scene.remove(root, mass, ball);
+        root = new THREE.Group();
+        mass = new THREE.Group();
+        group = new THREE.Group();
+        params.Grid = false;
+        params.Components = false;
+        params.Velocity = true;
+
+        params.launchHeight = 0.00;
+        params.speed = 7.00;
+        params.degree = 45;
+        elevationPoint.position.y = params.launchHeight / 2;
+        angletext.textContent = 45;
+        launchPoint.position.y = params.launchHeight;
+        launchHeight.scale.y = params.launchHeight / 10;
+        projector.position.y = params.launchHeight;
+        launchHeight.scale.y = params.launchHeight / 10;
+        launchPoint.position.y = params.launchHeight / 2;
+        caltable.style.visibility = 'hidden';
+        messageEl.style.visibility = 'visible';
+        guiControls();
+        // let a = Math.cos (THREE.MathUtils.degToRad( params.degree));
+        // let b = Math.sin (THREE.MathUtils.degToRad( params.degree));
+
+        // velocityComponets(params.speed * a, params.speed * b);
+        let axis = new THREE.Vector3(0, 0, 1);
+        let angle = -Math.PI / 2;
+
+        dirY.applyAxisAngle(axis, angle);
+        labelDisplay(params.speed, params.degree);
+        Vtable.rows[0].cells[2].innerHTML = vxSpeed(params.speed, params.degree);
+        Vtable.rows[1].cells[2].innerHTML = vySpeed(params.speed, params.degree);        
+        setCamera(0);
+        arrowHelper.setLength(params.speed);
+        speedLabel.position.copy(arrowHelper.cone.position.add(new THREE.Vector3(0, .3, 0)));
+        console.log(params)
+
+        // addProjectile();
+      }
+
+      function dataCollection() {
+
+        // console.log( 'vx', vxspeed);
+        // console.log( 'vy', vyspeed);
+        // console.log( 't', timeflight);
+        // console.log( 'H', maxfeight);
+        // console.log('R' , maxrange);
+
+        caltable.rows[0].cells[2].innerHTML = params.launchHeight;
+        caltable.rows[1].cells[2].innerHTML = params.speed;
+        caltable.rows[2].cells[2].innerHTML = params.degree;
+        caltable.rows[3].cells[2].innerHTML = vxSpeed(params.speed, params.degree);
+        caltable.rows[4].cells[2].innerHTML = vySpeed(params.speed, params.degree);
+        caltable.rows[5].cells[2].innerHTML = maxheight;
+        caltable.rows[6].cells[2].innerHTML = maxrange;
+        caltable.rows[7].cells[2].innerHTML = timeflight;
+
+      }
+
+      function velocityVisual(a, b) {
+        caltable.rows[3].cells[2].innerHTML = vxspeed;
+        caltable.rows[4].cells[2].innerHTML = vyspeed;
+
+        Vtable.rows[0].cells[2].innerHTML = a;
+        Vtable.rows[1].cells[2].innerHTML = b.toFixed(2);
+      }
+
+
+      function dataList() {
+        // console.log(data);
+        let value = 0;
+        for (const key in data) {
+          // console.log(key)
+          for (let i = 0; i < data[key].length; i = i + 2) {
+            value = data[key][i];
+            // console.log(value);
+          }
+          localStorage.setItem(key, value);
+        }
+
+        // localStorage.setItem('data', JSON.stringify(data));
+        // console.log(localStorage)
+      } 
+    </script>
+
+
+
+</body>
+
+</html>

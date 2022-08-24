@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Spring Force (Hook's Law) </title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
+		<link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
+		<link rel="stylesheet" type="text/css"  href="../../css/style-theory.css">
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+	
+		  gtag('config', 'G-7VWWT4ZKR6');
+		</script>
+		<meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
+		
+	</head>
+   
+
+    <!-- Here is our page's main content -->
+   
+  <article>
+    <h1>Spring in Simple Harmonic Motion</h1>
+    <canvas style="float:left;" width="300" height="600" id="canvas1"></canvas><br>
+    <canvas style="float:right;" width="300" height="600" id="canvas2"></canvas><br>
+    <div>
+        <!-- <p style="font-size: 24px; ">Mass = <a id="mass"> </a>g</p> -->
+        <div>
+            <input type="range" id="mass" name="mass" 
+                   min="5" max="500" value="100" step="5">
+            <p> <label for="mass">MASS =</label><a id="massDisplay"></a>
+                <span >grams</span></p>
+           
+        </div>
+        <div>
+            <input type="range" id="springK" name="springK" 
+                   min="100" max="1500" value="100" step="5">
+            <p>
+                <label for="springK">SPRING CONSTANT =</label><a id="springDisplay"></a>
+            </p>
+            <p>Angular frequency = <a id="freq"></a>rad<sup>-1</sup> </p>
+            <p>Time Period = <a id="period"></a>s </p>
+        </div>
+        <p><button id="plusbtn">+</button></p>
+        <p><button id="minusbtn"><span> - </span></button></p>
+        
+        <p><button id="pausebtn"> PAUSE </button></p>
+    </div>    
+    <div id="menu">    
+        <p id="message-el">
+             content under development</p>
+        <button id="theorybutton" onClick="theorySite()">SIMULATIONS</button>
+        <br>
+    </div>
+</div>
+  </article>
+    <footer >
+        <p id="footer"></p>
+      <p id="email"></p>
+      </footer>
+      <script type="module" src="../footer.js"></script>   
+      
+<script>
+    function theorySite() {
+
+        window.open("../../Simulations/Classical Mechanics_Spring_Force.html", "_self")
+    }
+</script>   
+    <script>
+        const canvas = document.getElementById('canvas1');
+        const pauseButton = document.getElementById('pausebtn');
+        const plusButton = document.getElementById('plusbtn');
+        const minusButton = document.getElementById('minusbtn');
+        const ctx = canvas.getContext('2d');
+        let massEl = document.getElementById('mass');
+        let massDisplay = document.getElementById('massDisplay');
+        let springEl = document.getElementById('springK');
+        let springDisplay = document.getElementById('springDisplay');
+        let freqDisplay = document.getElementById('freq');
+        let periodDisplay = document.getElementById('period');
+        let backgroundImage = new Image(); 
+        backgroundImage.src = 'Graph-paper.png'; 
+        let springK = springEl.valueAsNumber;
+        let mass = massEl.valueAsNumber;
+        let freq = Math.sqrt(springK/mass);
+        const cx = canvas.width / 2, cy = canvas.height / 4;
+        let radius = 100, angle = 0, height = radius * 50;
+        let requestID, pause = false;
+        massDisplay.innerText = mass;  
+        springDisplay.innerText = springK; 
+        freqDisplay.innerText = freq;
+        periodDisplay.innerText = (2*Math.PI/freq).toFixed(2);
+
+        massEl.addEventListener("input", function (event) {
+            // console.log(massEl.valueAsNumber )
+            mass = massEl.valueAsNumber ;
+            freq = Math.sqrt(springK/mass);
+            massDisplay.innerText = mass;
+            freqDisplay.innerText = freq.toFixed(2);
+            periodDisplay.innerText = (2*Math.PI/freq).toFixed(2);
+        });
+        springEl.addEventListener("input", function (event) {
+            console.log(springEl.valueAsNumber )
+            springK = springEl.valueAsNumber ;
+            freq = Math.sqrt(springK/mass);
+            springDisplay.innerText = springK;
+            freqDisplay.innerText = freq.toFixed(2);
+            periodDisplay.innerText = (2*Math.PI/freq).toFixed(2);
+        });
+        plusButton.addEventListener('click', function () {
+            mass = massEl.value ;
+            freq = Math.sqrt(springK/mass);
+            // massEl.innerText = mass;
+        });
+        minusButton.addEventListener('click', function () {
+            radius = radius - 10;
+            height = (radius-10)*radius/2;
+            massEl.innerText = radius;
+        });
+        pauseButton.addEventListener('click', function () {
+            pause = !pause
+            if (pause) {
+                console.log('pause');
+                pauseButton.innerHTML = 'START';
+                cancelAnimationFrame(requestID);
+            } else {
+                console.log('Start');
+                pauseButton.innerHTML = 'PAUSE';
+                plotCurve();
+            }
+        });
+
+        plotCurve();
+
+        function plotCurve() {
+            let x = Math.cos(freq*angle) * radius,
+                y = Math.sin(freq*angle) * radius;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImage, 0, 0);
+            ctx.beginPath();
+            drawAxes(cx, cy - radius, cx, cy + radius, '#00f');
+            drawAxes(cx - radius, cy, cx + radius, cy, '#f00');
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.strokeStyle = '#000';
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + x, cy + y);
+            ctx.lineTo(cx + x, cy);
+            ctx.lineTo(cx, cy);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.arc(cx + x, cy + y, 3, 0, Math.PI * 2);
+            ctx.fill();
+            // ctx.fillRect(cx + x - 5, cy - 5, 10, 10);
+            
+            ctx.arc(cx + x, cy , 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.closePath();
+            drawCosine(radius, freq*angle, 'green', cy, cx)
+            angle += 0.02;
+            requestID = requestAnimationFrame(plotCurve);
+        }
+
+        function drawAxes(x1, y1, x2, y2, col) {
+            // console.log('axis')
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            ctx.fillStyle = 'green';
+            ctx.lineWidth = 2;
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2)
+            ctx.stroke();
+        }
+
+        function drawCosine(A, t, col, xAxis, yAxis) {
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            // Set the initial x and y, starting at 0,0 and translating to the origin on
+            // the canvas.
+            var y = t;
+            var x = Math.cos(y);
+            ctx.moveTo(A * x + yAxis, xAxis);
+
+
+            // Loop to draw segments
+            for (i = xAxis; i <= height; i += 5) {
+                y = t + (-xAxis + i) / A;
+                x = Math.cos(y);
+
+                ctx.lineTo(A * x + yAxis, i);
+            }
+            ctx.stroke();
+        }
+    </script>
+</body>
+
+</html>
