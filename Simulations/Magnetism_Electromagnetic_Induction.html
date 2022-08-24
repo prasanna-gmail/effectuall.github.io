@@ -21,13 +21,7 @@
 </head>
 
 <body>
-	<div id="topmenu">ELECTROMAGNETIC INDUCTION
-		<br>
-		<button style="background-color: rgb(3, 67, 97) ;" id="magnet-el">SOLENOID + MAGNET </button>
-		<button id="solenoid-el">SOLENOID + SOLENOID </button>
-		<button id="coil-el">ARMATURE COIL </button>
-		<br>
-	</div>
+	<div id="topmenu">ELECTROMAGNETIC INDUCTION</div>
 	<div id="sidemenu">
 
 		<div style="visibility: hidden;  width: 270px;" id="ruleviewer">
@@ -47,7 +41,12 @@
 	</div>
 
 	<div id="menu">
-
+		
+		<button style="background-color: rgb(3, 67, 97) ;" id="magnet-el">SOLENOID + MAGNET </button>
+		<button id="solenoid-el">SOLENOID + SOLENOID </button>
+		<button id="coil-el">ARMATURE COIL </button>
+		<br>
+	
 		<button id="action-el">MOVE </button>
 		<button id="flip-el">FLIP</button>
 		<button id="stop-el">STOP</button>
@@ -127,7 +126,7 @@
 		scene.background = new THREE.Color(0xbfd1e5);
 
 		//camera
-		createCamera(40, 5, 5, 5);
+		createCamera(50, 5, 5, 5);
 		clock = new THREE.Clock();
 
 		//renderer
@@ -731,6 +730,7 @@
 			if (element === 0) {
 				// console.log('SOLENOID COIL');
 				scene.add(inducedSolenoid);
+				galvNeedle.rotation.y = 0;
 				barMagnet.visible = true;
 				lineGroup.visible = false;
 				fieldLines.visible = false;
@@ -740,6 +740,7 @@
 				scene.remove(powerKnob, powerSupply, connector, solenoid, arrow);
 			} else if (element === 1) {
 				// console.log('SOLENOID SOLENOID');
+				galvNeedle.rotation.y = 0;
 				galvanometer.morphTargetInfluences[0] = 0;
 				scene.add(inducedSolenoid);
 				scene.add(powerKnob, powerSupply, connector, solenoid, arrow);
@@ -800,16 +801,16 @@
 		function setCamera() {
 
 			if (element === 0) {
-				createCamera(40, 5, 5, 5);
-				createControls(0, 0, -2);
+				createCamera(50, 5, 5, 5);
+				createControls(0, 0, -1.5);
 				render();
 			} else if (element === 1) {
-				createCamera(30, 5, 5.5, 5);
-				createControls(0, 1, -1.5);
+				createCamera(50, 5, 5.5, 5);
+				createControls(.5, .5, -1.5);
 				render();
 			} else if (element === 2) {
-				createCamera(20, 5, 5, 5);
-				createControls(0, .5, -.2);
+				createCamera(35, 5, 5, 5);
+				createControls(0, 0, 0);
 				render();
 			}
 		}
