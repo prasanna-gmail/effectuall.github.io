@@ -95,7 +95,6 @@
 
             camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(42, 10, -25);
-            // camera.rotation.set( 0,-3, 0);
 
             scene.add(camera);
 
@@ -132,7 +131,7 @@
             controls.enablePan = true;
             controls.enableZoom = true;
 
-            controls.target.set(-100, 2, 45);
+            controls.target.set(-60, 30, 10);
 
             scaleHorizontal = new THREE.GridHelper(70, 70);
 
@@ -185,22 +184,12 @@
                         actions[clip.name] = action;
 
                     }
-                    // console.log(actions);
-
 
                     activeAction = actions['nobankMoving'];
                     activeVector = actions['nxAction'];
                     for (const key in actions) {
-                        // console.log(key, actions[key])
                         actions[key].play();
                     }
-                    // actions['nobankMoving'].play();
-                    // actions['refAction'].play();
-                    // actions['nocurveAction'].play();
-                    // actions['nxAction'].play();
-                    // actions['NxlabelAction'].play();
-                    // actions['forceAction'].play();
-                    // actions['FlabelAction'].play();
                     gltf.scene.traverse((child) => {
                         if (child.type == 'SkinnedMesh') {
                             child.frustumCulled = false;
@@ -244,8 +233,6 @@
         function animate() {
             requestAnimationFrame(animate);
             const delta = clock.getDelta();
-
-            // mixer.update(delta);
             if (modelReady) mixer.update(delta);
             controls.update();
 
