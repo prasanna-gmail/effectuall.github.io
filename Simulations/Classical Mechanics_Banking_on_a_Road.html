@@ -31,9 +31,11 @@
 
     <div id="menu">
         <a style="font-weight: bold;">
-            Adjust vehicle speed in the control and visualise the free-body diagram.
+            Visualise the free-body diagram and adjust vehicle speed in the control. Use Button for Banked Road.
         </a><br>
-        <button id="message-el">Car moving over a curved parallel road</button><button id="theorybutton" onClick="theorySite()">THEORY</button>
+        <strong>Car moving over a curved</strong> <button id="message-el"> PARALLEL </button><strong>road</strong>
+        <button id="move-el">PAUSE</button>
+        <button id="theorybutton" onClick="theorySite()">THEORY</button>
         <br>
     </div>
     <script>
@@ -51,7 +53,7 @@
 
         let scene, camera, gui, controls, stats, clock, renderer, labelRenderer;
         let model, mixer, car, scaleHorizontal, road, refPoint, curvePoint, carMaterial;
-        let bank = false, curve = false, move = true;
+        let bank = false, move = true;
         let modelReady = false;
         let actions = {};
         let activeAction, previousAction;
@@ -73,8 +75,8 @@
             Normal: true,
             Opacity: 1,
             Components: function () {
-                curve = !curve;
-                atCurvature();
+                
+                pauseContinue();
 
             },
             slow: 0.5
@@ -83,7 +85,7 @@
         }
 
         let messageEl = document.getElementById('message-el');
-
+        let moveEl = document.getElementById('move-el');
 
         function init() {
 
@@ -138,7 +140,11 @@
                 console.log('banked')
                 changeBanking();
             });
+            moveEl.addEventListener('click', function () {
 
+                console.log('Paused')
+                pauseContinue();
+            });
         }
 
         function createModel() {
@@ -281,14 +287,14 @@
                     // console.log(key, actions[key])
                     actions[key].paused = true;
                 }
-
-
+                moveEl.innerHTML = 'CONTINUE';
                 move = false;
             } else {
                 for (const key in actions) {
                     // console.log(key, actions[key])
                     actions[key].paused = false;
                 }
+                moveEl.innerHTML = 'PAUSE';
                 move = true;
             }
 
@@ -315,7 +321,7 @@
                 setTimeout(function () {
                     for (let i = 0; i <= 0.55; i = i + 0.0005) {
                         road.morphTargetInfluences[0] = i;
-                        messageEl.innerText = 'Car moving over a banked Road';
+                        messageEl.innerText = 'BANKED';
                     }
                     resetAction();
                     Nx.visible = true;
@@ -331,7 +337,7 @@
                 setTimeout(function () {
                     for (let i = 0.55; i >= 0; i = i - 0.0005) {
                         road.morphTargetInfluences[0] = i;
-                        messageEl.innerText = 'Car moving over a curved Parallel Road';
+                        messageEl.innerText = 'PARALLEL';
                     }
                     resetAction();
                     Nx.visible = false;
@@ -398,21 +404,6 @@
             actions['NxlabelAction'].reset();
         }
 
-        function atCurvature() {
-            if (curve) {
-                // slowMotion( 0 )
-                pauseContinue()
-                carOpacity(0.3)
-                // curve = false;
-            } else {
-                console.log(mixer.timeScale)
-                // slowMotion( 1 )
-                pauseContinue()
-                carOpacity(1)
-                // curve = true;
-            }
-
-        }
 
         function carOpacity(value) {
             carMaterial.opacity = value;
