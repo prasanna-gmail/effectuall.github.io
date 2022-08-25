@@ -109,7 +109,7 @@
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
+			container.appendChild( renderer.domElement );
 
             labelRenderer = new CSS2DRenderer();
             labelRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -129,8 +129,7 @@
             controls.dampingFactor = 0.05;
             controls.rotateSpeed = 0.1;
             controls.minDistance = .1;
-            controls.maxDistance = 5000;
-
+            controls.maxDistance = 100;
             scaleHorizontal = new THREE.GridHelper(60, 60);
             scaleHorizontal.position.set(0,-10,0);
             scene.add(scaleHorizontal);
@@ -153,7 +152,7 @@
                     model = gltf.scene;
                     car = model.getObjectByName('car');
                     Wempty = model.getObjectByName('Wempty');
-                    model.scale.set(5, 5, 5);
+                    // model.scale.set(5, 5, 5);
                     model.rotation.set(0,1.57,0);
                     scene.add(model);
                     modelReady = true;
