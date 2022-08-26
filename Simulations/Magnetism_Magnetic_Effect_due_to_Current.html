@@ -27,8 +27,6 @@
 	<div id="sidemenu">
 		<div style="visibility: hidden;  width: 270px;" id="rule-el">
 
-			<div style=" cursor: pointer;" id="close"><span>&#10006;</span></div>
-
 			<img style=" width: 100%;" id="eqnviewer"></img>
 
 		</div>
@@ -79,7 +77,6 @@
 		let equationEl = document.getElementById("rule-el");
 		let eqnViewer = document.getElementById("eqnviewer");
 		let ruleEl = document.getElementById("rule-el");
-		let close = document.getElementById("close");
 
 		const buttonWireEl = document.getElementById('wire-el');
 		const buttonCoilEl = document.getElementById('coil-el');
@@ -665,9 +662,6 @@
 				render();
 			});
 
-			close.addEventListener('click', function () {
-				ruleEl.style.visibility = "hidden";
-			});
 
 		}
 
