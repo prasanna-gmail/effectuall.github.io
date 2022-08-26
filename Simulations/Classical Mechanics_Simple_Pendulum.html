@@ -22,21 +22,14 @@
 
 <body>
         <div id="topmenu">PENDULUM MOTION</div>
-        <div class="annotation">
-            <p>Simple Pendulum: <br><br>
-                Length, L = <a id="len"> 10</a> cm, <br><br>
-                Period, T = <a id="val">0.635</a> secs </p>
-
-            <a style="color:yellow;">Time period, 'T', increases with increase in length 'L' only</a>
-
-
+        <div id="sidemenu">
+            <p style="font-weight: bold; font-size: 18px">T=2 &pi; &radic;(L/g)<br><br>
+                Length, L = <a id="len"> 10</a> cm, <br>
+                Period, T = <a id="val">0.635</a> secs 
+            </p>
         </div>
-
-
-
-
         <div id="menu">
-            <p id="message-el"></p>
+            <a style="font-weight: bolder;" id="message-el">Change the length of the pendulum in the parameters and study the effect on the time period of oscillation</a><br>
             <button id="stop">STOP</button>
             <button id="double">2 Pendulums</button>
             <button id="theorybutton" onClick="theorySite()">THEORY</button>
@@ -48,8 +41,6 @@
                 window.open("../Theory/Classical Mechanics_Simple_Pendulum.html", "_self")
             }
         </script>
-
-
         <script type="module">
             import * as THREE from '../build/three.module.js';
             import { OrbitControls } from '../jsm/controls/OrbitControls.js';
@@ -120,6 +111,11 @@
                 controls.enableZoom = true;
 
                 controls.target.set(-8, -8.6, -16);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.rotateSpeed = 0.1;
+                controls.minDistance = .1;
+                controls.maxDistance = 5000;
 
             }
 
@@ -265,9 +261,6 @@
                 init();
                 animate();
                 guiControls();
-                // pendulumMotion(0);
-                // pendulumMovement();
-                // comparePendulums();
             }
 
             function hideArrows() {
@@ -332,6 +325,7 @@
                 // dat.GUI
 
                 const gui = new GUI({ width: 160 });
+                gui.close()
                 gui.title('Pendulum Parameters')
                 console.log(gui);
                 gui.add(params, 'amp', 0, 1.4, 0.1).name('Amplitude,A').onChange((value) => {
