@@ -46,15 +46,15 @@
 		<button id="solenoid-el">SOLENOID + SOLENOID </button>
 		<button id="coil-el">ARMATURE COIL </button>
 		<br>
-	
+		<a style="font-weight: bolder;" id="element-el"> Effect of change in magnetic field (flux) in a solenoid coil - Using a bar magnet</a>
+		<br>
+		<a> &nbsp;  </a>
 		<button id="action-el">MOVE </button>
 		<button id="flip-el">FLIP</button>
 		<button id="stop-el">STOP</button>
 		<button id="relative-el">RELATIVE</button>
-		<button id="rule-el">FARADAY’S LAW OF INDUCTION </button><br>
-		<a style="font-weight: bolder;" id="element-el"> Effect of change in magnetic field (flux) in a solenoid coil - Using a bar magnet</a>
-		<br>
-		<a> &nbsp;  </a>
+		<button id="rule-el">FARADAY’S LAW OF INDUCTION </button>
+
 	</div>
 	<script type="module">
 		import * as THREE from '../build/three.module.js';
@@ -133,7 +133,7 @@
 		createRenderer();
 
 		//cameracontrols
-		createControls(0, 0, -2);
+		createControls(-1.2, 0, -2);
 
 		//create light 
 		createLights();
@@ -166,6 +166,9 @@
 			controls.enablePan = true;
 			controls.enableZoom = true;
 			controls.target.set(x, y, z);
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.05;
+			controls.rotateSpeed = 0.1;
 			controls.update();
 			controls.addEventListener('change', render);
 
@@ -182,7 +185,7 @@
 		}
 
 		function createLights() {
-			let hemiLight = new THREE.AmbientLight(0xffffff, .20);
+			let hemiLight = new THREE.AmbientLight(0xffffff, .3);
 			hemiLight.position.set(0, 20, 0);
 			scene.add(hemiLight);
 
@@ -423,6 +426,7 @@
 						.easing(TWEEN.Easing.Cubic.Out)
 						.start()
 				}, 5000);
+				// animate();
 			} else if (flip) {
 
 				new TWEEN.Tween(galvNeedle.rotation)
@@ -447,7 +451,8 @@
 						.to({ x: 0, y: 0, z: 1 }, 3000)
 						.easing(TWEEN.Easing.Cubic.Out)
 						.start()
-				}, 5000);				
+				}, 5000);
+				// animate();
 
 			}
 			animate();
@@ -744,11 +749,11 @@
 
 			if (element === 0) {
 				createCamera(50, 5, 5, 5);
-				createControls(0, 0, -1.5);
+				createControls(-1.2, 0, -2);
 				render();
 			} else if (element === 1) {
 				createCamera(50, 5, 5.5, 5);
-				createControls(.5, .5, -1.5);
+				createControls(.2, .5, -2);
 				render();
 			} else if (element === 2) {
 				createCamera(35, 5, 5, 5);
@@ -934,7 +939,7 @@
 				buttonMagnetEl.style.backgroundColor = "rgb(3, 108, 156)";
 				buttonSolenoidEl.style.backgroundColor = "rgb(3, 108, 156)";
 				buttonCoilEl.style.backgroundColor = "rgb(3, 67, 97)";
-				elementEl.textContent = "AC current generated when an armature coil rotates clockwise within a magnetic field";
+				elementEl.textContent = "AC Generator - An armature coil rotates clockwise in a magnetic field";
 				buttonAction.innerHTML = "ROTATE";
 				buttonStop.innerHTML = "STOP";
 				buttonRule.innerHTML = "FLEMING'S RIGHT HAND RULE";
