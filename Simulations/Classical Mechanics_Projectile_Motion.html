@@ -24,6 +24,7 @@
 
   <div id="container">
     <div id="topmenu">PROJECTILE MOTION </div>
+  </div>
     <div id="sidemenu">
       <table id="caltable" style="visibility: hidden;">
         <caption style="font-size: 24px; text-decoration: underline;">Projectile Data</caption>
@@ -86,10 +87,10 @@
       </table>
     </div>
 
-  </div>
+ 
 
   <div id="menu">
-    <div>
+    <div >
       <table style="font-weight: bolder;" id="Vtable">
         <tr>
           <td>v<sub>x</sub> </td>
@@ -332,6 +333,11 @@
       controls.enablePan = true;
       controls.enableZoom = true;
       controls.target.set(x, y, z);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.rotateSpeed = 0.1;
+      controls.minDistance = .1;
+      controls.maxDistance = 5000;      
     }
 
     function clickAction(event) {
