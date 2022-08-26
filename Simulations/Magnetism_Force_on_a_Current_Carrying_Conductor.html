@@ -29,7 +29,6 @@
 	</div>
 	<div id="sidemenu">
 		<div  style="visibility: hidden;" id="rule-el">
-			<a style=" cursor: pointer;" id="closerule"><span>&#10006;</span></a>
 			<a><strong>Fleming's Left Hand Rule</strong></a><br>
 			<a>Thu<a style="color: red;">m</a>b :- <a style="color: red;">M</a>echanical Force;</a><br>
 			<a><a style="color: blue;">F</a>ore Finger:- Magnetic <a style="color: blue;">F</a>ield;</a><br>
@@ -91,7 +90,6 @@
 		let conductorEl = document.getElementById("conductor-el");
 		let equationEl = document.getElementById("equations-el");
 		let ruleEl = document.getElementById("rule-el");
-		let closeRule = document.getElementById("closerule");
 		const buttonSlowEl = document.getElementById("slow-el");
 
 		const buttonWireEl = document.getElementById('wire-el');
@@ -275,6 +273,9 @@
 			controls.enablePan = true;
 			controls.enableZoom = true;
 			controls.target.set(x, y, z);
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.05;
+			controls.rotateSpeed = 0.1;
 			controls.update();
 			controls.addEventListener('change', render);
 		}
@@ -845,12 +846,6 @@
 				}
 				render();
 			});
-
-			closeRule.addEventListener('click', function () {
-				ruleEl.style.visibility = "hidden";
-			});
-
-
 		}
 
 	</script>
