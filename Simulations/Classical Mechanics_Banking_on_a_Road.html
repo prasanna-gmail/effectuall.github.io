@@ -21,8 +21,8 @@
 </head>
 
 <body>
-
     <div id="container">
+
         <div id="topmenu">
             <div>MOVING ON A CURVED ROAD</div>
 
@@ -38,6 +38,7 @@
         <button id="theorybutton" onClick="theorySite()">THEORY</button>
         <br>
     </div>
+</div>
     <script>
         function theorySite() {
 
@@ -227,8 +228,6 @@
             const delta = clock.getDelta();
             if (modelReady) mixer.update(delta);
             controls.update();
-
-            // stats.update();
 
             render();
         }
