@@ -24,18 +24,18 @@
 
   <div id="container">
     <div id="topmenu">SPRING FORCE</div>
-  </div>
+  
   <div id="sidemenu">
-    <p><strong>Spring Force,</strong>  <br><a style="font-weight: bold; font-size: 24px">F = <em> -kd</em></a></p>
+    <p> Spring Force, <br><a style="font-weight: bold; font-size: 24px">F = <em> -kd</em></a><br> where, <br><em>k</em>,
+      is the Spring Constant,<br> <em>d</em>, is the displacement.</p>
     <!-- Time Period of oscillation of a spring -->
-    
-  </div>
-
-  <div id="menu">
     <div style="display:none;" id="eqn">
       <p>Time Period of oscillation of a spring </p>
       <img src="./assets/plotSHM/timePeriod.png" width="150px" />
     </div>
+  </div>
+
+  <div id="menu">
         <table style="font-weight: bolder;"  id="valTable">
           <tr>
             <td>Spring Constant, k</td>
@@ -65,6 +65,7 @@
         <button id="theorybutton" onClick="theorySite()">THEORY</button>
         <br>
     </div>
+  </div>
     <script>
         function theorySite() {
 
@@ -138,6 +139,9 @@
       controls.enablePan = true;
       controls.enableZoom = true;
       controls.target.set(x, y, z);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.rotateSpeed = 0.1;
     }
     function createLights() {
       // Create a directional light
@@ -242,11 +246,9 @@
       init();
 
       visualAides();
-
-      controls.update();
       
       animate();
-      
+
       guiControls();
 
       // scene.add(new THREE.AmbientLight(0xffffff));  
@@ -256,6 +258,7 @@
       // dat.GUI
 
       const gui = new GUI({ width: 200 });
+      gui.title('Spring Parameters');
 
       gui.add(params, 'kConst', 60, 1000, 10).name('k (N/m)').onChange((value) => {
         params.extrude = value / 2000;
@@ -282,9 +285,15 @@
         guiControls();
         initPos = mass.position.z;
       });
-      
+      const folderGeometry = gui.addFolder('Geometry');
+      folderGeometry.add(params, 'restore').name('Reset');
+      folderGeometry.add(params, 'grid').name('Grid').onChange(() => {
+        gridDisplay();
+      });
+
+      const forceGeometry = gui.addFolder('Apply Force');
       if (params.horizontal) {
-        gui.add(params, 'force', -100, 100, 10).name('Apply Force (N)').onChange((value) => {
+        forceGeometry.add(params, 'force', -100, 100, 10).name('Apply Force (N)').onChange((value) => {
           params.force = value;
           y = 0;
           K = (params.force) / (1200 + params.kConst);
@@ -295,7 +304,7 @@
           boxAction();
         });
       } else {
-        gui.add(params, 'm', M).name('Add Mass (Kg)').onChange((value) => {
+        forceGeometry.add(params, 'm', M).name('Mass (Kg)').onChange((value) => {
           params.force = value;
           y = 0;
           // K = ((params.force) * 0.163) / (params.kConst);
@@ -317,26 +326,21 @@
         });
       }
 
-      gui.add(params, 'harmonic').name('S.H.M').onChange((value) => {
+      forceGeometry.add(params, 'harmonic').name('S.H.M').onChange((value) => {
         // cancelAnimationFrame(forceAction, boxAction);
         x = 0;
         K = (params.force) / (1200 + params.kConst);
         boxAction();
 
       });
-      gui.add(params, 'restore').name('Reset Geometry');
-      gui.add(params, 'grid').name('Grid').onChange(() => {
-        gridDisplay();
-      });
-
-      gui.add(params, 'horizontal').name('Horizontal').onChange(() => {
+      
+      let orientFolder = gui.addFolder("Spring Orientation");
+      orientFolder.add(params, 'horizontal').name('Horizontal Position').onChange(() => {
         if (params.horizontal) {
           point.rotation.x = 0;
           point.position.y = 0;
-          grid.position.x= 0;
-          grid.position.z= 10;
           grid.rotation.z = 3.14;
-          createCamera(55, -30, 8, 20);
+          createCamera(40, -30, 8, 20);
           createControls(5, 0, 10);
           forceHand.visible = true;
         } else {
@@ -351,7 +355,6 @@
         // 
         resetSpring()
       });
-
     }
 
     function createRenderer() {
