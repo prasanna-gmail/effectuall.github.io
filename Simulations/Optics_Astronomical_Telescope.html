@@ -33,13 +33,13 @@
         <div id="message-el">
             <p>
                 A telescope makes use of two positive (convex) lenses: </p>
-            <p>Objective, which forms the image of a distant object at its focal length (f<sub>o</sub> ), and </p>
+            <p>Objective, which forms the image of a distant object at its focal length (f<sub>o</sub>), and </p>
             <p></p>Eyepiece, which acts as a simple magnifier (f<sub>e</sub>), which is used to view the image formed by
             the objective.
 
             <p>Its length is equal to the sum of the focal lengths of the objective and eyepiece. </p>
 
-            <p>And its angular magnification is -f<sub>o</sub> /f<sub>e</sub> , giving an inverted image.</p>
+            <p>Angular magnification, M=-f<sub>o</sub>/f<sub>e</sub>, giving an inverted image.</p>
 
         </div>
         <a style="visibility: hidden;" id=" part-el"></a>
@@ -122,6 +122,7 @@
         const detailEl = document.getElementById("detail");
         const messageEl = document.getElementById("message-el");
         const partEl = document.getElementById("part");
+        const menuButton = document.getElementById("menuButton");
 
         //ray diagram points on the telescope lens and object and eye points
         const pointP1 = new THREE.Vector3(0, params.d + 1, params.zo);
@@ -212,12 +213,6 @@
             let Empty = Object.freeze([]);
             renderer.clippingPlanes = Empty; // GUI sets it to globalPlanes
             renderer.localClippingEnabled = false;
-            // labelRenderer = new CSS2DRenderer();
-            // labelRenderer.setSize(window.innerWidth, window.innerHeight);
-            // labelRenderer.domElement.style.position = 'absolute';
-            // labelRenderer.domElement.style.top = '0px';
-            // labelRenderer.domElement.style.pointerEvents = 'none';
-            // container.appendChild(labelRenderer.domElement);
         }
 
         function createRays() {
@@ -526,10 +521,10 @@
 
             if (rayDiagram) {
                 imgLabel.visible = true;
-                detailEl.style.visibility = 'hidden';
+                // detailEl.style.visibility = 'hidden';
             } else {
                 imgLabel.visible = false;
-                detailEl.style.visibility = 'visible';
+                // detailEl.style.visibility = 'visible';
             }
         }
 
