@@ -45,6 +45,7 @@ canvas {
   left: 5px;
   box-sizing: border-box;
   text-align: justify;
+  pointer-events: none;
 }
 
 #footmenu {
