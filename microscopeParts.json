@@ -1,0 +1,46 @@
+{
+	"Eyepiece": [
+		"Eyepiece (ocular lens)",
+		"It's a cylinder containing two or more lenses; its function is to bring the image into focus for the eye. "	
+	],
+
+	"Coarse_knob": [
+		"Coarse Knob",
+		"Adjustment knobs move the stage up and down with separate adjustment for coarse and fine focusing. <br> <br> The same controls enable the microscope to adjust to specimens of different thickness. "
+	],
+
+	"Objective_lens": [
+		"Objective Lens",
+		"The set of objective lenses are part of the revolving nose piece.<br> <br> They are characterized by two parameters, namely, magnification and numerical aperture.<br><br> Magnification ranges from 5× to 100× while the corresponding focal lengths ranges from 40 to 2 mm."
+	],
+
+	"Light_source": [
+		"Light Source",
+		"Many sources of light can be used. At its simplest, daylight is directed via a mirror.<br><br> Most microscopes, however, have their own adjustable and controllable light source."
+	],
+
+	"Focus_stop": [
+		"Focus Stop",
+		"Focus stop for the objective lenses movement."
+	],
+
+	"Condenser": [
+		"Condenser",
+		"The condenser is a lens designed to focus light from the illumination source onto the sample. <br> <br> The condenser may also include other features, such as a diaphragm and/or filters, to manage the quality and intensity of the illumination."
+	],
+
+	"Sample_stage": [
+		"Sample Stage",
+		"The stage is a platform below the objective lens which supports the specimen being viewed. <br><br> In the center of the stage is a hole through which light passes to illuminate the specimen. The stage usually has arms to hold slides."
+	],
+
+	"Fine_knob": [
+		"Fine Knob",
+		"Adjustment knobs move the stage up and down with separate adjustment for coarse and fine focusing. <br><br> The same controls enable the microscope to adjust to specimens of different thickness."
+	],
+	
+	"Frame": [
+		"Frame",
+		"The whole of the optical assembly is traditionally attached to a rigid arm, which in turn is attached to a robust U-shaped foot to provide the necessary rigidity. <br><br>The arm angle may be adjustable to allow the viewing angle to be adjusted. The frame provides a mounting point for various microscope controls. "
+	]
+}
