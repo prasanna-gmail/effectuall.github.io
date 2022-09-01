@@ -4,6 +4,7 @@ const viewer = document.getElementById('viewer');
 const filterInput = document.getElementById('filterInput');
 const exitSearchButton = document.getElementById('exitSearchButton');
 const expandButton = document.getElementById('expandButton');
+const viewSrcButton = document.getElementById('button');
 const panelScrim = document.getElementById('panelScrim');
 const previewsToggler = document.getElementById('previewsToggler');
 
@@ -17,14 +18,16 @@ const container = document.createElement('div');
 let selected = null;
 
 init();
-
+viewSrcButton.style.display = 'none';
 async function init() {
 
     content.appendChild(container);
     content.classList.toggle('minimal');
+    // viewSrcButton.style.display = 'none';
+
     const files = await (await fetch('files.json')).json();
     const tags = await (await fetch('tags.json')).json();
-    // console.log('files', files)
+
     for (const key in files) {
 
         const section = files[key];
@@ -37,29 +40,16 @@ async function init() {
         for (let i = 0; i < section.length; i++) {
 
             const file = section[i];
-            const template = `
-						<div class="card">
-							<a href="Simulations/${file}.html" target="viewer">
-								<div class="cover">
-									<img src="../assets/screenshots/${file}.jpg" loading="lazy" width="400px" />
-								</div>
-							<div class="title">${getName(file)}</div>
-						</a>
-					</div>
-					`;
-            const div = document.createElement('div');
-            div.innerHTML = template.trim();
 
-            const link = div.firstChild;
+            const link = createLink(file);
             container.appendChild(link);
 
             links[file] = link;
-            validRedirects.set(file, 'Simulations/' + file + '.html');
+            validRedirects.set(file, file + '.html');
 
         }
 
     }
-
 
     if (window.location.hash !== '') {
 
@@ -77,12 +67,12 @@ async function init() {
 
     }
 
-    // if (viewer.src === '') {
+    if (viewer.src === '') {
 
-    //     viewer.srcdoc = document.getElementById('PlaceholderHTML').innerHTML;
-    //     viewer.style.display = 'unset';
+        viewer.srcdoc = document.getElementById('PlaceholderHTML').innerHTML;
+        viewer.style.display = 'unset';
 
-    // }
+    }
 
     filterInput.value = extractQuery();
 
@@ -170,7 +160,7 @@ function createLink(file) {
 				<div class="card">
 					<a href="${file}.html" target="viewer">
 						<div class="cover">
-							<img src="screenshots/${file}.jpg" loading="lazy" width="400" />
+							<img src="assets/screenshots/${file}.jpg" loading="lazy" width="400" />
 						</div>
 						<div class="title">${getName(file)}</div>
 					</a>
@@ -204,6 +194,10 @@ function selectFile(file) {
     panel.classList.remove('open');
 
     selected = file;
+
+    // Reveal "View source" button and set attributes to this example
+    viewSrcButton.style.display = '';
+    viewSrcButton.href =  selected + '.html';
 
 }
 
