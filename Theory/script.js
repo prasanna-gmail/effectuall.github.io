@@ -3,6 +3,7 @@ const content = document.getElementById('content');
 const viewer = document.getElementById('viewer');
 const filterInput = document.getElementById('filterInput');
 const exitSearchButton = document.getElementById('exitSearchButton');
+const viewSrcButton = document.getElementById('button');
 const expandButton = document.getElementById('expandButton');
 const panelScrim = document.getElementById('panelScrim');
 const previewsToggler = document.getElementById('previewsToggler');
@@ -17,7 +18,7 @@ const container = document.createElement('div');
 let selected = null;
 
 init();
-
+viewSrcButton.style.display = 'none';
 async function init() {
 
     content.appendChild(container);
@@ -37,24 +38,12 @@ async function init() {
         for (let i = 0; i < section.length; i++) {
 
             const file = section[i];
-            const template = `
-						<div class="card">
-							<a href="Simulations/${file}.html" target="viewer">
-								<div class="cover">
-									<img src="../../assets/screenshots/${file}.jpg" loading="lazy" width="400px" />
-								</div>
-							<div class="title">${getName(file)}</div>
-						</a>
-					</div>
-					`;
-            const div = document.createElement('div');
-            div.innerHTML = template.trim();
 
-            const link = div.firstChild;
+            const link = createLink(file);
             container.appendChild(link);
 
             links[file] = link;
-            validRedirects.set(file, 'Simulations/' + file + '.html');
+            validRedirects.set(file, file + '.html');
 
         }
 
@@ -77,12 +66,6 @@ async function init() {
 
     }
 
-    // if (viewer.src === '') {
-
-    //     viewer.srcdoc = document.getElementById('PlaceholderHTML').innerHTML;
-    //     viewer.style.display = 'unset';
-
-    // }
 
     filterInput.value = extractQuery();
 
@@ -170,7 +153,7 @@ function createLink(file) {
 				<div class="card">
 					<a href="${file}.html" target="viewer">
 						<div class="cover">
-							<img src="../../assets/screenshots/${file}.jpg" loading="lazy" width="400" />
+							<img src="../assets/screenshots/${file}.jpg" loading="lazy" width="400" />
 						</div>
 						<div class="title">${getName(file)}</div>
 					</a>
@@ -205,7 +188,12 @@ function selectFile(file) {
 
     selected = file;
 
+    viewSrcButton.style.display = '';
+    viewSrcButton.href = '../' + selected + '.html';
+   
+
 }
+
 
 function updateFilter(files, tags) {
 
