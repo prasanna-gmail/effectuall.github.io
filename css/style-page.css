@@ -23,6 +23,10 @@ canvas {
   padding: 0;
   margin: 0;
   margin-bottom: -20px;
+  pointer-events: none;
+}
+#menu button {
+  pointer-events:visible;
 }
 
 #topmenu {
@@ -48,6 +52,9 @@ canvas {
   pointer-events: none;
 }
 
+#sidemenu input {
+  pointer-events:visible;
+}
 #footmenu {
   position: absolute;
   bottom: 1px;
@@ -164,7 +171,7 @@ caption {
   left: 0;
   z-index: 1;
   padding: 1em;
-  width: 180px;
+  width: 250px;
   color: #fff;
   background: rgba(0, 0, 0, 0.8);
   border-radius: .5em;
@@ -182,7 +189,7 @@ caption {
 
 .labelparts {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   padding: .1em;
   border-radius: 5px;
   color: #fff;
@@ -213,7 +220,8 @@ caption {
   }
 
   .annotation {
-    width: 150px;
+    display: none;
+    width: 200px;
     background: rgb(0, 0, 0);
     overflow-y: auto;
     z-index: 1;
@@ -238,7 +246,8 @@ caption {
     margin-bottom: -20px;
   }
   .annotation {
-    width: 120px;
+    display: none;
+    width: 150px;
     background: rgb(0, 0, 0);
     overflow-y: auto;
     z-index: 1;
