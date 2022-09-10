@@ -25,6 +25,8 @@
         <div id="topmenu">
             <div>
                 Applying Fleming's right hand thumb's rule to a current carrying WIRE/COIL<br>
+				<button style="background-color: rgb(3, 67, 97) ;" id="conductor-el">WIRE</button>
+				<button style="background-color: rgb(3, 108, 156) ;" id="coil-el"> COIL </button>
 			</div>
 
         </div>
@@ -47,9 +49,7 @@
 
 
 		<div id="menu">
-			<button style="background-color: rgb(3, 67, 97) ;" id="conductor-el">WIRE</button>
-			<button style="background-color: rgb(3, 108, 156) ;" id="coil-el"> COIL </button>
-		<br>
+
 			<button id="current-el">REVERSE CURRENT</button>
 			<button id="hand-el">HAND GESTURE </button>
 			<button id="mflines-el">MAGNETIC FIELD LINES</button><br>
@@ -68,7 +68,7 @@
 			let loop = false;
 			let flow = 1;
 			let coilflow = 1;
-			let hand, wire, coil, mfwire, arrow, arrow1, mfcoil, mfview;
+			let hand, wire, coil, mfwire, arrow, arrow1, mfcoil, mfviewReverse, mfviewForward;
 			const modelPath = './model/';
 			const RULES = {
 				'Rule': 'thumbsrule.glb'
@@ -129,8 +129,20 @@
 			const buttonhandEl = document.getElementById('hand-el');
 			const buttonmflinesEl = document.getElementById('mflines-el');
 
+			
 			//load rule1
 			//rule1Model();
+			const map1 = new THREE.TextureLoader().load( './assets/Magformula/mfviewReverse.png' );
+			const material1 = new THREE.SpriteMaterial( { map: map1 } );
+
+			mfviewReverse = new THREE.Sprite( material1 );
+			mfviewReverse.scale.set(0.5,0.2,0.5)
+			
+			const map2 = new THREE.TextureLoader().load( './assets/Magformula/mfviewForward.png' );
+			const material2= new THREE.SpriteMaterial( { map: map2 } );
+
+			mfviewForward = new THREE.Sprite( material2 );
+			mfviewForward.scale.set(0.5,0.2,0.5)
 			//currentFlow( );        
 
 			const loader = new GLTFLoader();
@@ -145,9 +157,7 @@
 					mfwire = model.getObjectByName('MFwire');
 					arrow1 = model.getObjectByName('arrow1');
 					mfcoil = model.getObjectByName('MFcoil');
-					mfview = model.getObjectByName('MFview');
-
-					mfview.scale.set(.5,.5,.5)
+					
 					gltf.scene.traverse((child) => {
 						if (child.type == 'SkinnedMesh') {
 							child.frustumCulled = false;
@@ -263,7 +273,8 @@
 					scene.remove(hand);
 					scene.remove(arrow);
 					scene.remove(mfwire);
-					scene.remove(mfview);
+					scene.remove(mfviewReverse);
+					scene.remove(mfviewForward);
 					scene.remove(mfcoil);
 					scene.add(coil);
 
@@ -296,7 +307,8 @@
 					scene.remove(hand);
 					scene.remove(arrow1);
 					scene.remove(mfwire);
-					scene.remove(mfview);
+					scene.remove(mfviewReverse);
+					scene.remove(mfviewForward);
 					scene.remove(mfcoil);
 					scene.add(wire);
 					scene.add(arrow);
@@ -319,7 +331,8 @@
 					scene.remove(hand);
 					scene.remove(mfwire);
 					scene.remove(mfcoil);
-					scene.remove(mfview);
+					scene.remove(mfviewReverse);
+					scene.remove(mfviewForward);
 					actions['direction'].setDuration(1).play();
 					flow = -1;
 
@@ -330,7 +343,8 @@
 					scene.remove(hand);
 					scene.remove(mfwire);
 					scene.remove(mfcoil);
-					scene.remove(mfview);
+					scene.remove(mfviewReverse);
+					scene.remove(mfviewForward);
 					actions['straight'].setDuration(1).play();
 
 					flow = 1;
@@ -342,7 +356,8 @@
 					scene.remove(hand);
 					scene.remove(mfwire);
 					scene.remove(mfcoil);
-					scene.remove(mfview);
+					scene.remove(mfviewReverse);
+					scene.remove(mfviewForward);
 					actions['loopClock'].setDuration(1).play();
 					coilflow = -1;
 
@@ -353,7 +368,8 @@
 					scene.remove(hand);
 					scene.remove(mfwire);
 					scene.remove(mfcoil);
-					scene.remove(mfview);
+					scene.remove(mfviewReverse);
+					scene.remove(mfviewForward);
 					actions['loopAnti'].setDuration(1).play();
 
 					coilflow = 1;
@@ -407,8 +423,8 @@
 					setTimeout(function () {
 						scene.add(mfwire);
 						mfwire.rotation.set(0, 0, 0);
-						scene.add(mfview);
-						mfview.rotation.set(0, 3.14, 0);
+						scene.add(mfviewForward);
+						
 					}, 500);
 
 					message = "Current direction in the conductor UP; M.F lines are in ANTICLOCKWISE direction ";
@@ -419,8 +435,8 @@
 					setTimeout(function () {
 						scene.add(mfwire);
 						mfwire.rotation.set(3.14, 0, 0);
-						scene.add(mfview);
-						mfview.rotation.set(0, 0, 0);
+						scene.add(mfviewReverse);
+						
 					}, 500);
 
 					message = "Current direction in the conductor DOWN; M.F lines are in CLOCKWISE direction ";
@@ -481,7 +497,7 @@
 			function animate() {
 				requestAnimationFrame(animate);
 				const delta = clock.getDelta();
-
+			
 				mixer.update(delta);
 
 				controls.update();
