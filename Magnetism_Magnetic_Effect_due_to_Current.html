@@ -36,12 +36,12 @@
 			<button id="wire-el">Straight Wire </button>
 			<button style="background-color: rgb(3, 67, 97) ;" id="coil-el">Coil </button>
 			<button id="solenoid-el">Solenoid </button>
-			<button id="toroid-el">Toroid </button>
+			<button id="toroid-el">Toroid </button><br>
 		<button id="reset-el">RESET</button>
 		<button id="flow-el">SWITCH</button>
 		<button id="flip-el">POLARITY</button>
 		<button id="formula-el">FORMULA</button><br>
-		<a id="message-el"> Magnetic Effect due to a straight Wire Carrying Current</a>
+		<a id="message-el"> Magnetic Effect due to a single Coil Carrying Current</a>
 
 	</div>
 
@@ -520,7 +520,7 @@
 				buttonToroidEl.style.backgroundColor = "rgb(3, 108, 156)";
 				buttonWireEl.style.backgroundColor = "rgb(3, 108, 156)";
 				ruleEl.style.visibility = "hidden";
-				message = "Magnetic Effect due to a straight Wire Carrying Current ";
+				message = "Magnetic Effect due to a single Coil Carrying Current";
 				messageEl.textContent = message;
 				flip = 0;
 				flow = 0;
@@ -581,7 +581,7 @@
 				buttonToroidEl.style.backgroundColor = "rgb(3, 108, 156)";
 				buttonFormula.style.backgroundColor = "rgb(3, 108, 156)";
 				buttonWireEl.style.backgroundColor = "rgb(3, 67, 97)";
-				message = "Magnetic Effect due to a single Coil Carrying Current ";
+				message = "Magnetic Effect due to a straight Wire Carrying Current ";
 				messageEl.textContent = message;
 				element = 0;
 				flow = 0;
