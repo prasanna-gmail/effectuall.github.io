@@ -5,9 +5,11 @@
 		"Optics_Converging_Lens",
 		"Optics_Diverging_Lens",
 		"Optics_Converging_Mirror",
-		"Optics_Diverging_Mirror"
+		"Optics_Diverging_Mirror",
+		"Optics_Interference"
 	],
 	"Classical Mechanics": [
+		"Classical Mechanics_Motion_in_straight_line",
 		"Classical Mechanics_Circular_Motion",
 		"Classical Mechanics_Projectile_Motion",
 		"Classical Mechanics_Banking_on_a_Road",
