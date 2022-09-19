@@ -90,6 +90,7 @@ article {
     -ms-transform: translate(-50%, -50%);
     text-align: center;
   }
+  
   .column:hover .middle {
     opacity: 1;
   }
@@ -159,5 +160,8 @@ dl {
     }
     body {
         font-size: 14px;
+    }
+    .column {      
+      max-width: 50%;
     }
 }
