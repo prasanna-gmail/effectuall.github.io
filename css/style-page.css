@@ -9,9 +9,14 @@ body {
 }
 
 
-canvas {
-  width: 100%;
-  height: 100%;
+#drawing-canvas {
+  position: absolute;
+  background-color: #000000;
+  top: 0px;
+  left: 0px;
+  z-index: 3000;
+  cursor: crosshair;
+  touch-action: none;
 }
 
 #menu {
@@ -25,9 +30,9 @@ canvas {
   margin-bottom: -20px;
   pointer-events: none;
 }
-#menu button {
+/* #menu button {
   pointer-events:visible;
-}
+} */
 
 #topmenu {
   position: absolute;
@@ -95,6 +100,13 @@ button:active {
   border-radius: .5em;
   font-size: 12px;
   line-height: 1.2;
+}
+
+a,
+button,
+input,
+select {
+  pointer-events:visible;
 }
 
 #dot {
@@ -197,7 +209,9 @@ caption {
   background: rgba(0, 0, 0, .6);
 }
 
+
 @media only screen and (max-width:800px) {
+ 
   #topmenu{
     font-size: 10px;
     float: right;
