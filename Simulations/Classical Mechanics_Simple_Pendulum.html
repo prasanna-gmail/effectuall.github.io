@@ -325,7 +325,7 @@
                 let a = amp * (Math.cos(wt));
                 let b = (len * Math.sin(a)).toFixed(2);
                 let c = (len * Math.cos(a)).toFixed(2);
-                let v = -amp * period * Math.cos(wt);
+                let v = -amp * period * Math.sin(wt);
                 points.push(new THREE.Vector3(b, -10, -i * 5));
                 data.push(a);
                 dataX.push(c);
