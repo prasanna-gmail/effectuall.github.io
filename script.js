@@ -45,7 +45,7 @@ async function init() {
             container.appendChild(link);
 
             links[file] = link;
-            validRedirects.set(file, file + '.html');
+            validRedirects.set(file, './Simulations/' + file + '.html');
 
         }
 
@@ -68,11 +68,12 @@ async function init() {
     }
 
     if (viewer.src === '') {
-
-        viewer.srcdoc = document.getElementById('PlaceholderHTML').innerHTML;
+        window.location.hash = 'intro.html';
+        viewer.src = 'intro.html';
         viewer.style.display = 'unset';
-
     }
+
+  
 
     filterInput.value = extractQuery();
 
@@ -158,7 +159,7 @@ function createLink(file) {
 
     const template = `
 				<div class="card">
-					<a href="${file}.html" target="viewer">
+					<a href="./Simulations/${file}.html" target="viewer">
 						<div class="cover">
 							<img src="assets/screenshots/${file}.jpg" loading="lazy" width="400" />
 						</div>
@@ -187,17 +188,17 @@ function selectFile(file) {
 
     links[file].classList.add('selected');
 
-    window.location.hash = file;
+    window.location.hash = 'Simulations/' + file;
     viewer.focus();
     viewer.style.display = 'unset';
 
     panel.classList.remove('open');
 
     selected = file;
-
+    // console.log(viewer, file)
     // Reveal "View source" button and set attributes to this example
     viewSrcButton.style.display = '';
-    viewSrcButton.href =  selected + '.html';
+    viewSrcButton.href = './Simulations/' + selected + '.html';
 
 }
 
