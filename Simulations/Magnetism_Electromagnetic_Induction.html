@@ -38,7 +38,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 
 	<div id="menu">
 		<p>
@@ -46,14 +46,15 @@
 			<button id="solenoid-el">SOLENOID + SOLENOID </button>
 			<button id="coil-el">ARMATURE COIL </button>
 			<br>
-		<a style="font-weight: bolder;" id="element-el"> Effect of change in magnetic field (flux) in a solenoid coil - Using a bar magnet</a>
-		<br>
-		<a> &nbsp;  </a>
-		<button id="action-el">MOVE </button>
-		<button id="flip-el">FLIP</button>
-		<button id="stop-el">STOP</button>
-		<button id="relative-el">RELATIVE</button>
-		<button id="rule-el">FARADAY’S LAW OF INDUCTION </button>
+			<a style="font-weight: bolder;" id="element-el"> Effect of change in magnetic field (flux) in a solenoid
+				coil - Using a bar magnet</a>
+			<br>
+			<a> &nbsp; </a>
+			<button id="action-el">MOVE </button>
+			<button id="flip-el">FLIP</button>
+			<button id="stop-el">STOP</button>
+			<button id="relative-el">RELATIVE</button>
+			<button id="rule-el">FARADAY’S LAW OF INDUCTION </button>
 		</p>
 	</div>
 	<script type="module">
@@ -64,6 +65,9 @@
 
 		let renderer, scene, controls;
 		let camera, clock;
+		let scene1 = [];
+		let scene2 = [];
+		let generator = [];
 		let solenoidModel, barMagnet, galvNeedle, inducedSolenoid, galvanometer, mixer;
 		let powerSupply, knob, powerKnob, connector, arrow, solenoid, rightHand;
 		let coilModel, coilStand, coil, commutator, rings, insulator, magnetwire, currentwire;
@@ -78,6 +82,7 @@
 		let fieldLines = new THREE.Group();
 		let lineGroup = new THREE.Group();
 		let pointGroup = new THREE.Group();
+
 		let moveL = false,
 			stop = false,
 			// hold = false,
@@ -95,7 +100,7 @@
 			flip = false;
 
 		const speed = 0.003, magdz = 0.02, needleY = speed / magdz;
-		let a = 0, coilRotate = false, requestInduced, requestInducedSlow, coilRotateSlow = false;
+		let a = 0, requestInduced, requestInducedSlow;
 		const modelPath = './model/';
 		const elements = {
 
@@ -121,33 +126,40 @@
 		const buttonRelative = document.getElementById('relative-el');
 		const buttonRule = document.getElementById('rule-el');
 
-		//scene
-		scene = new THREE.Scene();
-		scene.background = new THREE.Color(0xbfd1e5);
+		function init() {
+			//scene
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xbfd1e5);
 
-		//camera
-		createCamera(50, 5, 5, 5);
-		clock = new THREE.Clock();
+			//camera
+			createCamera(50, 5, 5, 5);
+			clock = new THREE.Clock();
 
-		//renderer
-		createRenderer();
+			//renderer
+			createRenderer();
 
-		//cameracontrols
-		createControls(-1.2, 0, -2);
+			//cameracontrols
+			createControls(-1.2, 0, -2);
 
-		//create light 
-		createLights();
+			//create light 
+			createLights();
 
-		const gridHelper = new THREE.GridHelper(10, 10);
-		scene.add(gridHelper);
-		document.body.appendChild(renderer.domElement);
+			const gridHelper = new THREE.GridHelper(10, 10);
+			scene.add(gridHelper);
+			document.body.appendChild(renderer.domElement);
 
-		window.addEventListener("resize", onWindowResize);
+			window.addEventListener("resize", onWindowResize);
+			
+			buttonLoad();
+		}
 
-		buttonLoad();
-		createModel();
-		addLines();
-		solenoidLines();
+		window.onload = function () {
+			init();
+			createModel();
+			addLines();
+			solenoidLines();
+			// valueCal();
+		}
 
 		function createCamera(view, x, y, z) {
 
@@ -212,15 +224,11 @@
 				visualClues();
 				commutator.rotation.x += -.1;
 				let X = Math.sin(a);
-				let Y = Math.cos(a);
+				// let Y = Math.abs(X);
 				galvNeedle.rotation.y = X;
-				arrow1.rotation.x = 3.14 * Math.abs(Math.ceil(Y));
-				arrow2.rotation.z = 3.14 * Math.abs(Math.ceil(Y));
-				currentwire.morphTargetInfluences[0] = Math.abs(Math.ceil(Y));
-				direction1.morphTargetInfluences[0] = 0;
-				direction2.morphTargetInfluences[0] = 1;
-				direction1.morphTargetInfluences[1] = 0;
-				direction2.morphTargetInfluences[1] = 0;
+				arrow1.scale.z = X ;
+				arrow2.scale.x = X ;
+				currentwire.morphTargetInfluences[0] = X > 0 ? 1 : 0;
 				presentPoint = new THREE.Vector3(0.5 * X, 0, a * 0.1 - 1.3);
 
 				line = initLine({
@@ -237,19 +245,16 @@
 				render()
 			} else if (flip) {
 				a += -.1;
-				// requestInduced = requestAnimationFrame(inducedCurrent);
+
 				visualClues();
 				commutator.rotation.x += -.1;
 				let X = Math.sin(a);
-				let Y = Math.cos(a);
+				// let Y = Math.abs(X);
 				galvNeedle.rotation.y = X;
-				arrow1.rotation.x = 3.14 * Math.floor(Y);
-				arrow2.rotation.z = 3.14 * Math.floor(Y);
-				currentwire.morphTargetInfluences[0] = Math.abs(Math.floor(Y));
-				direction1.morphTargetInfluences[0] = 1;
-				direction2.morphTargetInfluences[0] = 0;
-				direction1.morphTargetInfluences[1] = 1;
-				direction2.morphTargetInfluences[1] = 1;
+				arrow1.scale.z = X ;
+				arrow2.scale.x = X ;
+				currentwire.morphTargetInfluences[0] = X > 0 ? 1 : 0;
+
 				presentPoint = new THREE.Vector3(0.5 * X, 0, a * 0.1 - 1.3);
 
 				line = initLine({
@@ -277,7 +282,7 @@
 				direction1.visible = false;
 				direction2.visible = false;
 				currentwire.visible = false;
-				// scene.remove(rightHand);
+				rightHand.visible = false;
 
 			} else if (!stop) {
 				arrow1.visible = true;
@@ -285,9 +290,9 @@
 				direction1.visible = true;
 				direction2.visible = true;
 				currentwire.visible = true;
-				// scene.add(rightHand);
+				rightHand.visible = true;
 			}
-		
+
 
 		}
 
@@ -306,24 +311,16 @@
 		//Rotate armature coil clockwise slowly for better rule visualization
 		function inducedCurrentSlow() {
 			if (!flip) {
-				a += -.005;
-				commutator.rotation.x += -.005;
+				a += -.01;
+				commutator.rotation.x += -.01;
 
 				let X = Math.sin(a);
-				let Y = Math.cos(a);
 				galvNeedle.rotation.y = X;
-				arrow1.rotation.x = 3.14 * Math.abs(Math.ceil(Y));
-				arrow2.rotation.z = 3.14 * Math.abs(Math.ceil(Y));
-
-				currentwire.morphTargetInfluences[0] = Math.abs(Math.ceil(Y));
-				direction1.morphTargetInfluences[0] = 0;
-				direction2.morphTargetInfluences[0] = 1;
-				direction1.morphTargetInfluences[1] = 0;
-				direction2.morphTargetInfluences[1] = 0;
-				rightHand.rotation.set(0, 1.57, -1.57);
+				arrow1.scale.z = X ;
+				arrow2.scale.x = X ;
+				currentwire.morphTargetInfluences[0] = X > 0 ? 1 : 0;
 				visualClues()
 				presentPoint = new THREE.Vector3(0.5 * X, 0, a * 0.1 - 1.3);
-
 				line = initLine({
 					points: [presentPoint, nextPoint],
 					lineMaterial: new THREE.LineBasicMaterial({ color: 'black' }),
@@ -337,24 +334,16 @@
 				scene.add(pointGroup);
 				render()
 			} else if (flip) {
-				a += -.005;
-				commutator.rotation.x += -.005;
-				// console.log('magnet SN');
+				a += -.01;
+				commutator.rotation.x += -.01;
 				let X = Math.sin(a);
-				let Y = Math.cos(a);
 				galvNeedle.rotation.y = X;
-				arrow1.rotation.x = 3.14 * Math.floor(Y);
-				arrow2.rotation.z = 3.14 * Math.floor(Y);
-				// console.log(Math.floor(Math.cos(a)));
-				currentwire.morphTargetInfluences[0] = Math.abs(Math.floor(Y));
-				direction1.morphTargetInfluences[0] = 1;
-				direction2.morphTargetInfluences[0] = 0;
-				direction1.morphTargetInfluences[1] = 1;
-				direction2.morphTargetInfluences[1] = 1;
-				rightHand.rotation.set(0, -1.57, -1.57);
+
+				arrow1.scale.z = X ;
+				arrow2.scale.x = X ;
+				currentwire.morphTargetInfluences[0] = X > 0 ? 1 : 0;
 				visualClues()
 				presentPoint = new THREE.Vector3(0.5 * X, 0, a * 0.1 - 1.3);
-
 				line = initLine({
 					points: [presentPoint, nextPoint],
 					lineMaterial: new THREE.LineBasicMaterial({ color: 'blue' }),
@@ -369,9 +358,9 @@
 				render()
 			}
 			nextPoint = presentPoint;
-			requestInduced = requestAnimationFrame(inducedCurrentSlow);
+			requestInducedSlow = requestAnimationFrame(inducedCurrentSlow);
 		}
-		
+
 		//Change Current Polarity A to B or B to A in the supply circuit
 		function polarity() {
 
@@ -393,9 +382,9 @@
 
 		//Change Current in primary coil and study the effect in galvanometer
 		function supplyCurrent() {
-			console.log('SWITCH ON')
+			// console.log('SWITCH ON')
 			arrow.visible = true;
-			console.log(actions);
+			// console.log(actions);
 			actions['needleL'].setDuration(6).play();
 			arrow.morphTargetInfluences[0] = 0;
 			arrow.morphTargetInfluences[1] = 0;
@@ -404,34 +393,35 @@
 			changeFlux = true;
 			if (!flip) {
 				new TWEEN.Tween(galvNeedle.rotation)
-					.to({ y: galvL }, 3000)
-					.easing(TWEEN.Easing.Cubic.Out)
+					.to({ y: galvL }, 5000)
+					.easing(TWEEN.Easing.Bounce.InOut)
 					.start()
 				fieldLines.visible = true;
 				fieldLines.rotation.set(0, 1.57, 1.57);
 
 				new TWEEN.Tween(fieldLines.scale)
-					.to({ x: 1.2, y: 1.5, z: 1 }, 3000)
+					.to({ x: 1.2, y: 1.5, z: 1 }, 2000)
 					.easing(TWEEN.Easing.Cubic.Out)
 					.start()
 				setTimeout(function () {
 					changeFlux = false;
 					galvRotStop();
 					new TWEEN.Tween(galvNeedle.rotation)
-						.to({ y: 0 }, 3000)
-						.easing(TWEEN.Easing.Cubic.Out)
+						.to({ y: 0 }, 5000)
+						.easing(TWEEN.Easing.Bounce.InOut)
 						.start()
 					new TWEEN.Tween(fieldLines.scale)
 						.to({ x: 0, y: 0, z: 1 }, 3000)
 						.easing(TWEEN.Easing.Cubic.Out)
 						.start()
 				}, 5000);
+				
 				// animate();
 			} else if (flip) {
 
 				new TWEEN.Tween(galvNeedle.rotation)
 					.to({ y: -galvL }, 3000)
-					.easing(TWEEN.Easing.Cubic.Out)
+					.easing(TWEEN.Easing.Bounce.InOut)
 					.start()
 				fieldLines.visible = true;
 				fieldLines.rotation.set(0, 1.57, -1.57);
@@ -444,8 +434,8 @@
 					changeFlux = false;
 					galvRotStop();
 					new TWEEN.Tween(galvNeedle.rotation)
-						.to({ y: 0 }, 3000)
-						.easing(TWEEN.Easing.Cubic.Out)
+						.to({ y: 0 }, 2000)
+						.easing(TWEEN.Easing.Bounce.InOut)
 						.start()
 					new TWEEN.Tween(fieldLines.scale)
 						.to({ x: 0, y: 0, z: 1 }, 3000)
@@ -460,9 +450,9 @@
 
 		//Effect on Galvanometer when current is held steady
 		function steadyCurrent() {
-			console.log('steady current flows');
+			// console.log('steady current flows');
 			arrow.visible = true;
-			console.log(actions);
+			// console.log(actions);
 			arrow.morphTargetInfluences[0] = 0;
 			arrow.morphTargetInfluences[1] = 0;
 			arrow.morphTargetInfluences[2] = 1;
@@ -645,14 +635,24 @@
 				electromagnet.rotation.set(1.57, 0, 0);
 				flip = true;
 				rightHand.rotation.set(-1.57, 1.57, 3.14);
-				console.log('hand position1')
-				rightHand.position.set(-0.9, 0.5, -1.2);
+				console.log('hand position1');
+
+				direction1.morphTargetInfluences[0] = 1;
+				direction2.morphTargetInfluences[0] = 0;
+				direction1.morphTargetInfluences[1] = 1;
+				direction2.morphTargetInfluences[1] = 1;
+				rightHand.position.set(-1.5, 1.2, -0.5);
 			} else if (flip) {
 				electromagnet.rotation.set(4.71, 0, 0);
 				flip = false;
 				rightHand.rotation.set(0, 1.57, -1.57);
-				console.log('hand position2')
-				rightHand.position.set(-0.9, 0.5, 1.5);
+				console.log('hand position2');
+
+				direction1.morphTargetInfluences[0] = 0;
+				direction2.morphTargetInfluences[0] = 1;
+				direction1.morphTargetInfluences[1] = 0;
+				direction2.morphTargetInfluences[1] = 0;
+				rightHand.position.set(-1.2, 0.8, 0.5);
 			}
 			animate();
 		}
@@ -662,10 +662,15 @@
 			relative = false;
 			stop = false;
 			changeFlux = false,
-			flip = false;
+				flip = false;
 			cancelAnimationFrame(requestInduced);
-			cancelAnimationFrame(requestID);			
-			scene.remove(pointGroup);
+			cancelAnimationFrame(requestID);
+			scene.remove(pointGroup)
+			pointGroup = new THREE.Group();
+			presentPoint = new THREE.Vector3(0, 0, 0);
+			nextPoint = new THREE.Vector3(0, 0, -1.3);
+			presentPoint = nextPoint
+			a = 0;
 			buttonAction.disabled = false;
 			buttonAction.style.cursor = 'pointer';
 			buttonFlip.disabled = false;
@@ -675,39 +680,62 @@
 			buttonRelative.disabled = false;
 			buttonRelative.style.cursor = 'pointer';
 			if (element === 0) {
-				// console.log('SOLENOID COIL');
-				scene.add(inducedSolenoid);
+
+				cancelAnimationFrame(requestInduced);
+				cancelAnimationFrame(requestInducedSlow);
+				inducedSolenoid.visible = true;
 				galvNeedle.rotation.y = 0;
 				barMagnet.visible = true;
+				rightHand.visible = false;
 				lineGroup.visible = false;
 				fieldLines.visible = false;
 				galvanometer.morphTargetInfluences[0] = 0;
-				scene.remove(coilModel);
-				scene.remove(rightHand);
-				scene.remove(powerKnob, powerSupply, connector, solenoid, arrow);
+				for (let i = 0; i < scene1.length; i++) {
+					scene1[i].visible = true;
+				}
+				for (let i = 0; i < scene2.length; i++) {
+					scene2[i].visible = false;
+				}
+				for (let i = 0; i < generator.length; i++) {
+					generator[i].visible = false;
+				}
+
 			} else if (element === 1) {
-				// console.log('SOLENOID SOLENOID');
+				cancelAnimationFrame(requestInduced);
+				cancelAnimationFrame(requestInducedSlow);
+				inducedSolenoid.visible = true;
+				rightHand.visible = false;
 				galvNeedle.rotation.y = 0;
 				galvanometer.morphTargetInfluences[0] = 0;
-				scene.add(inducedSolenoid);
-				scene.add(powerKnob, powerSupply, connector, solenoid, arrow);
-				arrow.visible = false;
-				solenoid.add(fieldLines);
-				fieldLines.visible = false;
 				barMagnet.visible = false;
-				lineGroup.visible = false;
-				scene.remove(rightHand);
-				scene.remove(coilModel);
+				for (let i = 0; i < scene1.length; i++) {
+					scene1[i].visible = true;
+				}
+				for (let i = 0; i < scene2.length; i++) {
+					scene2[i].visible = true;
+				}
+				for (let i = 0; i < generator.length; i++) {
+					generator[i].visible = false;
+				}
 
 			} else if (element === 2) {
-				// console.log('Armature Coil');
-								
-				scene.remove(inducedSolenoid, galvNeedle);
+
+				cancelAnimationFrame(requestInduced);
+				cancelAnimationFrame(requestInducedSlow);
 				barMagnet.visible = false;
 				lineGroup.visible = false;
 				fieldLines.visible = false;
-				scene.remove(powerKnob, powerSupply, connector, solenoid, arrow);
-				scene.add(coilModel, galvNeedle);
+				inducedSolenoid.visible = false;
+				rightHand.visible = true;
+				for (let i = 0; i < scene1.length; i++) {
+					scene1[i].visible = true;
+				}
+				for (let i = 0; i < scene2.length; i++) {
+					scene2[i].visible = false;
+				}
+				for (let i = 0; i < generator.length; i++) {
+					generator[i].visible = true;
+				}
 				currentwire.morphTargetInfluences[1] = 1;
 				coilStand.morphTargetInfluences[0] = 1;
 				commutator.morphTargetInfluences[0] = 1;
@@ -720,7 +748,7 @@
 				visualClues();
 				inducedCurrent();
 			}
-			
+
 			render();
 		}
 
@@ -743,7 +771,7 @@
 			buttonStop.style.cursor = 'pointer';
 			render();
 		}
-		
+
 		//camera position
 		function setCamera() {
 
@@ -770,11 +798,12 @@
 				.setPath(modelPath)
 				.load(elements['1'], function (gltf) {
 					solenoidModel = gltf.scene;
+
+					scene.add(solenoidModel)
 					mixer = new THREE.AnimationMixer(gltf.scene);
 					powerKnob = solenoidModel.children[0];
 					powerSupply = solenoidModel.getObjectByName('Supply');
 					knob = solenoidModel.getObjectByName('knob');
-					// console.log(knob);
 
 					arrow = solenoidModel.getObjectByName('arrow');
 					solenoid = solenoidModel.getObjectByName('solenoid');
@@ -783,24 +812,34 @@
 					galvNeedle = solenoidModel.getObjectByName('galvNeedle');
 					galvanometer = solenoidModel.getObjectByName('Galvanometer');
 					inducedSolenoid = solenoidModel.getObjectByName('induceSolenoid');
+
 					inducedSolenoid.position.z = 0;
-					scene.add(inducedSolenoid, barMagnet, galvanometer, galvNeedle);
 					barMagnet.add(lineGroup);
+					solenoid.add(fieldLines);
+					scene1.push(galvNeedle, galvanometer)
+					scene2.push(connector, solenoid, fieldLines, arrow, powerKnob, powerSupply)
+					for (let i = 0; i < scene1.length; i++) {
+						scene1[i].visible = true;
+					}
+					for (let i = 0; i < scene2.length; i++) {
+						scene2[i].visible = false;
+					}
+					for (let i = 0; i < generator.length; i++) {
+						generator[i].visible = false;
+					}
+
 					lineGroup.visible = false;
 					fieldLines.visible = false;
-					let fixedStates = ['needleL', 'polarity', 'polarity1'];
+
 					for (let i = 0; i < gltf.animations.length; i++) {
 
 						let clip = gltf.animations[i];
 						let action = mixer.clipAction(clip);
 						actions[clip.name] = action;
 						// console.log(clip.name, clip.duration);
-
-						if (fixedStates.indexOf(clip.name) >= 0) {
-							action.clampWhenFinished = true;
-							action.loop = THREE.LoopOnce;
-							//console.log(i, clip.name, fixedStates.indexOf(clip.name) )
-						}
+						action.clampWhenFinished = true;
+						action.loop = THREE.LoopOnce;
+						
 					}
 					render();
 				});
@@ -808,12 +847,10 @@
 			loader
 				.setPath(modelPath)
 				.load(elements['2'], function (gltf) {
+
 					rightHand = gltf.scene;
-					gltf.scene.traverse((child) => {
-						if (child.type == 'SkinnedMesh') {
-							child.frustumCulled = false;
-						}
-					});
+					scene.add(rightHand);
+					rightHand.visible = false;
 
 				});
 
@@ -821,25 +858,37 @@
 			loader
 				.setPath(modelPath)
 				.load(elements['3'], function (gltf) {
+
 					coilModel = gltf.scene;
+					scene.add(coilModel)
 					mixer1 = new THREE.AnimationMixer(coilModel);
-					coilStand = gltf.scene.getObjectByName('coil');
-					coil = gltf.scene.getObjectByName('CoilStand');
-					commutator = gltf.scene.getObjectByName('Commutator');
-					rings = gltf.scene.getObjectByName('Rings');
-					insulator = gltf.scene.getObjectByName('Insulator');
-					magnetwire = gltf.scene.getObjectByName('MagnetWire');
-					currentwire = gltf.scene.getObjectByName('currentwire');
 					electromagnet = gltf.scene.getObjectByName('Magnet');
 					arrow1 = gltf.scene.getObjectByName('arrow1');
 					arrow2 = gltf.scene.getObjectByName('arrow2');
 					direction1 = gltf.scene.getObjectByName('direction1');
 					direction2 = gltf.scene.getObjectByName('direction2');
-					direction1.visible = false;
-					direction2.visible = false;
-					currentwire.visible = false;
-					arrow1.visible = false;
-					arrow2.visible = false;
+
+					magnetwire = gltf.scene.getObjectByName('MagnetWire');
+					currentwire = gltf.scene.getObjectByName('currentwire');
+					coilStand = gltf.scene.getObjectByName('coil');
+					coil = gltf.scene.getObjectByName('CoilStand');
+					commutator = gltf.scene.getObjectByName('Commutator');
+					rings = gltf.scene.getObjectByName('Rings');
+					insulator = gltf.scene.getObjectByName('Insulator');
+
+					for (let i = 0; i < coilModel.children.length; i++) {
+
+						generator.push(coilModel.children[i])
+					}
+					for (let i = 0; i < generator.length; i++) {
+						generator[i].visible = false;
+					}
+
+					direction1.morphTargetInfluences[0] = 0;
+					direction2.morphTargetInfluences[0] = 1;
+					direction1.morphTargetInfluences[1] = 0;
+					direction2.morphTargetInfluences[1] = 0;
+
 					let fixedStates = ['direction1', 'direction2'];
 
 
@@ -848,17 +897,19 @@
 						let clip = gltf.animations[i];
 						let action = mixer1.clipAction(clip);
 						actions[clip.name] = action;
+
 						if (fixedStates.indexOf(clip.name) >= 0) {
 							action.clampWhenFinished = true;
 							action.loop = THREE.LoopOnce;
-							//console.log(i, clip.name, fixedStates.indexOf(clip.name) )
 						}
 
 					}
-					render();
+					console.log(actions)
+					// render();
 				});
+
 			window.addEventListener('resize', onWindowResize);
-			render();
+			// render();
 		}
 
 		//Resize the window
@@ -891,7 +942,6 @@
 
 		//Load all button actions with element change
 		function buttonLoad() {
-
 
 			// Load Induced Solenoid coil (default) scene
 			buttonMagnetEl.addEventListener('click', function () {
@@ -929,8 +979,6 @@
 				// console.log('SOLENOID COIL & SOLENOID COIL');
 
 				magmodelLoad();
-
-
 				setCamera();
 			});
 
@@ -945,8 +993,8 @@
 				buttonRule.innerHTML = "FLEMING'S RIGHT HAND RULE";
 				// ruleviewer.style.visibility = "hidden";
 				buttonRelative.innerHTML = "SLOW MOTION";
-				rightHand.rotation.set(0, 1.57, -1.57);
-				rightHand.position.set(-1.5, 0.5, 1.3);
+				// rightHand.rotation.set(0, 1.57, -1.57);
+				// rightHand.position.set(-1.5, 0.5, 1.3);
 				element = 2;
 				ruleClues()
 				// console.log('Armature Coil');
@@ -954,6 +1002,7 @@
 				electromagnet.material = newMaterial;
 				setCamera();
 				magmodelLoad();
+				magnetPolarity();
 			});
 
 			// Move Button for barMagnet Action... Current Button for Current Change ...Rotate Armature Coil...Induce current...
@@ -983,9 +1032,9 @@
 					supplyCurrent();
 				} else if (element === 2) {
 					// console.log('Induced AC current flows in Galvanometer');
+					cancelAnimationFrame(requestInduced);
+					cancelAnimationFrame(requestInducedSlow);
 					stop = false;
-					coilRotateSlow = false;
-					coilRotate = true;
 					scene.remove(pointGroup)
 					pointGroup = new THREE.Group();
 					presentPoint = new THREE.Vector3(0, 0, 0);
@@ -996,6 +1045,10 @@
 					buttonAction.style.cursor = 'default';
 					insulator.morphTargetInfluences[0] = 1;
 					currentwire.morphTargetInfluences[1] = 1;
+					scene.remove(pointGroup)
+					pointGroup = new THREE.Group();
+					presentPoint = new THREE.Vector3(0, 0, 0);
+					nextPoint = new THREE.Vector3(0, 0, -1.3);
 					inducedCurrent();
 				}
 
@@ -1016,14 +1069,14 @@
 					resetSolenoid();
 				} else if (element === 2) {
 					stop = false;
-					coilRotate = false;
-					coilRotateSlow = true;
 					buttonAction.disabled = false;
 					buttonAction.style.cursor = 'pointer';
 					cancelAnimationFrame(requestInduced);
-					// cancelAnimationFrame(requestInducedSlow);
+					cancelAnimationFrame(requestInducedSlow);
 					// insulator.scale.set(0, 0, 0);
 					insulator.morphTargetInfluences[0] = 0;
+					arrow1.visible = true;
+					arrow2.visible = true;
 					currentwire.morphTargetInfluences[1] = 1;
 					buttonFlip.disabled = false;
 					buttonFlip.style.cursor = 'pointer';
@@ -1037,7 +1090,7 @@
 				}
 
 			});
-			
+
 			//Button for barmagnet flip and current polarity change
 			buttonFlip.addEventListener('click', function () {
 				if (element === 0) {
@@ -1109,12 +1162,13 @@
 
 					buttonFlip.disabled = false;
 					buttonFlip.style.cursor = 'pointer';
+
+					currentwire.visible = false;
+					arrow1.visible = false;
+					arrow2.visible = false;
+					galvNeedle.rotation.y = 0;
 					cancelAnimationFrame(requestInduced);
 					cancelAnimationFrame(requestInducedSlow);
-					coilRotate = false;
-					galvNeedle.rotation.y = 0;
-					insulator.morphTargetInfluences[0] = 1;
-					visualClues();
 
 				}
 
@@ -1132,34 +1186,31 @@
 
 		//Display the diffent laws-Faraday's law of induction, lenz's law, amd Fleming's right hand rule
 		function ruleClues() {
-			
+
 			if (ruleClue && element == 0) {
-				// scene.remove(rightHand)
 				lineGroup.visible = true;
 				ruleviewer.style.visibility = "visible";
 				flemingRule.style.visibility = "hidden";
 				messageEl.innerHTML = " Change in Magnetic flux linked with the solenoid, induces a current in it"
-				console.log('Move magnet inside coil-Lens Law')
+				// console.log('Move magnet inside coil-Lens Law')
 			} else if (ruleClue && element == 1) {
-				// scene.remove(rightHand)
-				console.log(lineGroup);
 				ruleviewer.style.visibility = "visible";
 				flemingRule.style.visibility = "hidden";
 				messageEl.innerHTML = "Induced current opposes the change, of the magnetic flux, that induces it"
-				console.log('Move magnet inside coil-Lens Law')
+				// console.log('Move magnet inside coil-Lens Law')
 			} else if (ruleClue && element == 2) {
 				ruleviewer.style.visibility = "visible";
 				messageEl.innerHTML = "FLEMING'S RIGHT HAND RULE:"
 				flemingRule.style.visibility = "visible";
-				console.log('rotate coil in magnetic field-Fleming RH rule')
-				scene.add(rightHand)
+				// console.log('rotate coil in magnetic field-Fleming RH rule')
+				// scene.add(rightHand)
 			} else {
-				scene.remove(rightHand)
+				// scene.remove(rightHand)
 				ruleviewer.style.visibility = "hidden";
 				flemingRule.style.visibility = "hidden";
 				lineGroup.visible = false;
 				fieldLines.visible = false;
-				console.log('hide message')
+				// console.log('hide message')
 			}
 			render();
 		}
