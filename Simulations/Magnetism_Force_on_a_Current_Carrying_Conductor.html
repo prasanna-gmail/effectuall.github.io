@@ -62,7 +62,7 @@
 		import { OrbitControls } from '../jsm/controls/OrbitControls.js';
 		import Stats from '../jsm/libs/stats.module.js';
 
-		let element = 0;
+		let element = 1;
 		let flip = false;
 		let flow = false;
 		let slow = false;
@@ -181,10 +181,9 @@
 						if (fixedStates.indexOf(clip.name) >= 0) {
 							action.clampWhenFinished = true;
 							action.loop = THREE.LoopOnce;
-							// action.repetitions = 1;
 						}
 					}
-					render();
+					
 				});
 
 			//load Left Hand gesture
@@ -192,12 +191,7 @@
 				.setPath(modelPath)
 				.load(elements['3'], function (gltf) {
 					leftHand = gltf.scene;
-					gltf.scene.traverse((child) => {
-						if (child.type == 'SkinnedMesh') {
-							child.frustumCulled = false;
-						}
-					});
-					render();
+					
 				});
 			//load Armature Coil model
 			loader
@@ -239,11 +233,6 @@
 				.setPath(modelPath)
 				.load(elements['5'], function (gltf) {
 					magnet = gltf.scene;
-					gltf.scene.traverse((child) => {
-						if (child.type == 'SkinnedMesh') {
-							child.frustumCulled = false;
-						}
-					});
 					direction = magnet.getObjectByName('direction');
 					mField = magnet.getObjectByName('Magnet');
 					scene.add(magnet);
@@ -650,10 +639,14 @@
 			actions['arrowflipR'].reset().stop();
 			actions['direction1'].reset().stop();
 			actions['direction2'].reset().stop();
-			scene.remove(leftHand);
-			scene.remove(coilModel);
-			scene.remove(wireModel);
-			scene.remove(magnet);
+			// scene.remove(leftHand);
+			// scene.remove(coilModel);
+			// scene.remove(wireModel);
+			// scene.remove(magnet);
+			leftHand.visible = false;
+			coilModel.visible = false;
+			wireModel.visible = false;
+			magnet.visible = false;
 
 			current.visible = false;
 			direction.visible = false;
@@ -667,14 +660,14 @@
 			if (element === 0) {
 				createCamera(50, 5, 3, 5);
 				createControls(0.8, .8, 0);
-				render();
+				// render();
 
 			} else if (element === 1) {
 				createCamera(35, 5, 5, 5);
 				createControls(0.4, 0.4, 0);
-				render();
+				// render();
 			}
-
+			animate()
 		}
 
 		function onWindowResize() {
@@ -721,10 +714,11 @@
 				flow = false;
 				flip = false;
 				hGesture = false;
-				setCamera();
+				
 				stopAllaction();
 				scene.add(coilModel);
-				animate();
+				coilModel.visible = true;
+				setCamera();
 			});
 
 			// Load the Almunium rod scene
@@ -743,8 +737,10 @@
 				hGesture = false
 				setCamera();
 				stopAllaction();
-				scene.add(wireModel);
-				scene.add(magnet);
+				// scene.add(wireModel);
+				// scene.add(magnet);
+				magnet.visible = true;
+				wireModel.visible = true;
 				render();
 			});
 
