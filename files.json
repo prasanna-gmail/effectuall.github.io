@@ -6,6 +6,8 @@
 		"Optics_Diverging_Lens",
 		"Optics_Converging_Mirror",
 		"Optics_Diverging_Mirror",
+		"Optics_Reflection_of_Light",
+		"Optics_Refraction_of_Light",
 		"Optics_Interference"
 	],
 	"Classical Mechanics": [
