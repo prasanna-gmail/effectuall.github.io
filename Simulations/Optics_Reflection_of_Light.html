@@ -53,7 +53,7 @@
 
         <div id="menu">
             <strong>Click to select an object. <br>
-                Press 'W' to Translate & 'R' to Rotate .</strong><br>
+                Press 'T' to Translate & 'R' to Rotate .</strong><br>
                 <button id="moveEl">
                     TRANSLATE
                 </button>
@@ -66,25 +66,6 @@
         </div>
 
     </div>
-    <script>
-        let sideMenu = document.getElementById('sidemenu');
-        let theoryButton = document.getElementById('theorybutton');
-
-        function displayOn() {
-
-            if (sideMenu.style.display === 'block') {
-                sideMenu.style.display = 'none';
-            } else {
-                sideMenu.style.display = 'block';
-            }
-        };
-
-        function theorySite() {
-
-            window.open("../Theory/Optics_Converging_Lens.html", "_self")
-        }
-    </script>
-
 
     <script type="module">
         import * as THREE from '../build/three.module.js';
@@ -260,9 +241,9 @@
 
             window.addEventListener('resize', onWindowResize);
             window.addEventListener( 'keydown', function ( event ) {
-                console.log( event.keyCode )
+                // console.log( event.keyCode )
                 switch ( event.keyCode ) {
-                        case 87: // W
+                        case 84: // W
                             transformControls.setMode( 'translate' );
 							break;
 
@@ -330,7 +311,7 @@
                 sphere.scale.set(.1,.1,.1);
                 sphere.position.set( params.pos*params.irad, params.pos, 0 );
                 image.position.set( -params.pos*params.irad, params.pos, 0 )
-                console.log(sphere.position);
+                // console.log(sphere.position);
                 incidentRay = addLines(new THREE.Vector3(0, 0, 0), sphere.position, 'red');
                 group.add(incidentRay);
                 reflectedRay = addLines(new THREE.Vector3(0, 0, 0), image.position, 'blue'); 
@@ -425,5 +406,4 @@
         }
     </script>
 </body>
-
 </html>
