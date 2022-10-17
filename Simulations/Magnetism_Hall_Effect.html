@@ -37,11 +37,19 @@
 		<a id="message-el">
 			Investigate the effect of magnetic field on a thin slab of conductor
 		</a><br>
+		<button id="theorybutton" onClick="theorySite()">THEORY</button>
 		<button id="change-el">CURRENT CHANGE</button>
 		<button id="flip-el">FIELD FLIP</button>
 		<button id="move-el">MOVE MAGNET</button>
 		<button style="visibility:hidden" id="reset-el">RESET MAGNET</button>
-	</div>
+		
+	  </div>
+	  <script>
+		function theorySite() {
+	
+			window.open("../Theory/Magnetism_Hall_Effect.html", "_self")
+		}
+	  </script>
 
 	<script type="module">
 		import * as THREE from '../build/three.module.js';
