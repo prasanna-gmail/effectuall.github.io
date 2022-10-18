@@ -188,7 +188,7 @@ function selectFile(file) {
 
     links[file].classList.add('selected');
 
-    window.location.hash = 'Simulations/' + file;
+    window.location.hash = 'Simulations/' + file + '.html';
     viewer.focus();
     viewer.style.display = 'unset';
 
