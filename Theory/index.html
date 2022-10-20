@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Physics 3D interactive simulations</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)" />
+	<link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
+	<link rel="stylesheet" type="text/css" href="../css/index.css">
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'G-7VWWT4ZKR6');
+	</script>
+	<meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
+
+</head>
+
+<body>
+
+	<div id="panel">
+
+		<div id="header">
+			<h1><a href="../index.html"> PHYSICS <sup>3D</sup> INTERACTIVE</a></h1>
+
+			<div id="sections">
+				<span class="selected">Theory</span>
+				<a href="../index.html">Simulations</a>
+			</div>
+
+			<div id="expandButton"></div>
+		</div>
+
+		<div id="panelScrim"></div>
+
+		<div id="contentWrapper">
+
+			<div id="inputWrapper">
+				<input placeholder="" type="text" id="filterInput" autocorrect="off" autocapitalize="off"
+					spellcheck="false" />
+				<div id="exitSearchButton"></div>
+			</div>
+
+			<div id="content">
+
+			</div>
+		</div>
+
+	</div>
+
+	<iframe id="viewer" name="viewer" allow="fullscreen; xr-spatial-tracking;" src="intro.html"></iframe>
+	<a id="button"  target="_blank"><img src="../files/ic_code_black_24dp.svg"></a>
+
+
+	<script>
+		const content = document.getElementById('content');
+		let viewer = document.getElementById('viewer');
+		const viewSrcButton = document.getElementById('button');
+		let selected = null;
+		const links = {};
+		const validRedirects = new Map();
+		viewSrcButton.style.display = 'none';
+		init();
+		
+		async function init() {
+
+			content.classList.toggle('minimal');
+
+			const container = document.createElement('div');
+			const topics = document.getElementById('topics');
+			const files = await (await fetch('files.json')).json();
+			const tags = await (await fetch('tags.json')).json();
+			
+
+			
+
+			for (const key in files) {
+				content.appendChild(container);
+				const section = files[key];
+				console.log(key, section)
+				const header = document.createElement('h2');
+				header.textContent = key;
+				header.setAttribute('data-category', key);
+				container.appendChild(header);
+
+
+				for (let i = 0; i < section.length; i++) {
+
+					const file = section[i];
+					// const link = 'Simulations/' + file 
+					const template = `
+						<div class="card">
+							<a href="${key}/${file}.html" target="viewer">						
+								<div class="title">${getName(file)}</div>
+							</a>
+						</div>
+					`;
+					const link = createElementFromHTML(template);
+					link.querySelector('a[target="viewer"]').addEventListener('click', function (event) {
+
+						if (event.button !== 0 || event.ctrlKey || event.altKey || event.metaKey) return;
+
+						selectFile(key, file);
+
+					});
+					console.log(link, key, file)
+					container.appendChild(link);
+					links[file] = link;
+					validRedirects.set(file,  file + '.html');
+
+				}
+			}
+
+
+		}
+
+		function selectFile(key, file) {
+
+			if (selected !== null) links[selected].classList.remove('selected');
+
+			links[file].classList.add('selected');
+
+			window.location.hash = file;
+			viewer.focus();
+			viewer.style.display = 'unset';
+
+			panel.classList.remove('open');
+
+			selected = file;
+			console.log(file, key)
+			// // Reveal "View source" button and set attributes to this example
+			viewSrcButton.style.display = '';
+			viewSrcButton.href = key + '/' + selected + '.html';
+
+		}
+
+		function createElementFromHTML(htmlString) {
+
+			const div = document.createElement('div');
+			div.innerHTML = htmlString.trim();
+			return div.firstChild;
+
+		}
+
+		function getName(file) {
+
+			const name = file.split('_');
+			name.shift();
+			return name.join(' ');
+
+		}
+	</script>
+</body>
+
+</html>
