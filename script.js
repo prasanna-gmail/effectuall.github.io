@@ -18,12 +18,12 @@ const container = document.createElement('div');
 let selected = null;
 
 init();
-viewSrcButton.style.display = 'none';
+
 async function init() {
 
     content.appendChild(container);
     content.classList.toggle('minimal');
-    // viewSrcButton.style.display = 'none';
+    
 
     const files = await (await fetch('files.json')).json();
     const tags = await (await fetch('tags.json')).json();
@@ -51,6 +51,7 @@ async function init() {
 
     }
 
+
     if (window.location.hash !== '') {
 
         const file = window.location.hash.substring(1);
@@ -71,6 +72,7 @@ async function init() {
         window.location.hash = 'intro.html';
         viewer.src = 'intro.html';
         viewer.style.display = 'unset';
+        viewSrcButton.style.display = 'none';
     }
 
   
@@ -155,6 +157,7 @@ async function init() {
 
 }
 
+  
 function createLink(file) {
 
     const template = `
@@ -184,7 +187,7 @@ function createLink(file) {
 
 function selectFile(file) {
 
-    if (selected !== null) links[selected].classList.remove('selected');
+    if (selected !== null)  links[selected].classList.remove('selected');
 
     links[file].classList.add('selected');
 
@@ -197,7 +200,8 @@ function selectFile(file) {
     selected = file;
     // console.log(viewer, file)
     // Reveal "View source" button and set attributes to this example
-    viewSrcButton.style.display = '';
+    viewSrcButton.style.display = 'block';
+   
     viewSrcButton.href = './Simulations/' + selected + '.html';
 
 }
