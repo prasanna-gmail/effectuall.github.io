@@ -45,7 +45,7 @@ async function init() {
             container.appendChild(link);
 
             links[file] = link;
-            validRedirects.set(file, './Simulations/' + file + '.html');
+            validRedirects.set(file, 'Simulations/' + file + '.html');
 
         }
 
@@ -54,12 +54,12 @@ async function init() {
 
     if (window.location.hash !== '') {
 
-        const file = window.location.hash.substring(1);
-
+        const file = window.location.hash.substring(13);
+        console.log(file, validRedirects.has(file), validRedirects, window.location.hash)
         // use a predefined map of redirects to avoid untrusted URL redirection due to user-provided value
 
         if (validRedirects.has(file) === true) {
-
+            console.log(file)
             selectFile(file);
             viewer.src = validRedirects.get(file);
             viewer.style.display = 'unset';
@@ -69,7 +69,7 @@ async function init() {
     }
 
     if (viewer.src === '') {
-        window.location.hash = 'intro.html';
+        // window.location.hash = 'intro.html';
         viewer.src = 'intro.html';
         viewer.style.display = 'unset';
         viewSrcButton.style.display = 'none';
@@ -191,7 +191,7 @@ function selectFile(file) {
 
     links[file].classList.add('selected');
 
-    window.location.hash = 'Simulations/' + file + '.html';
+    window.location.hash = 'Simulations/' + file ;
     viewer.focus();
     viewer.style.display = 'unset';
 
@@ -202,7 +202,7 @@ function selectFile(file) {
     // Reveal "View source" button and set attributes to this example
     viewSrcButton.style.display = 'block';
    
-    viewSrcButton.href = './Simulations/' + selected + '.html';
+    viewSrcButton.href = './Simulations/' + selected ;
 
 }
 
