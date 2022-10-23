@@ -53,19 +53,27 @@
 	</div>
 
 	<iframe id="viewer" name="viewer" allow="fullscreen; xr-spatial-tracking;" src="intro.html"></iframe>
-	<a id="button"  target="_blank"><img src="../files/ic_code_black_24dp.svg"></a>
+	<a id="button" target="_blank"><img src="../files/ic_code_black_24dp.svg"></a>
 
 
 	<script>
 		const content = document.getElementById('content');
 		let viewer = document.getElementById('viewer');
+		const filterInput = document.getElementById('filterInput');
+		const exitSearchButton = document.getElementById('exitSearchButton');
+		const expandButton = document.getElementById('expandButton');
 		const viewSrcButton = document.getElementById('button');
+		const panelScrim = document.getElementById('panelScrim');
+
+		const sectionLink = document.querySelector('#sections > a');
+		const sectionDefaultHref = sectionLink.href;
+
 		let selected = null;
 		const links = {};
 		const validRedirects = new Map();
 		viewSrcButton.style.display = 'none';
 		init();
-		
+
 		async function init() {
 
 			content.classList.toggle('minimal');
@@ -74,14 +82,14 @@
 			const topics = document.getElementById('topics');
 			const files = await (await fetch('files.json')).json();
 			const tags = await (await fetch('tags.json')).json();
-			
 
-			
+
+
 
 			for (const key in files) {
 				content.appendChild(container);
 				const section = files[key];
-				console.log(key, section)
+				// console.log(key, section)
 				const header = document.createElement('h2');
 				header.textContent = key;
 				header.setAttribute('data-category', key);
@@ -107,14 +115,100 @@
 						selectFile(key, file);
 
 					});
-					console.log(link, key, file)
+					// console.log(link, key, file)
 					container.appendChild(link);
 					links[file] = link;
-					validRedirects.set(file,  file + '.html');
+					validRedirects.set(file, file + '.html');
 
 				}
 			}
 
+
+			if (window.location.hash !== '') {
+
+				const file = window.location.hash.substring(1);
+
+				// use a predefined map of redirects to avoid untrusted URL redirection due to user-provided value
+
+				if (validRedirects.has(file) === true) {
+
+					selectFile(file);
+					viewer.src = validRedirects.get(file);
+					viewer.style.display = 'unset';
+
+				}
+
+			}
+
+			if (viewer.src === '') {
+				window.location.hash = 'intro.html';
+				viewer.src = 'intro.html';
+				viewer.style.display = 'unset';
+				viewSrcButton.style.display = 'none';
+			}
+
+
+
+			filterInput.value = extractQuery();
+
+			if (filterInput.value !== '') {
+
+				panel.classList.add('searchFocused');
+
+				updateFilter(files, tags);
+
+			} else {
+
+				updateLink('');
+
+			}
+
+			// Events
+
+			filterInput.onfocus = function () {
+
+				panel.classList.add('searchFocused');
+
+			};
+
+			filterInput.onblur = function () {
+
+				if (filterInput.value === '') {
+
+					panel.classList.remove('searchFocused');
+
+				}
+
+			};
+
+			exitSearchButton.onclick = function () {
+
+				filterInput.value = '';
+				updateFilter(files, tags);
+				panel.classList.remove('searchFocused');
+
+			};
+
+			filterInput.addEventListener('input', function () {
+
+				updateFilter(files, tags);
+
+			});
+
+
+			expandButton.addEventListener('click', function (event) {
+
+				event.preventDefault();
+				panel.classList.toggle('open');
+
+			});
+
+			panelScrim.onclick = function (event) {
+
+				event.preventDefault();
+				panel.classList.toggle('open');
+
+			};
 
 		}
 
@@ -153,6 +247,40 @@
 			return name.join(' ');
 
 		}
+
+		
+	function extractQuery() {
+
+		const search = window.location.search;
+
+		if (search.indexOf('?q=') !== - 1) {
+
+			return decodeURI(search.substr(3));
+
+		}
+
+		return '';
+
+	}
+
+	
+	function updateLink(search) {
+
+		// update docs link
+
+		if (search) {
+
+			const link = sectionLink.href.split(/[?#]/)[0];
+			sectionLink.href = `${link}?q=${search}`;
+
+		} else {
+
+			sectionLink.href = sectionDefaultHref;
+
+		}
+
+	}
+
 	</script>
 </body>
 
