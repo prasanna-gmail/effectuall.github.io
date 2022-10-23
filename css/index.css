@@ -431,7 +431,6 @@ iframe#viewer {
 		font-weight: 500;
 	}
 
-
 #projects {
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
