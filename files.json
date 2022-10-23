@@ -11,15 +11,15 @@
 		"Optics_Understanding_Waves",
 		"Optics_Interference"
 	],
-	"Classical Mechanics": [
-		"Classical Mechanics_Circular_Motion",
-		"Classical Mechanics_Projectile_Motion",
-		"Classical Mechanics_Banking_on_a_Road",
-		"Classical Mechanics_Motion_in_straight_line",
-		"Classical Mechanics_Motion_in_a_Plane",
-		"Classical Mechanics_Spring_Force",
-		"Classical Mechanics_Simple_Pendulum",
-		"Classical Mechanics_Gravitation_Law"
+	"Mechanics": [
+		"Mechanics_Circular_Motion",
+		"Mechanics_Projectile_Motion",
+		"Mechanics_Banking_on_a_Road",
+		"Mechanics_Motion_in_straight_line",
+		"Mechanics_Motion_in_a_Plane",
+		"Mechanics_Spring_Force",
+		"Mechanics_Simple_Pendulum",
+		"Mechanics_Gravitation_Law"
 	],
 	"Magnetism": [
 		"Magnetism_History_of_Electromagnetism",
