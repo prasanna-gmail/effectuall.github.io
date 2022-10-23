@@ -115,24 +115,37 @@
 						selectFile(key, file);
 
 					});
-					// console.log(link, key, file)
+					// console.log(key, file)
 					container.appendChild(link);
 					links[file] = link;
-					validRedirects.set(file, file + '.html');
+					validRedirects.set(file, key+ '/' + file + '.html');
 
 				}
 			}
 
 
+			
 			if (window.location.hash !== '') {
 
 				const file = window.location.hash.substring(1);
-
+				let key;
+				let x;
+				for (let i = 0; i<file.length; i++) {
+					x = file[i]
+					
+					if (x === '_') {
+						
+						key = file.substring(0,i)
+						break
+					}
+				}
+				
+				// console.log(file, file.length, validRedirects.has(file), validRedirects)
 				// use a predefined map of redirects to avoid untrusted URL redirection due to user-provided value
 
 				if (validRedirects.has(file) === true) {
-
-					selectFile(file);
+					// console.log(validRedirects.get(file))
+					selectFile(key, file);
 					viewer.src = validRedirects.get(file);
 					viewer.style.display = 'unset';
 
@@ -215,7 +228,7 @@
 		function selectFile(key, file) {
 
 			if (selected !== null) links[selected].classList.remove('selected');
-
+			// console.log(key, file)
 			links[file].classList.add('selected');
 
 			window.location.hash = file;
@@ -225,7 +238,7 @@
 			panel.classList.remove('open');
 
 			selected = file;
-			console.log(file, key)
+			
 			// // Reveal "View source" button and set attributes to this example
 			viewSrcButton.style.display = '';
 			viewSrcButton.href = key + '/' + selected + '.html';
