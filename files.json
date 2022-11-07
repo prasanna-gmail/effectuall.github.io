@@ -28,5 +28,10 @@
 		"Magnetism_Force_on_a_Current_Carrying_Conductor",
 		"Magnetism_Electromagnetic_Induction",
 		"Magnetism_Hall_Effect"
+	],
+	"Thermodynamics": [
+		"Thermodynamics_Ideal_Gas_Equation",
+		"Thermodynamics_Kinetic_Theory_of_Gases",
+		"Thermodynamics_Hot_Air_Balloon"
 	]
 }
