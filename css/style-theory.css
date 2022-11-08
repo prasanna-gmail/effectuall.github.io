@@ -146,6 +146,40 @@ dl {
   background-color:rgba(78, 192, 245, 0.3);
 }
 
+input[type=data] {
+  border: 2px solid #049EF4;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 0px;
+  ;
+
+}
+
+.fraction {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.2em 0.4em;
+  text-align: center;
+  font-size: 1em;
+}
+
+.fraction>span {
+  display: block;
+  padding-top: 0.15em;
+}
+
+.fraction span.fdn {
+  border-top: thin solid black;
+}
+
+.fraction span.bar {
+  display: none;
+}
   footer {
     background-color:  rgba(78, 192, 245,.4);
     font-size: 13px;
