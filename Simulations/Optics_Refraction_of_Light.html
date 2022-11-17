@@ -12,14 +12,15 @@
         input[type=data] {
             border: 2px solid #049EF4;
             border-radius: 8px;
-           text-align: center;
+            text-align: center;
         }
 
         .label {
             font-weight: bold;
             font-size: 16px;
-            margin-left: 0px;;
-            
+            margin-left: 0px;
+            ;
+
         }
     </style>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
@@ -45,9 +46,9 @@
         </div>
 
         <div id="sidemenu">
-            
+
             <a> Snell's Law: </a><br>
-           
+
             <div class="fraction">
                 <span><em>n</em><sub>21</sub></span>
             </div>
@@ -58,43 +59,27 @@
                 <span class="fdn">sin <em>r</em></span>
             </div>
             <br>
-            <a>where, <em>n</em><sub>21</sub>  <a>Refractive Index,</a></a>
+            <a>where, <em>n</em><sub>21</sub> <a>Refractive Index,</a></a>
 
         </div>
 
         <div id="menu">
-            <label for="incident">Angle of Incidence, <em>i</em> =</label><input type="data" id="incidentDisplay"
-            size="3"> <a><sup>o</sup></a><br>
-
-        <a><input type="range" id="incident" name="incident" min="0" max="90" value="45" step=".5">
-        </a>
-        <br><label for="index"> Refractive Index, <em>n</em> =</label><input type="data" id="indexDisplay"
-            size="3"><br>
-
-        <a><input type="range" id="index" name="index" min="1" max="3.2" value="1.414" step=".001">
-        </a><br>
-        <a><label for="refract">Angle of Refraction, <em>r</em> =</label><a id="refractDisplay">
-                <input type="data" id="refract" name="refract" min="0" max="90" size="3"
-                    onchange="displayRefract()"> </a><sup>o</sup><br>
-        </a><br>
-            <!-- <a> Refractive Index,</a> <br>
-            n<sub>21</sub>=
-            <div class="fraction">
-                <span class="fup">sin <a id="incidentAngle">i</a></span>
-                <span class="bar">/</span>
-                <span class="fdn">sin <a id="refractedAngle">r</a></span>
-            </div>
-            = <a id="refractiveIndex"> </a>
-            <br>
-            <a id="message-el">
-                Angle of Incidence, (i) = <b id="i-el"> 45</b> <br>
-                Angle of Refraction, (r) = <b id="r-el">30 </b> <br>
-                Refractive Index, ( n<sub>21</sub>) = <b id="n-el"> </b>
-
+            <a><input type="range" id="incident" name="incident" min="0" max="90" value="45" step=".5"><br>
+                <label for="incident">Angle of Incidence, <em>i</em> =</label><input type="data" id="incidentDisplay"
+                    size="3"> <a><sup>o</sup></a>
             </a>
             <br>
-            <button onClick="displayOn()">FORMULA</button>
-            <button id="theorybutton" onClick="theorySite()">THEORY</button> -->
+            <a><input type="range" id="index" name="index" min="1" max="3.2" value="1.414" step=".001"><br>
+                <label for="index"> Refractive Index, <em>n</em> =</label><input type="data" id="indexDisplay"
+                    size="3"><br>
+            </a><br>
+            <a><label for="refract">Angle of Refraction, <em>r</em> =</label>
+                    <input type="data" id="refract" name="refract" min="0" max="90" size="3"> </a><sup>o</sup><br>
+            </a><br>
+
+            <button onClick="displayApparent()">Apparent Depth</button>
+            <button onClick="displayTotal()">Total Internal Reflection</button>
+            <button id="theorybutton" onClick="theorySite()">THEORY</button>
         </div>
 
     </div>
@@ -110,11 +95,19 @@
                 sideMenu.style.display = 'block';
             }
         };
+        function displayApparent() {
 
-        function theorySite() {
-
-            window.open("../Theory/Optics_Converging_Lens.html", "_self")
+            window.open("Optics_Apparent_depth.html", "_self")
         }
+        
+        function displayTotal() {
+
+            window.open("Optics_Total_Internal_Reflection.html", "_self")
+        }
+        // function theorySite() {
+
+        //     window.open("../Theory/Optics_Converging_Lens.html", "_self")
+        // }
     </script>
 
 
@@ -171,22 +164,12 @@
         let refract = document.getElementById('refract');
         let incidentDisplay = document.getElementById('incidentDisplay');
         let indexDisplay = document.getElementById('indexDisplay');
-        let refractDisplay = document.getElementById('refractDisplay');
-        let X = Math.sin(incident.value * (Math.PI / 180)) / index.value;
-        refract.value = ((Math.asin(X) * 180) / Math.PI).toFixed(1);
-        incidentDisplay.value = 45;
+        let X;
+        refract.value =  params.rdeg;
+        incidentDisplay.value =  params.ideg;
         indexDisplay.value = params.n;
         let incidentAngle = document.getElementById('incidentAngle');
         let refractedAngle = document.getElementById('refractedAngle');
-        // let iEl = document.getElementById('i-el');
-        // let rEl = document.getElementById('r-el');
-        // let nEl = document.getElementById('n-el');
-        // incidentAngle.innerHTML = iEl.innerHTML;
-        // refractedAngle.innerHTML = rEl.innerHTML;
-
-        // let refractiveIndex = document.getElementById('refractiveIndex');
-        // refractiveIndex.innerHTML = (Math.sin((Math.PI * iEl.innerHTML) / 180) / Math.sin((Math.PI * rEl.innerHTML) / 180)).toFixed(3);
-        // nEl.innerHTML = (Math.sin((Math.PI * iEl.innerHTML) / 180) / Math.sin((Math.PI * rEl.innerHTML) / 180)).toFixed(3);
 
 
         function createCamera() {
@@ -229,7 +212,7 @@
             labelRenderer.setSize(window.innerWidth, window.innerHeight);
             labelRenderer.domElement.style.position = 'absolute';
             labelRenderer.domElement.style.top = '0px';
-			
+
             labelRenderer.domElement.style.pointerEvents = 'none';
             document.body.appendChild(labelRenderer.domElement);
         }
@@ -263,40 +246,6 @@
                 .translate(0, (-thickness / Math.cos(params.r)) / 2, 0);
             refractedRay.geometry = newangleGeometry;
             refractedRay.rotation.set(0, 0, params.r);
-        }
-        
-        function displayRefract() {
-
-            let X = Math.sin(incident.value * (Math.PI / 180)) / index.value;
-            let Y = Math.asin(X);
-
-            refract.value = ((Y * 180) / Math.PI).toFixed(1);
-            params.i = (Math.PI / 180) * incident.value;
-            params.r = Y;
-            params.n = index.value;
-            params.ideg = incident.value;
-            params.rdeg = refract.value;
-            incidentDisplay.value = incident.value;
-            indexDisplay.value = index.value;
-            // change incident and refracted ray and angle measure 
-            let A = params.i;
-            pointB = new THREE.Vector3(thickness * Math.tan(params.r), 0, 0);
-            let B = params.r;
-            incidentRay.rotation.set(0, 0, A);
-            emergentRay.rotation.set(0, 0, A);
-            emergentRay.position.copy(pointB)
-            adjustAngle(iAngle, 1.57, A, itext, params.ideg);
-            adjustAngle(r1Angle, -1.57, B, r1text, params.rdeg);
-            adjustRefract()
-            r2Angle.position.copy(pointB);
-            eAngle.position.copy(pointB);
-            adjustAngle(eAngle, 1.57, B, etext, params.ideg)
-            adjustAngle(r2Angle, -1.57, A, r2text, params.rdeg);
-            normal2 = new THREE.Vector3(thickness * Math.tan(params.r), -5, 0);
-            normalRay2.position.copy(normal2);            
-            
-            showLabels();
-            render()
         }
 
         function init() {
@@ -359,7 +308,7 @@
             r1angleLabel = new CSS2DObject(r1text);
             r1angleLabel.position.copy(new THREE.Vector3(0.3, -1.4, 0));
             r1Angle.add(r1angleLabel);
-            
+
             r2text = document.createElement('div');
             r2text.className = 'label';
             r2text.innerHTML = params.rdeg + '&deg;';
@@ -378,7 +327,7 @@
             eAngle = addAngle(-1.57, A);
             eAngle.position.copy(pointB)
             scene.add(eAngle)
-          
+
             etext = document.createElement('div');
             etext.className = 'label';
             etext.innerHTML = params.ideg + '&deg;';
@@ -412,11 +361,66 @@
             showLabels();
 
             incident.addEventListener('change', function (e) {
-                // console.log(e)
+                
+                params.i = (Math.PI / 180) * incident.value;
+               
+                let X = Math.sin(params.i) / params.n;
+                let Y = Math.asin(X);
+                params.r = Y;
+                params.ideg = incident.value;
+                params.rdeg = ((Y * 180) / Math.PI).toFixed(1);
+                incidentDisplay.value = incident.value;
+                refract.value = params.rdeg;
+                displayRefract();
+            })
+            incidentDisplay.addEventListener('change', function (e) {
+                
+                params.i = (Math.PI / 180) * incidentDisplay.value;
+               
+                let X = Math.sin(params.i) / params.n;
+                let Y = Math.asin(X);
+                params.r = Y;
+                params.ideg = incidentDisplay.value;
+                params.rdeg = ((Y * 180) / Math.PI).toFixed(1);
+                incident.value = incidentDisplay.value;
+                refract.value = params.rdeg;
+                displayRefract();
+            })
+            indexDisplay.addEventListener('change', function (e) {
+
+                
+                params.n = indexDisplay.value;
+                
+                let X = Math.sin(params.i) / params.n;
+                let Y = Math.asin(X);
+                params.r = Y;
+                params.rdeg = ((Y * 180) / Math.PI).toFixed(1);
+                index.value = indexDisplay.value;
+                refract.value = params.rdeg;
                 displayRefract();
             })
             index.addEventListener('change', function (e) {
-                // console.log(e)
+               
+                params.n = index.value;
+                let X = Math.sin(params.i) / index.value;
+                let Y = Math.asin(X);
+                params.r = Y;
+
+                params.rdeg = ((Y * 180) / Math.PI).toFixed(1);
+                indexDisplay.value = index.value;
+                refract.value = params.rdeg;
+                displayRefract();
+            })
+            refract.addEventListener('change', function (e) {
+                params.rdeg = refract.value;
+                params.r = (Math.PI / 180) * refract.value;
+                let Y = Math.sin(params.r) * params.n;
+                let X = Math.asin(Y);
+                params.i = X;
+                params.ideg = ((X * 180) / Math.PI).toFixed(1);
+               
+                incident.value = params.ideg;
+                incidentDisplay.value = params.ideg;
                 displayRefract();
             })
             document.body.appendChild(renderer.domElement);
@@ -424,12 +428,36 @@
             window.addEventListener('resize', onWindowResize);
         }
 
+        function displayRefract() {
+
+
+            // change incident and refracted ray and angle measure 
+            let A = params.i;
+            pointB = new THREE.Vector3(thickness * Math.tan(params.r), 0, 0);
+            let B = params.r;
+            incidentRay.rotation.set(0, 0, A);
+            emergentRay.rotation.set(0, 0, A);
+            emergentRay.position.copy(pointB)
+            adjustAngle(iAngle, 1.57, A, itext, params.ideg);
+            adjustAngle(r1Angle, -1.57, B, r1text, params.rdeg);
+            adjustRefract()
+            r2Angle.position.copy(pointB);
+            eAngle.position.copy(pointB);
+            adjustAngle(eAngle, 1.57, B, etext, params.ideg)
+            adjustAngle(r2Angle, -1.57, A, r2text, params.rdeg);
+            normal2 = new THREE.Vector3(thickness * Math.tan(params.r), -5, 0);
+            normalRay2.position.copy(normal2);
+
+            showLabels();
+            render()
+        }
+
         //the arc representing the incidence and refracted angle
         function addAngle(start, end, value) {
             let angleGeometry = new THREE.RingBufferGeometry(2.1, 2, 11, 1, start, end);
             let angleMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide })
             let angleMeasure = new THREE.Mesh(angleGeometry, angleMaterial);
-            
+
             return angleMeasure
         }
 
@@ -438,10 +466,13 @@
             irayLabel = addLabels('Incident Ray');
             erayLabel = addLabels('Emergent Ray');
             rrayLabel = addLabels('Refracted Ray');
-            
+
             normal1Label = addLabels('Normal');
             normal2Label = addLabels('Normal');
-            
+
+            let medium1Label = addLabels('Rarer Medium (Air)');
+            let medium2Label = addLabels('Denser Medium (n)');
+
             irayLabel.position.copy(new THREE.Vector3(0, 8, 0));
             incidentRay.add(irayLabel);
 
@@ -458,52 +489,19 @@
             normalRay1.add(normal1Label);
             normalRay2.add(normal2Label);
 
-            // iangleLabel = addLabels(params.ideg + '&deg;').label;
-            // itext = addLabels(params.ideg + '&deg;').text;
-            
-            // iangleLabel.position.copy(new THREE.Vector3(-0.5, 1, 0));
-            // iAngle.add(iangleLabel);
-            //  angleLabels(eangleLabel, r2angleLabel);
-            // eangleLabel.position.copy(new THREE.Vector3(.6, 3.5, 0));
-            // normalRay2.add(eangleLabel);
-
-            // r2angleLabel = addLabels(params.rdeg + '&deg;');
-            // r2angleLabel.position.copy(new THREE.Vector3(0.5, -1.5, 0));
-            // rrayLabel.add(r2angleLabel);
+            scene.add(medium1Label);
+            medium1Label.position.copy(new THREE.Vector3(5, 12, 0));
+            scene.add(medium2Label);
+            medium2Label.position.copy(new THREE.Vector3(6, 3, 0));
         }
 
-        function angleLabels(obj,value) {
+        function angleLabels(obj, value) {
             let text = document.createElement('div');
             text.className = 'label';
             text.innerHTML = value + '&deg;';
             let label = new CSS2DObject(text);
-            return 
-            // text.textContent = name;
-            
-            // text.textContent = name;
-            
-            // label1.position.copy(new THREE.Vector3(-0.5, 1.5, 0));
+            return
 
-            // scene.add(label2, label1)
-            // return {label1,label2}
-            //iangleLabel = addLabels(params.ideg + '&deg;', new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
-            // eangleLabel = addLabels(params.ideg + '&deg;');
-            // r1angleLabel = addLabels('30&deg;', new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, params.r, 0));
-            // r2angleLabel = addLabels('30&deg;', new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -params.r, 0));
-            
-            // iangleLabel.position.copy(new THREE.Vector3(-0.5, 6.5, 0));
-            // normalRay1.add(iangleLabel);
-
-            // r1angleLabel.position.copy(new THREE.Vector3(-0.5, 1.5, 0));
-            // rrayLabel.add(r1angleLabel);
-
-            // r2angleLabel.position.copy(new THREE.Vector3(0.5, -1.5, 0));
-            // rrayLabel.add(r2angleLabel);
-
-            // eangleLabel.position.copy(new THREE.Vector3(.6, 3.5, 0));
-            // normalRay2.add(eangleLabel);
-
-            // 
         }
 
         //const label for the diagram
@@ -526,10 +524,6 @@
             controls.dampingFactor = 0.05;
             controls.rotateSpeed = 0.1;
             animate();
-            // guiControls();
-            eyeShow();
-            // displayRefract();
-            // scene.add(new THREE.AmbientLight(0xffffff));  
         }
 
         function initPoint(data) {
@@ -546,7 +540,7 @@
 
         function render() {
 
-           
+
             camera.aspect = innerWidth / innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(innerWidth, innerHeight);
@@ -573,128 +567,6 @@
 
         }
 
-        function guiControls() {
-            // dat.GUI
-
-            const gui = new GUI({ width: 250 });
-            gui.close()
-
-            let lensFolder = gui.addFolder("Lens Focal Length");
-            lensFolder.add(params, 'f', 2, 50, 1).name('f (in cm)').onChange((value) => {
-
-                params.f = value;
-                let a = ((params.u * params.f) / (params.u + params.f)).toFixed(2);
-                params.v = a;
-                let b = (a / params.u).toFixed(2);
-                params.m = b;
-                changeElements(a, b, value, params.u)
-            });
-            // , Object height(O.H) & Position(u)
-            let formulaFolder = gui.addFolder("Adjust Object height & Distance ");
-            formulaFolder.add(params, 'h', .5, 5, .1).name('ho (in cm)').onChange((value) => {
-
-                params.h = value;
-                changeElements(params.v, params.m, params.f, params.u)
-                console.log(params.m)
-                // objLabel.position.y = value + value/2;
-                // imgLabel.position.y = -params.m*value ;
-            });
-
-            formulaFolder.add(object.position, 'z', -100, -1, 1).name('u (in cm)').onChange((value) => {
-                params.u = value;
-                let a = ((value * params.f) / (value + params.f)).toFixed(2);
-                let b = (a / value).toFixed(2);
-                params.v = a;
-                params.m = b;
-                changeElements(a, b, params.f, value);
-            });
-            let fixedFolder = gui.addFolder("Fixed 'u' values for focal length, f = 5 cm");
-            fixedFolder.add(object.position, 'z', uPos).name('u (in cm)').onChange((value) => {
-                params.u = value;
-
-                let a = ((value * params.f) / (value + params.f)).toFixed(2);
-                let b = (a / value).toFixed(2);
-                params.v = a;
-                params.m = b;
-                changeElements(a, b, params.f, value);
-                params.f = 5;
-                params.h = 3;
-
-            });
-
-        }
-
-        function changeElements(a, b, c, d) {
-            lensFormula(c, params.h, d)
-            changeHeight(object, params.h)
-            changeHeight(image, params.h)
-            adjustCones(objectTip, params.h)
-            adjustCones(imageTip, params.h)
-            fEl.innerHTML = c;
-            uEl.innerHTML = d;
-            vEl.innerHTML = a;
-            muEl.innerHTML = d;
-            mvEl.innerHTML = a;
-            mEl.innerHTML = b;
-            fmessageEl.innerHTML = c;
-            vmessageEl.innerHTML = a;
-            umessageEl.innerHTML = d;
-            if (Math.abs(params.u) < params.f) {
-                image.remove(imgLabel);
-                imgLabel = addLabels('Virtual Image');
-                image.add(imgLabel);
-                incidentArrow1.visible = false;
-                incidentArrow2.visible = false;
-                incidentArrow3.visible = false;
-                reflectedArrow1.visible = false;
-                reflectedArrow2.visible = false;
-                reflectedArrow3.visible = false;
-                incidentRay3.visible = false;
-                reflectedRay3.visible = false;
-                eye.visible = true;
-                let newMaterial = new THREE.MeshBasicMaterial({ color: 'green' });
-                reflectedRay1.material = newMaterial;
-                reflectedRay2.material = newMaterial;
-                reflectedRay3.material = newMaterial;
-            } else if (params.f < 4) {
-                console.log("short  f")
-                reflectedArrow1.visible = false;
-                reflectedArrow2.visible = false;
-                reflectedArrow3.visible = false;
-            } else {
-                image.remove(imgLabel);
-                imgLabel = addLabels('Real Image');
-                image.add(imgLabel);
-                eye.visible = false;
-                let newMaterial = new THREE.MeshBasicMaterial({ color: 'blue' });
-                reflectedRay1.material = newMaterial;
-                reflectedRay2.material = newMaterial;
-                reflectedRay3.material = newMaterial;
-                incidentArrow1.visible = true;
-                incidentArrow2.visible = true;
-                incidentArrow3.visible = true;
-                reflectedArrow1.visible = true;
-                reflectedArrow2.visible = true;
-                reflectedArrow3.visible = true;
-                incidentRay3.visible = true;
-                reflectedRay3.visible = true;
-                console.log("object distance greater than f")
-            }
-        }
-
-
-        function eyeShow() {
-
-            const map1 = new THREE.TextureLoader().load('./assets/img/eyeIconR.png');
-            const material1 = new THREE.SpriteMaterial({ map: map1, color: 0xffffff });
-
-            eye = new THREE.Sprite(material1);
-            eye.scale.set(5, 5, 5);
-            eye.position.set(0, 2, 7);
-
-            scene.add(eye);
-            eye.visible = false;
-        }
     </script>
 </body>
 
