@@ -8,15 +8,14 @@
   <link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)" />
   <link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
   <link rel="stylesheet" type="text/css" href="../css/style-page.css">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0JWHY29KD2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-0JWHY29KD2');
-</script>
+    gtag('config', 'G-7VWWT4ZKR6');
+  </script>
   <meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
 
 </head>
@@ -686,13 +685,13 @@
       ball.position.y = params.launchHeight + Math.tan(a) * ball.position.x - (g / 2 * (ball.position.x*ball.position.x)) / ((params.speed * Math.cos(a))*(params.speed * Math.cos(a)));
       
       if (ball.position.y <= 0) {
-
+        let cal = vyspeed - g * (ball.position.x / vxspeed);
         ball.position.y = .1;
         point = new THREE.Mesh(new THREE.CircleGeometry(.06, 8), new THREE.MeshBasicMaterial({ color: 0xffff00 }))
         point.position.set(initialSpeed2.x, .01, initialSpeed2.z);
         root.add(line, point);
-        Vtable.rows[1].cells[2].innerHTML = -vxspeed.toFixed(2);
-        
+        // Vtable.rows[1].cells[2].innerHTML = -vxspeed.toFixed(2);
+        velocityVisual(vxspeed, cal)
         cancelAnimationFrame(projectileMotion);
 
 
@@ -737,12 +736,18 @@
       mass.add(ball);
       initialSpeed1.add(ball.position);
       if (params.degree == 90 ){
+        launchHeight.visible = true;
         j = 0;
         scene.remove(vertical);
         vertical = new THREE.Group()
           ballMotion();
           dataPoints ()
-      }else {
+      } else if(params.degree == 0 && params.speed == 0) {
+          
+          launchHeight.visible = false;
+          ballMotion()
+      } else {
+          launchHeight.visible = true;
           projectileMotion()
 
       }
@@ -789,7 +794,17 @@
                     .start()
                    }, params.speed*50)
                     
-            }
+      }else {
+        
+        new TWEEN.Tween(ball.position)
+                    .to({ y: 0.1 }, params.launchHeight*50)
+                    .easing(TWEEN.Easing.Linear.None)
+                    .start()  
+        setTimeout(function() {
+          Vtable.rows[0].cells[2].innerHTML = 0;
+        Vtable.rows[1].cells[2].innerHTML = (g*timeflight).toFixed(2);
+        }, params.launchHeight*52)
+      }
 
     }
 
@@ -831,10 +846,13 @@
       maxheight = 0;
       maxrange = 0;
       timeflight = 0;
+      heightEl.value = params.launchHeight;
       heightDisplay.innerText =  params.launchHeight;
+      angleEl.value = params.degree;
       angleDisplay.innerText =  params.degree;
+      velocityEl.value = params.speed; 
       velocityDisplay.innerText =  params.speed;
-
+      launchHeight.visible = true;
       elevationPoint.position.y = params.launchHeight / 2;
       launchPoint.position.y = params.launchHeight;
       launchHeight.scale.y = params.launchHeight / 10;
