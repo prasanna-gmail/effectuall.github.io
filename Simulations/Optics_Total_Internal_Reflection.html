@@ -23,14 +23,14 @@
 
         }
     </style>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
-
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0JWHY29KD2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', 'G-7VWWT4ZKR6');
+        gtag('config', 'G-0JWHY29KD2');
     </script>
     <meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
 
@@ -49,28 +49,28 @@
         <div id="menu">
             <a><input type="range" id="incident" name="incident" min="0" max="90" value="45" step=".01"><br>
                 <label for="incident">Angle of Incidence, <em>i</em> = </label><input type="data" id="incidentDisplay"
-                size="3"> <a><sup>o</sup></a>
+                    size="3"> <a><sup>o</sup></a>
             </a>
             <br>
             <a>Refractive Index of <a><select id="material" name="material">
-                <option value="Ice">Ice</option>
-                <option value="Water">Water</option>
-                <option value="Alcohol">Alcohol</option>
-                <option value="Kerosene">Kerosene</option>
-                <option value="Quartz">Quartz</option>
-                <option value="Oil">Oil</option>
-                <option value="Acrylic" selected>Acrylic</option>
-                <option value="Benzene">Benzene</option>
-                <option value="Glass">Glass</option>
-                <option value="Flint">Flint</option>
-                <option value="Ruby">Ruby</option>
-                <option value="Sapphire">Sapphire</option>
-                <option value="Diamond">Diamond</option>
- 
-            </select></a>, <em>n<sub>d</sub></em> = <a id="materialIndex">1.49</a>
-               
+                        <option value="Ice">Ice</option>
+                        <option value="Water">Water</option>
+                        <option value="Alcohol">Alcohol</option>
+                        <option value="Kerosene">Kerosene</option>
+                        <option value="Quartz">Quartz</option>
+                        <option value="Oil">Oil</option>
+                        <option value="Acrylic" selected>Acrylic</option>
+                        <option value="Benzene">Benzene</option>
+                        <option value="Glass">Glass</option>
+                        <option value="Flint">Flint</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Sapphire">Sapphire</option>
+                        <option value="Diamond">Diamond</option>
+
+                    </select></a>, <em>n<sub>d</sub></em> = <a id="materialIndex">1.49</a>
+
             </a><br>
-            <a  id="refract">Angle of Refraction, <em>r</em> = <a id="refractDisplay"></a> <sup>o</sup>
+            <a id="refract">Angle of Refraction, <em>r</em> = <a id="refractDisplay"></a> <sup>o</sup>
             </a><br>
             <button id="theorybutton" onClick="theorySite()">Laws of Refraction</button>
         </div>
@@ -88,7 +88,7 @@
                 sideMenu.style.display = 'block';
             }
         };
-       
+
         function theorySite() {
 
             window.open("Optics_Refraction_of_light.html", "_self")
@@ -147,7 +147,7 @@
         let refract = document.getElementById('refract');
         let incidentDisplay = document.getElementById('incidentDisplay');
         let refractDisplay = document.getElementById('refractDisplay');
-        
+
         refractDisplay.innerHTML = params.rdeg;
         incidentDisplay.value = params.ideg;
         let incidentAngle = document.getElementById('incidentAngle');
@@ -240,22 +240,22 @@
             createCamera();
             createLights();
             createRenderer();
-            
-            pointA = new THREE.Vector3(0, thickness/2, 10);
+
+            pointA = new THREE.Vector3(0, thickness / 2, 10);
             pointB = new THREE.Vector3(thickness * Math.tan(params.r), 0, 0);
             pointC = new THREE.Vector3(0, 0, 0);
-            normal = new THREE.Vector3(0, thickness/2, 0);
-           
+            normal = new THREE.Vector3(0, thickness / 2, 0);
+
             //add incident ray and the corresponding angle measure
             incidentRay = addRays(15, 'orange').rayLine;
             incidentArrow = addRays(15, 'orange').rayArrow;
             incidentRay.position.copy(normal);
 
             let A = params.i;
-            iAngle = addAngle( 1.57, -params.i);
+            iAngle = addAngle(1.57, -params.i);
             iAngle.position.copy(normal)
             scene.add(iAngle)
-            
+
             itext = document.createElement('div');
             itext.className = 'label';
             itext.innerHTML = params.ideg + '&deg;';
@@ -263,15 +263,15 @@
             iangleLabel = new CSS2DObject(itext);
             iangleLabel.position.copy(new THREE.Vector3(0.3, 1, 0));
             iAngle.add(iangleLabel);
-            
+
             //varying the z rotation between -1.57 and 1.57
             incidentRay.rotation.set(1.57, 0, -params.i);
             scene.add(incidentRay);
             incidentRay.add(incidentArrow);
-            
+
             //add normal to the parallel relecting plane of the denser medium
             normalRay = addRays(18, 'black').rayLine;
-            normalRay.position.set(0,thickness/2,-9);
+            normalRay.position.set(0, thickness / 2, -9);
 
             //varying the z rotation between -1.57 and 1.57
             normalRay.rotation.set(1.57, 0, 0);
@@ -301,7 +301,7 @@
             reflectedRay = addRays(-10, 'orange').rayLine;
             reflectedArrow = addRays(-10, 'orange').rayArrow;
             reflectedRay.position.copy(normal);
-            
+
             reflectedRay.rotation.set(-1.57, 0, -params.i);
 
             r2Angle = addAngle(1.57, params.i);
@@ -332,16 +332,16 @@
                     transparent: true,
                     opacity: 0.35
                 }));
-            plane.rotation.set(0,-1.57,0);
+            plane.rotation.set(0, -1.57, 0);
             slab.add(plane)
-            slab.rotation.set(0,-1.57,0);
+            slab.rotation.set(0, -1.57, 0);
 
             // medium2Label = addLabels();
             medium2text = document.createElement('div');
             medium2text.className = 'label';
             medium2text.innerHTML = 'Acrylic';
 
-            medium2Label = new CSS2DObject( medium2text);
+            medium2Label = new CSS2DObject(medium2text);
             medium2Label.position.copy(new THREE.Vector3(3, 3, 0));
             scene.add(medium2Label);
 
@@ -349,41 +349,41 @@
             scene.add(scaleHorizontal);
             line = addRays(20, 'grey').rayLine;
             scene.add(line);
-            line.position.set(10,thickness/2,0)
+            line.position.set(10, thickness / 2, 0)
             line.rotation.set(0, 0, 1.57);
 
             //create external light source
             light = lightSource()
             scene.add(light)
-            light.rotation.set(-1.57,0,params.i);
+            light.rotation.set(-1.57, 0, params.i);
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enablePan = true;
             controls.enableZoom = true;
             controls.target.set(0, 2, -2);
 
             incident.addEventListener('input', function (e) {
-                
+
                 params.i = (Math.PI / 180) * incident.value;
                 let X = Math.sin(params.i) * params.n;
                 let Y = Math.asin(X);
-               
+
                 params.r = Y;
                 params.ideg = Math.abs(incident.value);
-                params.rdeg =  Math.abs(((Y * 180) / Math.PI).toFixed(1));
-                incidentDisplay.value  = incident.value;
-                light.rotation.set(-1.57,0,params.i);
+                params.rdeg = Math.abs(((Y * 180) / Math.PI).toFixed(1));
+                incidentDisplay.value = incident.value;
+                light.rotation.set(-1.57, 0, params.i);
                 displayRefract();
             })
 
             incidentDisplay.addEventListener('change', function (e) {
-                
+
                 params.i = (Math.PI / 180) * incidentDisplay.value;
                 let X = Math.sin(params.i) * params.n;
                 let Y = Math.asin(X);
-               
+
                 params.r = Y;
                 params.ideg = Math.abs(incidentDisplay.value);
-                params.rdeg =  Math.abs(((Y * 180) / Math.PI).toFixed(1));
+                params.rdeg = Math.abs(((Y * 180) / Math.PI).toFixed(1));
                 incident.value = incidentDisplay.value;
                 displayRefract();
             })
@@ -391,30 +391,30 @@
             material.addEventListener('input', function (e) {
                 console.log(material.value)
                 for (const key in materialIndex) {
-                   
+
                     if (key == material.value) {
-                        
+
                         index.innerHTML = materialIndex[key][0];
                         params.n = materialIndex[key][0];
                         let X = Math.sin(params.i) * params.n;
                         let Y = Math.asin(X);
-               
+
                         params.r = Y;
-                        params.rdeg =  Math.abs(((Y * 180) / Math.PI).toFixed(1));
-                        params.critical = (((Math.asin(Math.sin(1.57) / params.n))* 180)/ Math.PI).toFixed(2);
+                        params.rdeg = Math.abs(((Y * 180) / Math.PI).toFixed(1));
+                        params.critical = (((Math.asin(Math.sin(1.57) / params.n)) * 180) / Math.PI).toFixed(2);
                         medium2text.innerHTML = key;
                         let newMaterial = new THREE.MeshPhongMaterial({
-                                color: materialIndex[key][1],
-                                transparent: true,
-                                opacity: 0.35
-                            })
+                            color: materialIndex[key][1],
+                            transparent: true,
+                            opacity: 0.35
+                        })
                         slab.material = newMaterial
                         // console.log(key, materialIndex[key], params.critical, slab.material)
                         displayRefract();
                     }
                 }
-               
-               
+
+
             })
             document.body.appendChild(renderer.domElement);
 
@@ -422,18 +422,18 @@
             // apparentline();
             window.addEventListener('resize', onWindowResize);
         }
-        
+
         function displayRefract() {
-            
+
             incidentRay.rotation.set(1.57, 0, -params.i);
             reflectedRay.rotation.set(-1.57, 0, -params.i);
             refractedRay.rotation.set(1.57, 0, -params.r);
             if (Number.isNaN(params.rdeg)) {
                 refract.innerHTML = 'Total Internal Reflection and critical angle, <em>i<sub>c</sub></em> = ';
                 refractDisplay.innerHTML = params.critical;
-                
+
                 adjustAngle(iAngle, 1.57, params.i, itext, params.ideg);
-                
+
                 adjustAngle(r2Angle, 1.57, -params.i, r2text, params.ideg);
                 refractedRay.visible = false;
 
@@ -444,7 +444,7 @@
                 refractDisplay.innerHTML = params.rdeg;
 
                 adjustAngle(iAngle, 1.57, params.i, itext, params.ideg);
-                adjustAngle(r1Angle,-1.57, -params.r, r1text, params.rdeg);
+                adjustAngle(r1Angle, -1.57, -params.r, r1text, params.rdeg);
                 adjustAngle(r2Angle, 1.57, -params.i, r2text, params.ideg);
                 refractedRay.visible = true;
 
@@ -458,7 +458,7 @@
             let angleGeometry = new THREE.RingBufferGeometry(2.1, 2, 11, 1, start, end);
             let angleMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide })
             let angleMeasure = new THREE.Mesh(angleGeometry, angleMaterial);
-            angleMeasure.rotation.set(1.57,0,0)
+            angleMeasure.rotation.set(1.57, 0, 0)
             return angleMeasure
         }
 
@@ -473,11 +473,11 @@
             originLabel = addLabels('O');
 
             let medium1Label = addLabels('Air');
-            
+
 
             irayLabel.position.copy(new THREE.Vector3(1.5, 7.5, 0));
             incidentRay.add(irayLabel);
-            originLabel.position.copy(new THREE.Vector3(0, thickness/2, 0));
+            originLabel.position.copy(new THREE.Vector3(0, thickness / 2, 0));
 
             r1rayLabel.position.copy(new THREE.Vector3(0, -5, 0));
             refractedRay.add(r1rayLabel);
@@ -490,7 +490,7 @@
 
             scene.add(medium1Label);
             medium1Label.position.copy(new THREE.Vector3(5, 5, -5));
-            
+
 
             scene.add(originLabel);
 
@@ -515,7 +515,7 @@
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
             controls.rotateSpeed = 0.1;
-            controls.target.set(-3,3,4);
+            controls.target.set(-3, 3, 4);
             animate();
         }
 
@@ -560,12 +560,12 @@
         }
 
         function lightSource() {
-            let lightHead = new THREE.Mesh(new THREE.CylinderGeometry(1, .5, 1, 8,1,false).translate(0,-15.5,thickness/2),new THREE.MeshBasicMaterial({color: 'yellow'}));
-            let lightBody = new THREE.Mesh(new THREE.CylinderGeometry(.5, .5, 5).translate(0,-18,thickness/2),new THREE.MeshPhongMaterial({color: 'grey'}));
+            let lightHead = new THREE.Mesh(new THREE.CylinderGeometry(1, .5, 1, 8, 1, false).translate(0, -15.5, thickness / 2), new THREE.MeshBasicMaterial({ color: 'yellow' }));
+            let lightBody = new THREE.Mesh(new THREE.CylinderGeometry(.5, .5, 5).translate(0, -18, thickness / 2), new THREE.MeshPhongMaterial({ color: 'grey' }));
             lightBody.add(lightHead);
             // lightBody.rotation.set(-1.57,0,0);
             // lightBody.position.set(5,thickness/2,10)
-            return lightBody 
+            return lightBody
         }
     </script>
 </body>
