@@ -23,14 +23,14 @@
 
         }
     </style>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
-
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0JWHY29KD2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', 'G-7VWWT4ZKR6');
+        gtag('config', 'G-0JWHY29KD2');
     </script>
     <meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
 
@@ -74,7 +74,7 @@
                     size="3"><br>
             </a><br>
             <a><label for="refract">Angle of Refraction, <em>r</em> =</label>
-                    <input type="data" id="refract" name="refract" min="0" max="90" size="3"> </a><sup>o</sup><br>
+                <input type="data" id="refract" name="refract" min="0" max="90" size="3"> </a><sup>o</sup><br>
             </a><br>
 
             <button onClick="displayApparent()">Apparent Depth</button>
@@ -99,7 +99,7 @@
 
             window.open("Optics_Apparent_depth.html", "_self")
         }
-        
+
         function displayTotal() {
 
             window.open("Optics_Total_Internal_Reflection.html", "_self")
@@ -165,8 +165,8 @@
         let incidentDisplay = document.getElementById('incidentDisplay');
         let indexDisplay = document.getElementById('indexDisplay');
         let X;
-        refract.value =  params.rdeg;
-        incidentDisplay.value =  params.ideg;
+        refract.value = params.rdeg;
+        incidentDisplay.value = params.ideg;
         indexDisplay.value = params.n;
         let incidentAngle = document.getElementById('incidentAngle');
         let refractedAngle = document.getElementById('refractedAngle');
@@ -361,9 +361,9 @@
             showLabels();
 
             incident.addEventListener('change', function (e) {
-                
+
                 params.i = (Math.PI / 180) * incident.value;
-               
+
                 let X = Math.sin(params.i) / params.n;
                 let Y = Math.asin(X);
                 params.r = Y;
@@ -374,9 +374,9 @@
                 displayRefract();
             })
             incidentDisplay.addEventListener('change', function (e) {
-                
+
                 params.i = (Math.PI / 180) * incidentDisplay.value;
-               
+
                 let X = Math.sin(params.i) / params.n;
                 let Y = Math.asin(X);
                 params.r = Y;
@@ -388,9 +388,9 @@
             })
             indexDisplay.addEventListener('change', function (e) {
 
-                
+
                 params.n = indexDisplay.value;
-                
+
                 let X = Math.sin(params.i) / params.n;
                 let Y = Math.asin(X);
                 params.r = Y;
@@ -400,7 +400,7 @@
                 displayRefract();
             })
             index.addEventListener('change', function (e) {
-               
+
                 params.n = index.value;
                 let X = Math.sin(params.i) / index.value;
                 let Y = Math.asin(X);
@@ -418,7 +418,7 @@
                 let X = Math.asin(Y);
                 params.i = X;
                 params.ideg = ((X * 180) / Math.PI).toFixed(1);
-               
+
                 incident.value = params.ideg;
                 incidentDisplay.value = params.ideg;
                 displayRefract();
