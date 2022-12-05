@@ -28,10 +28,8 @@
         The Photoelectric Effect
 
     </div>
-
-    <div id="menu">
-
-        <a> Work Potential = </a><a id="workFn">4.2</a><a> eV</a><br>
+<div id="sidemenu">
+    <a> Work Potential = </a><a id="workFn">4.2</a><a> eV</a><br>
         <a>Cutoff Wavelength (<em>&lambda;<sub>c</sub></em>) =<em>
                 <div class="fraction">
                     <span class="fup"> hc</span>
@@ -59,6 +57,8 @@
         <a><input type="range" id="intensity" name="intensity" min="2.5" max="10" value="10" step="2.5">
             <label for="intensity"><strong>Intensity</strong></label>
         </a> </a>= <a id="intensityValue"></a><a> % </a><br>
+</div>
+    <div id="menu">
         <button id="wave">STOP PHOTONS</button>
         <button id="changeElement">Al/Na</button>
         <button id="theorybutton" onClick="theorySite()">THEORY</button><br>
@@ -72,13 +72,7 @@
 
 
     <script>
-        // let message = ["Light of wavelength 200 nm shines on an aluminium surface; 4.20 eV is required to eject an electron. What is the kinetic energy of (a) the fastest and (b) the slowest ejected electrons? (c) What is the stopping potential for this situation? (d) What is the cutoff wavelength for aluminum?", "A sodium surface is illuminated with light having a wavelength of 300 nm. The work function for sodium metal is 2.46 eV. Find (a) the maximum kinetic energy of the ejected photoelectrons and (b) the cutoff wavelength for sodium"];
-        // let messageEl = document.getElementById("message-el");
-        // messageEl.innerHTML = message[0]
-        // function changeElement() {
 
-        //     window.open("Quantum_Photoelectric_Effect_Na.html", "_self")
-        // }
         function theorySite() {
 
             window.open("../Theory/Quantum/Quantum_Photoelectric_Effect.html", "_self")
@@ -423,9 +417,9 @@
             //scene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xbfd1e5);
-            createCamera(-4, 15, 30);
+            createCamera(-4, 15, 35);
             createRenderer();
-            createControls(-4, 3.5, -7);
+            createControls(0, 1, -2.5);
             createLights();
             calCutoff();
             calKenergy(params.wavelength);
@@ -440,7 +434,7 @@
 
             randomColor(500);
 
-            guiControls();
+            // guiControls();
             createConnector();
             createMeasure();
 
