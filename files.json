@@ -33,5 +33,8 @@
 		"Thermodynamics_Ideal_Gas_Equation",
 		"Thermodynamics_Kinetic_Theory_of_Gases",
 		"Thermodynamics_Hot_Air_Balloon"
+	],
+	"Quantum": [
+		"Quantum_Photoelectric_Effect"
 	]
 }
