@@ -29,7 +29,10 @@
 
     </div>
 <div id="sidemenu">
-    <a> Work Potential = </a><a id="workFn">4.2</a><a> eV</a><br>
+   
+</div>
+    <div id="menu">
+         <a> Work Potential = </a><a id="workFn">4.2</a><a> eV</a><br>
         <a>Cutoff Wavelength (<em>&lambda;<sub>c</sub></em>) =<em>
                 <div class="fraction">
                     <span class="fup"> hc</span>
@@ -44,21 +47,21 @@
                     <span class="fdn"> &lambda;<sub>c</sub> </span>
                 </div>
             </em> = </a><a id="freq"></a> x 10<sup>14</sup> Hz<br>
-        <a>Max. K.E. of Electron = </a><a id="electronKE">0</a><a> eV</a><br>
-        <a>Min. K.E. of Electron = </a><a>0 eV</a><br>
-        <a><input type="range" id="voltage" name="voltage" min="-10" max="10" value="5" step="0.1">
-            <label for="voltage"><strong>Voltage </strong></label>
-        </a> </a>= <a id="voltageValue"></a><a> V </a><br>
+        
+       
         <a><input type="range" id="wavelength" name="wavelength" min="1.00" max="9.00" value="2.00" step="0.01">
             <label for="wavelength"><strong>Wavelength</strong></label>
         </a>= <a id="wavevalue"></a><a> nm </a><br>
         <a> &#10148<label for="frequency"><strong>Frequency</strong></label>
         </a>= <a id="freqvalue"></a><a> x 10<sup>14</sup> Hz </a><br>
+        <a>&#10148 Max. K.E. of Electron = </a><a id="electronKE">0</a><a> eV</a><br>
+        <a>&#10148 Min. K.E. of Electron = </a><a>0 eV</a><br>
         <a><input type="range" id="intensity" name="intensity" min="2.5" max="10" value="10" step="2.5">
             <label for="intensity"><strong>Intensity</strong></label>
         </a> </a>= <a id="intensityValue"></a><a> % </a><br>
-</div>
-    <div id="menu">
+        <a><input type="range" id="voltage" name="voltage" min="-10" max="10" value="5" step="0.1">
+            <label for="voltage"><strong>Voltage </strong></label>
+        </a> </a>= <a id="voltageValue"></a><a> V </a><br>
         <button id="wave">STOP PHOTONS</button>
         <button id="changeElement">Al/Na</button>
         <button id="theorybutton" onClick="theorySite()">THEORY</button><br>
@@ -283,7 +286,7 @@
                     calCutoff();
                     calKenergy(params.wavelength)
                 }
-
+                canvasAction()
 
             });
 
@@ -378,7 +381,8 @@
                 y: 20,
                 length: 5
             });
-
+            drawingContext.fillText(-2.46 + ' V ', xAxis + 10, yAxis -10);
+            drawingContext.fillText(-4.20 + ' V ', xAxis + 10, yAxis + 10);
             for (let i = 0; i < freqAl.length - 1; i++) {
 
                 plotGraph(drawingContext, xAxis + 100 + freqAl[i] * 4, yAxis - 60 - kEnergyAl[i] * 5, 3, 'green', xAxis + 100 + freqAl[i + 1] * 4, yAxis - 60 - kEnergyAl[i + 1] * 5);
