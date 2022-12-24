@@ -8,15 +8,14 @@
     <link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)" />
     <link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
     <link rel="stylesheet" type="text/css" href="../css/style-page.css">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0JWHY29KD2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7VWWT4ZKR6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-0JWHY29KD2');
-</script>
+        gtag('config', 'G-7VWWT4ZKR6');
+    </script>
     <meta name="google-site-verification" content="mz0TRB59UNqdTxhwzmXmGdgVPh8pB4YqjuUr-aWNGIY">
 
 </head>
@@ -26,13 +25,13 @@
 
     <div style="font-weight: bold; font-size: 18px" id="sidemenu">
         <p>T=2 &pi; &radic;(L/g)</p>
-        
-        <p id="cal-el"> 
+
+        <p id="cal-el">
             L = <a id="len"> 10</a> cm;
             T = <a id="val">0.635</a> s <br>
-            <a id="details-el"></a>             
-        </p>      
-         
+            <a id="details-el"></a>
+        </p>
+
     </div>
 
     <div id="menu">
@@ -40,10 +39,15 @@
             the effect on the time period of oscillation</a><br>
         <button id="stop">STOP</button>
         <button id="double">Compare Pendulums</button>
+        <button id="periodic" onClick="periodicSite()">Periodic Motion</button>
         <button id="theorybutton" onClick="theorySite()">THEORY</button>
         <br>
     </div>
     <script>
+        function periodicSite() {
+
+            window.open("Mechanics_Periodic_Motion.html", "_self")
+        }
         function theorySite() {
 
             window.open("../Theory/Mechanics/Mechanics_Simple_Pendulum.html", "_self")
@@ -67,6 +71,8 @@
         let data = [], dataX = [], dataY = [], dataV = [];
         let points = [];
         let motion = true, double = false, stop = false;
+        let velocity, PEarrow, tension, weight;
+        let vLabel, wLabel, tLabel;
         let extraPendulum = new THREE.Group();
         let dataGroup = new THREE.Group();
         let vector = new THREE.Group();
@@ -83,38 +89,37 @@
             g: 9.8,
             radius: 5,
             pause: function () {
+                stop = !stop
+                motion = !motion;
+                pendulumAction();
                 stopAction();
             },
             clear: function () {
-                removeData(dataGroup);
+                removeData();
                 resetPara();
-            },
-            diagram: function () {
-                addArrows();
-
             }
         }
-        let velocity, PEarrow, tension, weight;
+        
         function pendulumAction() {
-                
-                if (double) {
 
-                    point1.visible = true
-                    point2.visible = true
-                    marker1.rotation.z = 3.14 + 0.2;
-                    marker2.rotation.z = 3.14 - 0.2;
-                    hideArrows()
-                    pendulumsMotion()
-                } else if (!double) {
-                    resetPara();
-                    marker1.rotation.z = 3.14 + params.amp;
-                    marker2.rotation.z = 3.14 - params.amp;
-                    point1.visible = false
-                    point2.visible = false
-                    showArrows();
-                    pendulumMovement()  
-                }
-                                
+            if (double) {
+
+                point1.visible = true
+                point2.visible = true
+                marker1.rotation.z = 3.14 + 0.2;
+                marker2.rotation.z = 3.14 - 0.2;
+                hideArrows()
+                pendulumsMotion()
+            } else if (!double) {
+                resetPara();
+                marker1.rotation.z = 3.14 + params.amp;
+                marker2.rotation.z = 3.14 - params.amp;
+                point1.visible = false
+                point2.visible = false
+                showArrows();
+                pendulumMovement()
+            }
+
         }
 
         function createCamera() {
@@ -164,6 +169,8 @@
             renderer.alpha = true;
             renderer.setSize(width, height);
             renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.VSMShadowMap;
             document.body.appendChild(renderer.domElement);
 
             labelRenderer = new CSS2DRenderer();
@@ -172,6 +179,7 @@
             labelRenderer.domElement.style.top = '0px';
             labelRenderer.domElement.style.pointerEvents = 'none';
             document.body.appendChild(labelRenderer.domElement);
+
         }
 
         function init() {
@@ -251,49 +259,51 @@
             valueCal(params.len, params.amp);
             addArrows();
 
-            window.addEventListener('resize', onWindowResize);
+           
             comparePendulums();
             buttonLoad();
             pendulumAction();
-           
+            window.addEventListener('resize', onWindowResize);
         }
 
         function stopAction() {
-           
+
             if (stop) {
                 // console.log('Stop', stop)
                 buttonStop.innerHTML = 'START';
 
             } else {
-                // console.log('Stop', stop)
+                
                 buttonStop.innerHTML = 'STOP';
             }
         }
 
         function buttonLoad() {
             buttonStop.addEventListener('click', function () {
-                stop=!stop
+                stop = !stop
                 motion = !motion;
+
                 pendulumAction();
                 stopAction();
-
+                
             });
 
-            buttonDouble.addEventListener('click', function () {               
-                
+            buttonDouble.addEventListener('click', function () {
+                stop = true
+                stopAction()
                 double = !double;
-                motion = !motion;
-                removeData(dataGroup)
+                motion = false;
+                removeData()
                 pendulumAction()
                 visualClues()
-                if (double) { 
+                if (double) {
                     pendulumsMotion()
-                    buttonDouble.innerHTML = 'Single Pendulums';
-                    stop=!stop
-                    stopAction()
+                    buttonDouble.innerHTML = 'Single Pendulum';
+                    
                 } else {
                     pendulumMovement();
-                    buttonDouble.innerHTML = 'Compare Pendulum';
+                    buttonDouble.innerHTML = 'Compare Pendulums';
+                    
                 }
             });
 
@@ -309,19 +319,25 @@
             velocity.visible = false;
             weight.visible = false;
             tension.visible = false;
+            vLabel.visible = false;
+            wLabel.visible = false;
+            tLabel.visible = false;
         }
 
         function showArrows() {
             velocity.visible = true;
             weight.visible = true;
             tension.visible = true;
+            vLabel.visible = true;
+            wLabel.visible = true;
+            tLabel.visible = true;
         }
 
         function valueCal(len, amp) {
             data = []; dataX = []; dataY = []; dataV = []; points = [];
             period = pendulumEquation().w
 
-            for (var i = 0; i < (5); i += 0.002) {
+            for (var i = 0; i < (10); i += 0.002) {
                 let wt = i * period;
                 let a = amp * (Math.cos(wt));
                 let b = (len * Math.sin(a)).toFixed(2);
@@ -338,14 +354,26 @@
         function addArrows() {
 
             weight = addArrow(2, 0xffff00, -Math.PI);
+            wLabel = addLabels('W = mg', 'yellow')
             scene.add(weight);
-            velocity = addArrow(1, 0x00ffff, -Math.PI / 2);
+            
+            velocity = addArrow(1, 0x0000ff, -Math.PI / 2);
+            vLabel = addLabels('V', 'blue')
+            // vLabel.position.x = -dataV[0];
             tension = addArrow(2, 0xffffff, 0);
             velocity.scale.set(1, dataV[0], 1)
+            tLabel = addLabels('T', 'white')
             vector.add(velocity, tension)
-
+            velocity.add(vLabel)
+            tension.add(tLabel)
             weight.position.z = .1;
             weight.position.y = 15 - params.len;
+            wLabel.position.x = 1;
+            wLabel.position.y = 2.5;
+            vLabel.position.y = 1;
+            tLabel.position.y = 2.3;
+            tLabel.position.x = -0.5
+            weight.add(wLabel)
         }
 
         function addArrow(len, hex, rot) {
@@ -358,7 +386,7 @@
         }
 
         function resetPara() {
-
+            removeData();
             i = 0;
             nextPoint = new THREE.Vector3(0, -10, 0);
         }
@@ -366,11 +394,11 @@
         function guiControls() {
             // dat.GUI
 
-            const gui = new GUI({ width: 160 });
+            const gui = new GUI();
             gui.close()
-            gui.title('Pendulum Parameters')
-            console.log(gui);
-            gui.add(params, 'amp', 0, 1.4, 0.1).name('Amplitude,A').onChange((value) => {
+            gui.title('Parameters')
+            // console.log(gui);
+            gui.add(params, 'amp', 0, 1.0, 0.1).name('Amplitude,A').onChange((value) => {
                 params.amp = value;
                 point.rotation.z = value
                 marker1.rotation.z = 3.14 + value;
@@ -396,18 +424,14 @@
                 val.innerText = (pendulumEquation().T).toFixed(2);
                 len.innerText = (params.len).toFixed(2);
             });
-
-            gui.add(params, 'radius', 5, 25, 0.1).name('Mass, m(gm)').onChange((value) => {
+            gui.add(params, 'radius', 5, 10, 0.05).name('Mass, m(gm)').onChange((value) => {
                 mass.geometry.dispose();
                 let newsphereGeometry = new THREE.SphereGeometry(params.radius / 15, 8, 16);
                 mass.geometry = newsphereGeometry;
-                weight.scale.x = params.radius / 5;
-                weight.scale.y = params.radius / 15
+                
             });
-
             // gui.add(params, 'pause').name('Stop/Start');
             gui.add(params, 'clear').name('Clear Data Points');
-            gui.add(params, 'diagram').name('Free-Body Diagram');
         }
 
         function render() {
@@ -421,8 +445,7 @@
             camera.updateProjectionMatrix();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
-            // labelRenderer.setSize(window.innerWidth, window.innerHeight);
-            render();
+            labelRenderer.setSize(window.innerWidth, window.innerHeight);
 
         }
 
@@ -440,10 +463,9 @@
             text.style.color = col;
 
             let label = new CSS2DObject(text);
-            label.position.z = -2;
-            label.position.y = 1;
-
-            return { label, text }
+            
+            // return { label, text }
+            return label
         }
 
         function changeLength(value) {
@@ -454,6 +476,7 @@
         }
 
         function pendulumMovement() {
+           
             if (motion && i < data.length) {
                 // console.log(i, data[i]);
                 point.rotation.z = data[i];
@@ -485,12 +508,12 @@
             } else {
                 t = 0;
                 x = 0;
+                velocity.scale.set(0, 0, 0);
                 point.rotation.set(0, 0, 0);
                 weight.position.x = 0;
                 weight.position.y = 15 - params.len;
                 stop = !stop;
                 buttonStop.innerHTML = 'START'
-                // point2.visible = false;
                 cancelAnimationFrame(pendulumMovement);
             }
         }
@@ -585,6 +608,7 @@
                 point.rotation.z = pointData[i];
                 point1.rotation.z = point1Data[i];
                 point2.rotation.z = point2Data[i];
+                // console.log(velocity)
                 // weight.position.x = pointData[i + 2];
                 // weight.position.y = (15 - pointData[i + 1]);
 
@@ -593,7 +617,7 @@
 
             } else if (i = A && motion) {
                 i = 0
-                // console.log('data');
+                console.log(velocity)
                 requestAnimationFrame(pendulumsMotion);
             } else {
                 t = 0;
@@ -601,21 +625,22 @@
                 point.rotation.set(0, 0, 0);
                 point1.rotation.set(0, 0, 0);
                 point2.rotation.set(0, 0, 0);
+                // console.log(velocity)
                 cancelAnimationFrame(pendulumsMotion);
             }
         }
-   
+
         function visualClues() {
             if (double) {
                 detailsEl.style.display = 'block';
                 // calEl.style.visibility = 'hidden';
                 detailsEl.innerHTML = 'L = 13.00 cm; T = 0.72 s <br> L = 15.00 cm; T = 0.78 s '
-            } else{
+            } else {
                 // calEl.style.visibility = 'visible';
                 detailsEl.style.display = 'none';
             }
         }
-   </script>
+    </script>
 
 
 </body>
