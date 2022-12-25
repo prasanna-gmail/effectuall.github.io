@@ -6,6 +6,7 @@
 	"Mechanics_Circular_Motion":["centripetal force", "Time Period","radial acceleration", "centripetal acceleration", "angular velocity", "frequency"],
 	"Mechanics_Projectile_Motion":["equation of motion", "projectile equations"],
 	"Mechanics_Banking_on_a_Road":["circular motion", "centripetal acceleration"],
+	"Mechanics_Periodic_Motion": ["spring harmonic motion", "time period"],
 	"Mechanics_Spring_Force":["spring constant", "force constant", "SHM", "spring harmonic motion", "Hooke's Law"],
 	"Mechanics_Simple_Pendulum":["time period", "SHM", "spring harmonic motion"],
 	"Magnetism_History_of_Electromagnetism":["oersted's law", "effect on a magnetic needle", "steady electric current"],
