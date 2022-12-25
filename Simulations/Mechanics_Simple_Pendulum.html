@@ -358,7 +358,7 @@
             scene.add(weight);
             
             velocity = addArrow(1, 0x0000ff, -Math.PI / 2);
-            vLabel = addLabels('V', 'blue')
+            vLabel = addLabels('F', 'blue')
             // vLabel.position.x = -dataV[0];
             tension = addArrow(2, 0xffffff, 0);
             velocity.scale.set(1, dataV[0], 1)
@@ -398,7 +398,7 @@
             gui.close()
             gui.title('Parameters')
             // console.log(gui);
-            gui.add(params, 'amp', 0, 1.0, 0.1).name('Amplitude,A').onChange((value) => {
+            gui.add(params, 'amp', 0, 0.3, 0.01).name('Amplitude,A').onChange((value) => {
                 params.amp = value;
                 point.rotation.z = value
                 marker1.rotation.z = 3.14 + value;
