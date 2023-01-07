@@ -146,10 +146,21 @@ dl {
   background-color:rgba(78, 192, 245, 0.3);
 }
 
-input[type=data] {
+input {
   border: 2px solid #049EF4;
   border-radius: 8px;
   text-align: center;
+}
+
+select {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  outline: 0;
+  background: rgb(3, 108, 156);;
+  color: #fff;
+  border: 1px solid rgba(131, 10, 36, 0.75);
+  padding: 4px;
+  border-radius: 9px;
 }
 
 .label {
