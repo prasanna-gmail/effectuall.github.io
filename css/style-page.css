@@ -120,6 +120,12 @@ select {
   border-radius: 9px;
 }
 
+input {
+  border: 2px solid #049EF4;
+  border-radius: 8px;
+  text-align: center;
+}
+
 #dot {
   height: 25px;
   width: 25px;
