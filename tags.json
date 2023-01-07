@@ -26,5 +26,6 @@
 	"Thermodynamics_Ideal_Gas_Equation":["Ideal Gas Equation", " Boltzmann equation", "thermodynamic", "statistical mechanics", "equilibrium distribution", "Boyle's Law", "Charles Law"],
 	"Thermodynamics_Kinetic_Theory_of_Gases":["Ideal Gas Equation", "Kinetic Theory of Gases", " Boltzmann equation", "thermodynamic", "statistical mechanics", "equilibrium distribution"],
 	"Thermodynamics_Hot_Air_Balloon":["Ideal Gas Equation", "Kinetic Theory of Gases", " Boltzmann equation", "thermodynamic", "statistical mechanics"],
+	"Thermodynamics_Pascal's_Law":["Hydraulic Press"],
 	"Quantum_Photoelectric_Effect":["Quantum effect", "stopping voltage", "modern physics", "cutoff wavelength", "curoff frequency"]
 }
