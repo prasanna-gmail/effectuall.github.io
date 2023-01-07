@@ -405,7 +405,9 @@
                 marker2.rotation.z = 3.14 - value;
                 nextPoint = new THREE.Vector3(0, -10, 0)
                 valueCal(params.len, params.amp);
-                resetPara();
+                
+                i = 0;
+                nextPoint = new THREE.Vector3(0, -10, 0);
                 weight.position.x = dataY[0];
                 weight.position.y = (15 - dataX[0]);
                 velocity.scale.set(0, dataV[0], 0)
