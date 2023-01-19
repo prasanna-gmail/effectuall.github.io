@@ -23,9 +23,13 @@
 	"Magnetism_Force_on_a_Current_Carrying_Conductor":["elctric motor", "lorenz force", "DC motor"],
 	"Magnetism_Electromagnetic_Induction":["Lenz Law", "Ampere's Law", "electric generator", "AC generator"],
 	"Magnetism_Hall_Effect":["Lorentz force", "Ampere's Law", "Hall sensor", "hall measurement"],
+	"Thermodynamics_Introduction":["scuba diver", "Bouyant Force", "Compressed Air", "Pressure under water"],
+	"Thermodynamics_Pressure":["pressure variation with depth", "pressure equation", "density", "why do objects sink", "why do objects float"],
+	"Thermodynamics_Bouyant_Force":["Buoyant Force", "Archimede's Principle", "measure mass of irregular object"],
+	"Thermodynamics_Pascal's_Law":["Hydraulic Press"],
+	"Thermodynamics_Torricellis_Law":["variation of fluid velocity with height", "Torricellis Law"],
 	"Thermodynamics_Ideal_Gas_Equation":["Ideal Gas Equation", " Boltzmann equation", "thermodynamic", "statistical mechanics", "equilibrium distribution", "Boyle's Law", "Charles Law"],
 	"Thermodynamics_Kinetic_Theory_of_Gases":["Ideal Gas Equation", "Kinetic Theory of Gases", " Boltzmann equation", "thermodynamic", "statistical mechanics", "equilibrium distribution"],
 	"Thermodynamics_Hot_Air_Balloon":["Ideal Gas Equation", "Kinetic Theory of Gases", " Boltzmann equation", "thermodynamic", "statistical mechanics"],
-	"Thermodynamics_Pascal's_Law":["Hydraulic Press"],
 	"Quantum_Photoelectric_Effect":["Quantum effect", "stopping voltage", "modern physics", "cutoff wavelength", "curoff frequency"]
 }
