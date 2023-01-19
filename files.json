@@ -31,10 +31,14 @@
 		"Magnetism_Hall_Effect"
 	],
 	"Thermodynamics": [
+		"Thermodynamics_Introduction",
+		"Thermodynamics_Pressure",
+		"Thermodynamics_Buoyant_Force",
+		"Thermodynamics_Pascal's_Law",
+		"Thermodynamics_Torricellis_Law",
 		"Thermodynamics_Ideal_Gas_Equation",
 		"Thermodynamics_Kinetic_Theory_of_Gases",
-		"Thermodynamics_Hot_Air_Balloon",
-		"Thermodynamics_Pascal's_Law"
+		"Thermodynamics_Hot_Air_Balloon"		
 	],
 	"Quantum": [
 		"Quantum_Photoelectric_Effect"
