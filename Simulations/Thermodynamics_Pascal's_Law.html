@@ -48,9 +48,13 @@
         <button id="reset">RESET</button>
 
         <button onClick="theorySite()">THEORY</button>
+        <button onClick="pressure()">PRESSURE</button>
     </div>
     <script>
+        function pressure() {
 
+            window.open("Thermodynamics_Pressure.html", "_self")
+        }
         function theorySite() {
 
             window.open("../Theory/Thermodynamics/Thermodynamics_Pascal's_Law.html", "_self")
@@ -62,7 +66,7 @@
         import { OrbitControls } from '../jsm/controls/OrbitControls.js';
         import { GLTFLoader } from '../jsm/loaders/GLTFLoader.js';
         import { TransformControls } from '../jsm/controls/TransformControls.js';
-        
+
 
         let camera, aspect, fov;
         let scene, renderer, labelRenderer, controls, fluid;
@@ -153,7 +157,7 @@
                 let A = presentPoint;
                 presentPoint = pistonSmall.position.y;
                 let X = presentPoint - A;
-                
+
                 fluidSmall.scale.y = presentPoint / 2;
                 // if (pistonBig.position.y == 15) {}
                 if (pistonSmall.position.y <= 1) {
@@ -164,7 +168,7 @@
                     fluidSmall.scale.y = 4
                 } else {
                     diff = -(presentPoint - nextPoint)
-                    
+
                     pistonBig.position.y = 0.5 + 2 * diff;
                     fluidBig.scale.y = 0.5 + 2 * diff;
                     smallForceArrow.scale.y = X > 0 ? 2 : -2;
@@ -254,7 +258,7 @@
                 pistonSmall.position.y = 8;
                 pistonBig.position.y = 0.5;
                 fluidBig.scale.y = 0.5;
-                
+
             })
 
         }
@@ -346,7 +350,7 @@
 
         }
 
-        </script>
+    </script>
 </body>
 
 </html>
