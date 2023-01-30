@@ -12,6 +12,8 @@
 	"Mechanics_Projectile_Motion":["equation of motion", "projectile equations", "kinematics"],
 	"Mechanics_Motion_in_straight_line": ["vector", "distance", "position", "velocity", "acceleration", "kinematics"],
 	"Mechanics_Motion_in_a_Plane":["vector", "distance", "position", "velocity", "acceleration", "kinematics"],
+	"Mechanics_Vector_Display":["vector", "distance", "position"],
+	"Mechanics_Vector_Algebra":["vector", "distance", "position"],
 	"Mechanics_Banking_on_a_Road":["circular motion", "centripetal acceleration", "kinematics"],	
 	"Mechanics_Periodic_Motion": ["spring harmonic motion", "time period"],
 	"Mechanics_Spring_Force":["spring constant", "force constant", "SHM", "spring harmonic motion", "Hooke's Law", "kinematics"],
